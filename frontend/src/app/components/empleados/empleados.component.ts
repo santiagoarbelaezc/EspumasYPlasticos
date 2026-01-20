@@ -13,10 +13,7 @@ export class EmpleadosComponent implements OnInit {
   @Input() titulo: string = 'Las personas detrás de Espumas y Plásticos';
   @Input() descripcion: string = 'Transformamos insumos en productos para el descanso, pero son nuestras manos, corazones y talentos los que realmente hacen la diferencia. Nuestro equipo es el motor que da vida a cada espuma, cada corte, cada producto final. Gracias a ellos, llevamos confort a miles de hogares.';
   @Input() imagenes: string[] = [
-    'assets/img/empleado1.jpg',
-    'assets/img/empleado1.jpg',
-    'assets/img/empleado1.jpg',
-    'assets/img/empleado1.jpg'
+    
   ];
 
   currentIndex: number = 0;

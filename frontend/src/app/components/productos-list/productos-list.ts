@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/productos/producto.service';
+import { ProductoSeleccionadoService } from '../../services/productos/producto-seleccionado.service';
 import { Router } from '@angular/router';
 
 export interface Producto {
@@ -30,6 +31,7 @@ export class ProductosList implements OnInit {
 
   constructor(
     private productoService: ProductoService,
+    private productoSeleccionadoService: ProductoSeleccionadoService,
     private router: Router
   ) {}
 
@@ -84,7 +86,9 @@ export class ProductosList implements OnInit {
    */
   verDetalles(producto: Producto) {
     console.log('Viendo detalles del producto:', producto);
-    // Implementar navegación cuando se tenga la ruta de detalles
-    // this.router.navigate(['/productos', producto.id]);
+    // Guardar el producto en el servicio
+    this.productoSeleccionadoService.setProducto(producto);
+    // Navegar a la página de detalles
+    this.router.navigate(['/producto-detalle']);
   }
 }

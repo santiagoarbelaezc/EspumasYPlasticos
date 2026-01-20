@@ -1,57 +1,322 @@
+/* ====== NUESTRO EQUIPO - ESTILO PROYECTO ====== */
 .nuestro-equipo {
-  padding: 60px 30px;
-  background-color: #E1E2E3;
-  font-family: 'Avenir Next Pro', sans-serif;
+  padding: 80px 24px;
+  background: linear-gradient(135deg, rgba(0, 154, 162, 0.04) 0%, rgba(21, 205, 130, 0.04) 100%);
+  font-family: 'Avenir Next LT Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.01em;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo decorativo */
+.nuestro-equipo::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 154, 162, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.nuestro-equipo::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  right: -10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(21, 205, 130, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .equipo-contenido {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 48px;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
+/* ========== CARRUSEL DE IMÁGENES ========== */
 .equipo-carousel {
   flex: 1 1 45%;
-  max-width: 500px;
-  height: 400px;
+  max-width: 480px;
+  height: 450px;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 16px;
   position: relative;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 154, 162, 0.15);
+  border: 1px solid rgba(0, 154, 162, 0.1);
+  background: white;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.equipo-carousel:hover {
+  box-shadow: 0 16px 50px rgba(0, 154, 162, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Línea superior en hover */
+.equipo-carousel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #009AA2 0%, #15CD82 100%);
+  border-radius: 16px 16px 0 0;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10;
+}
+
+.equipo-carousel:hover::before {
+  opacity: 1;
 }
 
 .carousel {
   display: flex;
   height: 100%;
-  transition: transform 0.8s ease;
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform;
 }
 
 .carousel img {
-  width: 500px;
+  width: 480px;
   height: 100%;
   object-fit: cover;
   flex-shrink: 0;
-  border-radius: 20px;
-  transition: opacity 0.8s ease-in-out;
+  border-radius: 16px;
+  transition: opacity 0.6s ease-in-out;
+  opacity: 1;
 }
 
+/* Hacer desvanecerse la imagen actual durante la transición */
+.carousel img:first-child {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
 
+/* ========== TEXTO A LA DERECHA ========== */
 .equipo-texto {
   flex: 1 1 45%;
   max-width: 500px;
-  color: #2D2D2D;
+  color: var(--color-negro);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .equipo-texto h2 {
   font-size: 2rem;
-  color: #056D6D;
-  margin-bottom: 15px;
+  font-weight: 700;
+  color: var(--color-negro);
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+/* Subrayado animado en el título */
+.equipo-texto h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #009AA2 0%, #15CD82 100%);
+  border-radius: 2px;
+  transform: scaleX(0.7);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.equipo-texto:hover h2::after {
+  transform: scaleX(1);
 }
 
 .equipo-texto p {
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #666;
+  margin: 0;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  word-spacing: 0.05em;
+}
+
+/* ========== RESPONSIVE ========== */
+@media screen and (max-width: 1200px) {
+  .nuestro-equipo {
+    padding: 60px 20px;
+  }
+
+  .equipo-contenido {
+    gap: 40px;
+  }
+
+  .equipo-carousel {
+    flex: 1 1 50%;
+    max-width: 420px;
+    height: 380px;
+  }
+
+  .carousel img {
+    width: 420px;
+  }
+
+  .equipo-texto {
+    flex: 1 1 50%;
+    max-width: 420px;
+  }
+
+  .equipo-texto h2 {
+    font-size: 1.8rem;
+  }
+
+  .equipo-texto p {
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .nuestro-equipo {
+    padding: 50px 18px;
+  }
+
+  .equipo-contenido {
+    gap: 32px;
+  }
+
+  .equipo-carousel {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: 350px;
+  }
+
+  .carousel img {
+    width: 100%;
+  }
+
+  .equipo-texto {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .equipo-texto h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nuestro-equipo {
+    padding: 50px 16px;
+  }
+
+  .equipo-contenido {
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .equipo-carousel {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: 320px;
+  }
+
+  .carousel img {
+    width: 100%;
+  }
+
+  .equipo-texto {
+    flex: 1 1 100%;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .equipo-texto h2 {
+    font-size: 1.4rem;
+  }
+
+  .equipo-texto p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .nuestro-equipo::before {
+    width: 300px;
+    height: 300px;
+    top: -40%;
+    left: -20%;
+  }
+
+  .nuestro-equipo::after {
+    width: 250px;
+    height: 250px;
+    bottom: -40%;
+    right: -20%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .nuestro-equipo {
+    padding: 40px 12px;
+  }
+
+  .equipo-contenido {
+    gap: 20px;
+  }
+
+  .equipo-carousel {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: 280px;
+  }
+
+  .carousel img {
+    width: 100%;
+  }
+
+  .equipo-texto {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .equipo-texto h2 {
+    font-size: 1.2rem;
+  }
+
+  .equipo-texto p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .nuestro-equipo::before {
+    width: 200px;
+    height: 200px;
+    top: -50%;
+    left: -30%;
+  }
+
+  .nuestro-equipo::after {
+    width: 180px;
+    height: 180px;
+    bottom: -50%;
+    right: -30%;
+  }
 }
