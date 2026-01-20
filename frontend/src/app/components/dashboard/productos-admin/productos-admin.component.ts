@@ -222,6 +222,18 @@ export class ProductosAdminComponent implements OnInit {
     return isNaN(numPrecio) ? '0.00' : numPrecio.toFixed(2);
   }
 
+  formatearPrecioConSeparador(precio: any): string {
+    const numPrecio = typeof precio === 'string' ? parseFloat(precio) : precio;
+    if (isNaN(numPrecio)) return '0';
+    
+    // Convertir a número entero para mostrar con separadores de miles
+    const partes = numPrecio.toString().split('.');
+    const entero = partes[0];
+    
+    // Agregar separadores de miles
+    return entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
   private resetFormulario(): void {
     this.formProducto.reset();
     this.previewUrls = [];

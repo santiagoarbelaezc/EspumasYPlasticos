@@ -162,6 +162,33 @@
   box-shadow: 0 8px 16px rgba(0, 154, 162, 0.25);
 }
 
+/* Estilos para el display del precio */
+.precio-display {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #f0f9fa 0%, #e8f5f7 100%);
+  border: 1.5px solid #009AA2;
+  border-radius: 8px;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #009AA2;
+  text-align: center;
+  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Botones unificados y compactos */
 form button {
   padding: 10px 24px;
