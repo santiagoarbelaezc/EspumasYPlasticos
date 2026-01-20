@@ -21,8 +21,7 @@
       <div class="nav-group izquierda" [class.shift]="logoHover">
         <a class="inicio-link" routerLink="/" routerLinkActive="active" 
            [routerLinkActiveOptions]="{ exact: true }" (click)="navigateAndClose()">Inicio</a>
-        <a routerLink="/productos" routerLinkActive="active" 
-           [routerLinkActiveOptions]="{ exact: true }" (click)="navigateAndClose()">Catálogo</a>
+        <app-menu-dropdown></app-menu-dropdown>
       </div>
 
       <!-- Logo central (solo desktop) -->

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faKey, faMapMarkerAlt, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { MenuDropdownComponent } from './menu-dropdown/menu-dropdown.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, MenuDropdownComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })

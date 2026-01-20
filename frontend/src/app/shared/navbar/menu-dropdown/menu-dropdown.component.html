@@ -1,0 +1,48 @@
+<div class="menu-dropdown-wrapper" 
+     (mouseenter)="onMouseEnter()" 
+     (mouseleave)="onMouseLeave()">
+  
+  <!-- Trigger (el enlace Catálogo) -->
+  <div class="dropdown-trigger">
+    <span>Catálogo</span>
+  </div>
+
+  <!-- Menú desplegable -->
+  <div class="dropdown-menu" [class.visible]="menuVisible">
+    <div class="dropdown-content">
+      <!-- Columnas de categorías -->
+      <div class="categorias-grid">
+        <div class="categoria-column" 
+             *ngFor="let categoria of categorias"
+             (mouseenter)="onCategoriaHover(categoria.id)"
+             (mouseleave)="onCategoriaLeave()"
+             [class.active]="hoveredCategoriaId === categoria.id">
+          
+          <!-- Encabezado de categoría -->
+          <a [routerLink]="['/productos']" 
+             [queryParams]="{ categoria: categoria.id }"
+             (click)="closeMenu()"
+             class="categoria-header">
+            <span class="categoria-name">{{ categoria.nombre }}</span>
+          </a>
+
+          <!-- Subcategorías -->
+          <div class="subcategorias" *ngIf="categoria.subcategorias && categoria.subcategorias.length > 0">
+            <a *ngFor="let subcategoria of categoria.subcategorias"
+               [routerLink]="['/productos']"
+               [queryParams]="{ categoria: categoria.id, subcategoria: subcategoria.id }"
+               (click)="closeMenu()"
+               class="subcategoria-link">
+              {{ subcategoria.nombre }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay para cerrar menú -->
+  <div class="dropdown-overlay" 
+       [class.active]="menuVisible" 
+       (click)="onMouseLeave()"></div>
+</div>
