@@ -53,7 +53,7 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
   
   // Control de velocidad y suavidad
   scrollSpeed = 0.5; // Velocidad de scroll (0-1)
-  transitionDuration = 400; // Duración de transición en ms
+  transitionDuration = 200; // Duración de transición en ms
   
   // Iconos
   faChevronLeft = faChevronLeft;

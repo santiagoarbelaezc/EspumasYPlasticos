@@ -1,48 +1,331 @@
+/* ====== POR QUE ELEGIRNOS - ESTILO PROYECTO ====== */
 .por-que-elegirnos {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3rem 1rem;
-  background-color: #f5f5f5;
-  font-family: 'Avenir Next Pro', sans-serif;
+  padding: 60px 24px;
+  background: linear-gradient(135deg, rgba(0, 154, 162, 0.04) 0%, rgba(21, 205, 130, 0.04) 100%);
+  font-family: 'Avenir Next LT Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.01em;
+  min-height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fondo decorativo */
+.por-que-elegirnos::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 154, 162, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.por-que-elegirnos::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(21, 205, 130, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .contenedor-motivos {
   display: flex;
-  gap: 2rem;
+  gap: 28px;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
+  position: relative;
+  z-index: 2;
 }
 
+/* ========== TARJETA DE MOTIVO ========== */
 .motivo {
   background: white;
-  border-radius: 1.5rem;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 40px 32px;
   text-align: center;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  flex: 1 1 250px;
-  max-width: 300px;
-  transition: transform 0.3s ease;
+  border: 1px solid rgba(0, 154, 162, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 154, 162, 0.08);
+  flex: 1 1 320px;
+  max-width: 380px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: default;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.motivo-centro {
-  transform: translateY(40px);
+/* Línea superior en hover */
+.motivo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #009AA2 0%, #15CD82 100%);
+  border-radius: 16px 16px 0 0;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+.motivo:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 154, 162, 0.15);
+  border-color: rgba(0, 154, 162, 0.2);
+}
+
+.motivo:hover::before {
+  opacity: 1;
+}
+
+/* Efecto de brillo en hover */
+.motivo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s ease;
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.motivo:hover::after {
+  left: 100%;
+}
+
+/* ========== ICONO ========== */
 .icono {
-  font-size: 2.5rem;
-  color: #009AA2;
-  margin-bottom: 1rem;
+  font-size: 2.8rem;
+  background: linear-gradient(135deg, #009AA2 0%, #15CD82 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  justify-content: center;
 }
 
-h3 {
-  margin: 0.5rem 0;
-  color: #2D2D2D;
+.motivo:hover .icono {
+  font-size: 3.2rem;
+  transform: scale(1.15);
 }
 
-p {
-  color: #444444;
+/* ========== TÍTULOS ========== */
+.motivo h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-negro);
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  letter-spacing: -0.5px;
+  line-height: 1.4;
+}
+
+/* ========== PÁRRAFOS ========== */
+.motivo p {
+  margin: 0;
+  color: #666;
   font-size: 0.95rem;
+  line-height: 1.7;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  flex: 1;
 }
+
+/* ========== MOTIVO CENTRO (DESTACADO) ========== */
+.motivo-centro {
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(0, 154, 162, 0.15);
+  background: linear-gradient(135deg, #f8f9fa 0%, white 100%);
+  border-color: rgba(0, 154, 162, 0.2);
+}
+
+.motivo-centro::before {
+  opacity: 1;
+}
+
+.motivo-centro h3 {
+  background: linear-gradient(135deg, #009AA2 0%, #15CD82 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.motivo-centro:hover {
+  transform: scale(1.08);
+}
+
+/* ========== RESPONSIVE ========== */
+@media screen and (max-width: 1200px) {
+  .por-que-elegirnos {
+    padding: 70px 20px;
+    min-height: auto;
+  }
+
+  .contenedor-motivos {
+    gap: 24px;
+  }
+
+  .motivo {
+    flex: 1 1 300px;
+    max-width: 360px;
+    padding: 36px 28px;
+  }
+
+  .motivo-centro {
+    transform: scale(1.02);
+  }
+
+  .motivo-centro:hover {
+    transform: scale(1.05);
+  }
+
+  .icono {
+    font-size: 2.6rem;
+  }
+
+  .motivo:hover .icono {
+    font-size: 3rem;
+  }
+
+  .motivo h3 {
+    font-size: 1.2rem;
+  }
+
+  .motivo p {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .por-que-elegirnos {
+    padding: 60px 16px;
+    min-height: auto;
+  }
+
+  .contenedor-motivos {
+    gap: 20px;
+  }
+
+  .motivo {
+    flex: 0 1 calc(50% - 10px);
+    max-width: none;
+    padding: 28px 20px;
+  }
+
+  .motivo-centro {
+    flex: 0 1 calc(50% - 10px);
+    transform: scale(1);
+  }
+
+  .motivo-centro:hover {
+    transform: translateY(-8px);
+  }
+
+  .motivo h3 {
+    font-size: 1.1rem;
+  }
+
+  .motivo p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .icono {
+    font-size: 2.4rem;
+  }
+
+  .motivo:hover .icono {
+    font-size: 2.8rem;
+  }
+
+  .por-que-elegirnos::before {
+    width: 300px;
+    height: 300px;
+    top: -40%;
+    right: -15%;
+  }
+
+  .por-que-elegirnos::after {
+    width: 250px;
+    height: 250px;
+    bottom: -40%;
+    left: -15%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .por-que-elegirnos {
+    padding: 50px 12px;
+    min-height: auto;
+  }
+
+  .contenedor-motivos {
+    gap: 16px;
+  }
+
+  .motivo {
+    flex: 0 1 100%;
+    max-width: 100%;
+    padding: 24px 18px;
+  }
+
+  .motivo-centro {
+    flex: 0 1 100%;
+    transform: scale(1);
+  }
+
+  .motivo h3 {
+    font-size: 1rem;
+  }
+
+  .motivo p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .icono {
+    font-size: 2.2rem;
+  }
+
+  .motivo:hover .icono {
+    font-size: 2.6rem;
+  }
+
+  .por-que-elegirnos::before {
+    width: 200px;
+    height: 200px;
+    top: -50%;
+    right: -20%;
+  }
+
+  .por-que-elegirnos::after {
+    width: 180px;
+    height: 180px;
+    bottom: -50%;
+    left: -20%;
+  }
+}
+

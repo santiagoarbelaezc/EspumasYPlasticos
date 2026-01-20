@@ -1,1 +1,92 @@
-<p>productos-list works!</p>
+<section id="productos-seccion">
+  <!-- Encabezado elegante -->
+  <div class="section-header">
+    <h2 *ngIf="productos.length && !cargando">
+      <span class="title-text">Todos los Productos</span>
+      <span class="product-count">({{productos.length}})</span>
+    </h2>
+  </div>
+
+  <!-- Estados de carga -->
+  <div *ngIf="cargando" class="loading-state">
+    <div class="loading-animation">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+    <p class="loading-text">Cargando productos...</p>
+  </div>
+
+  <!-- Estado sin productos -->
+  <div *ngIf="!productos.length && !cargando" class="empty-state">
+    <div class="empty-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
+      </svg>
+    </div>
+    <p class="empty-text">No hay productos disponibles</p>
+    <p class="empty-subtext">Intenta más tarde</p>
+  </div>
+
+  <!-- Grid de productos -->
+  <div class="products-grid-container" 
+       [class.productos-cambiando]="cargando"
+       *ngIf="productos.length && !cargando">
+    
+    <div class="products-grid">
+      <div class="product-card-wrapper"
+           *ngFor="let producto of productos; let i = index">
+        
+        <!-- Tarjeta de producto -->
+        <div class="product-card-container" (click)="verDetalles(producto)" tabindex="0" role="button">
+          
+          <!-- Contenedor superior: Imagen -->
+          <div class="product-image-section">
+            <div class="product-image-wrapper">
+              <div class="product-image-container">
+                <img *ngIf="producto.imagenes && producto.imagenes.length > 0" 
+                     [src]="producto.imagenes[0]" 
+                     [alt]="producto.nombre" 
+                     class="product-image">
+                <div class="image-overlay"></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contenedor medio: Información -->
+          <div class="product-info-section">
+            
+            <!-- Contenedor de texto -->
+            <div class="product-text-container">
+              <div class="product-title-wrapper">
+                <h3 class="product-title">{{producto.nombre}}</h3>
+                <div class="product-subtitle">Productos Destacados</div>
+              </div>
+              
+              <div class="product-description-container">
+                <p class="product-description">
+                  {{producto.descripcion || 'Descripción no disponible'}}
+                </p>
+              </div>
+            </div>
+            
+            <!-- Contenedor de detalles - Solo precio -->
+            <div class="product-details-container">
+              <div class="product-price-section">
+                <div class="price-display">
+                  <span class="price-label">Precio:</span>
+                  <span class="price-value">{{formatearPrecio(producto.precio)}}</span>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>

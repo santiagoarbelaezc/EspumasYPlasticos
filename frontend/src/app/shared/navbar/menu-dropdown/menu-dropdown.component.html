@@ -3,9 +3,9 @@
      (mouseleave)="onMouseLeave()">
   
   <!-- Trigger (el enlace Catálogo) -->
-  <div class="dropdown-trigger">
+  <a routerLink="/productos" (click)="closeMenu()" class="dropdown-trigger">
     <span>Catálogo</span>
-  </div>
+  </a>
 
   <!-- Menú desplegable -->
   <div class="dropdown-menu" [class.visible]="menuVisible">
