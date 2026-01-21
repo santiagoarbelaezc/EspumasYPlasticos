@@ -7,6 +7,7 @@ import { DescripcionSeleccionado } from '../descripcion-seleccionado/descripcion
 
 import { GridProductosInteres } from '../grid-productos-interes/grid-productos-interes';
 import { CarruselRelacionados } from "../carrusel-relacionados/carrusel-relacionados";
+import { UtilGridProductosInteres } from "../util-grid-productos-interes/util-grid-productos-interes";
 
 @Component({
   selector: 'app-descripcion',
@@ -17,8 +18,8 @@ import { CarruselRelacionados } from "../carrusel-relacionados/carrusel-relacion
     NavbarComponent,
     FooterComponent,
     DescripcionSeleccionado,
-    GridProductosInteres,
-    CarruselRelacionados
+    CarruselRelacionados,
+    UtilGridProductosInteres
 ],
   templateUrl: './descripcion.html',
   styleUrl: './descripcion.css'

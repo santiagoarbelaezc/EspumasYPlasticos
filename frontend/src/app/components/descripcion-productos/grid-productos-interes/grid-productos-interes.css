@@ -1,0 +1,350 @@
+.grid-wrapper {
+  max-width: 1600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.grid-container {
+  margin: 50px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 50px;
+  grid-auto-flow: dense;
+  gap: 16px;
+  min-height: 350px;
+}
+
+/* Card base */
+.producto-item {
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  border-radius: 4px;
+}
+
+.producto-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Imagen */
+.producto-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  flex: 1;
+}
+
+.producto-item:hover img {
+  transform: scale(1.08);
+}
+
+/* Punto en la mitad - Blanco y Negro */
+
+.punto-medio {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  background: rgba(255,255,255,0.88);
+  border: 2px solid #111;
+  border-radius: 50%;
+  z-index: 4;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+}
+
+.punto-medio:hover {
+  width: 26px;
+  height: 26px;
+  background: rgba(34,34,34,0.18);
+  border-color: #009aa2;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+  opacity: 1;
+}
+
+/* Información extra al hover sobre el punto */
+
+
+.info-extra {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  min-width: 140px;
+  max-width: 180px;
+  background: #fff;
+  padding: 12px 14px 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  z-index: 5;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+  pointer-events: none;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+}
+
+
+
+.info-extra.visible {
+  opacity: 1;
+  transform: translate(-50%, calc(-50% - 40px)) scale(1);
+  pointer-events: auto;
+}
+
+.producto-nombre {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.producto-precio {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #009aa2;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Overlay oscuro */
+.producto-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.3s ease;
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.producto-item:hover::before {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Descripción original - igual que antes */
+.producto-info {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, rgba(0, 154, 162, 0.95) 0%, rgba(21, 205, 130, 0.95) 100%);
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border-radius: 4px;
+}
+
+.producto-item:hover .producto-info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.producto-descripcion {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Variantes de altura */
+.producto-item.alta {
+  grid-row: span 8;
+}
+
+.producto-item.baja {
+  grid-row: span 6;
+}
+
+:host-context(.colapsado) .producto-item.alta {
+  grid-row: span 4;
+}
+
+:host-context(.colapsado) .producto-item.baja {
+  grid-row: span 3;
+}
+
+/* Botón Ver Más */
+.boton-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  padding: 0 24px;
+}
+
+.boton-ver-mas {
+  background: linear-gradient(135deg, #009aa2 0%, #15cd82 100%);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 154, 162, 0.2);
+}
+
+.boton-ver-mas:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 154, 162, 0.3);
+  background: linear-gradient(135deg, #008890 0%, #10b572 100%);
+}
+
+.boton-ver-mas:active {
+  transform: translateY(0);
+}
+
+.icono {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.icono.expanded {
+  transform: rotate(180deg);
+}
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0 20px;
+    margin: 40px auto;
+  }
+  
+  .producto-item.alta {
+    grid-row: span 6;
+  }
+  
+  .producto-item.baja {
+    grid-row: span 5;
+  }
+  
+  .producto-info {
+    padding: 10px 12px;
+  }
+  
+  .producto-descripcion {
+    font-size: 0.85rem;
+  }
+  
+  .info-extra {
+    width: 150px;
+    padding: 12px;
+  }
+  
+  .producto-nombre {
+    font-size: 0.9rem;
+  }
+  
+  .producto-precio {
+    font-size: 1rem;
+  }
+  
+  .boton-container {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .boton-ver-mas {
+    padding: 10px 24px;
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 0 16px;
+    margin: 30px auto;
+  }
+  
+  .producto-item.alta {
+    grid-row: span 5;
+  }
+  
+  .producto-item.baja {
+    grid-row: span 4;
+  }
+  
+  .producto-info {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+  
+  .producto-descripcion {
+    font-size: 0.9rem;
+  }
+  
+  .info-extra {
+    width: 140px;
+    padding: 10px;
+  }
+  
+  .producto-nombre {
+    font-size: 0.85rem;
+  }
+  
+  .producto-precio {
+    font-size: 0.95rem;
+  }
+  
+  .punto-medio {
+    width: 12px;
+    height: 12px;
+  }
+}

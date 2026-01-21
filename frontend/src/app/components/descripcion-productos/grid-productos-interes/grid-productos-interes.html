@@ -1,1 +1,79 @@
-<p>grid-productos-interes works!</p>
+<div class="grid-wrapper">
+  <section class="grid-container">
+    <!-- Primera fila -->
+    <ng-container *ngFor="let producto of getPrimeraFila(); let i = index">
+      <a [routerLink]="producto.link" class="producto-item" 
+         [class.alta]="producto.altura === 'alta'"
+         [class.baja]="producto.altura === 'baja'">
+        <img [src]="producto.imagen" [alt]="producto.descripcion">
+        <!-- Punto en la mitad -->
+        <div class="punto-medio" (mouseenter)="setHoveredIndex(i)" (mouseleave)="setHoveredIndex(null)">
+          <div class="info-extra" [class.visible]="hoveredIndex === i">
+            <ng-container *ngIf="producto.nombre">
+              <h3 class="producto-nombre">{{producto.nombre}}</h3>
+            </ng-container>
+            <ng-container *ngIf="producto.precio">
+              <p class="producto-precio">{{formatearPrecio(producto.precio)}}</p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="producto-info">
+          <p class="producto-descripcion">{{producto.descripcion}}</p>
+        </div>
+      </a>
+    </ng-container>
+
+    <!-- Segunda fila -->
+    <ng-container *ngFor="let producto of getSegundaFila(); let i = index">
+      <a [routerLink]="producto.link" class="producto-item" 
+         [class.alta]="producto.altura === 'alta'"
+         [class.baja]="producto.altura === 'baja'">
+        <img [src]="producto.imagen" [alt]="producto.descripcion">
+        <div class="punto-medio" (mouseenter)="setHoveredIndex(getPrimeraFila().length + i)" (mouseleave)="setHoveredIndex(null)">
+          <div class="info-extra" [class.visible]="hoveredIndex === (getPrimeraFila().length + i)">
+            <ng-container *ngIf="producto.nombre">
+              <h3 class="producto-nombre">{{producto.nombre}}</h3>
+            </ng-container>
+            <ng-container *ngIf="producto.precio">
+              <p class="producto-precio">{{formatearPrecio(producto.precio)}}</p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="producto-info">
+          <p class="producto-descripcion">{{producto.descripcion}}</p>
+        </div>
+      </a>
+    </ng-container>
+
+    <!-- Tercera fila -->
+    <ng-container *ngFor="let producto of getTerceraFila(); let i = index">
+      <a [routerLink]="producto.link" class="producto-item" 
+         [class.alta]="producto.altura === 'alta'"
+         [class.baja]="producto.altura === 'baja'">
+        <img [src]="producto.imagen" [alt]="producto.descripcion">
+        <div class="punto-medio" (mouseenter)="setHoveredIndex(getPrimeraFila().length + getSegundaFila().length + i)" (mouseleave)="setHoveredIndex(null)">
+          <div class="info-extra" [class.visible]="hoveredIndex === (getPrimeraFila().length + getSegundaFila().length + i)">
+            <ng-container *ngIf="producto.nombre">
+              <h3 class="producto-nombre">{{producto.nombre}}</h3>
+            </ng-container>
+            <ng-container *ngIf="producto.precio">
+              <p class="producto-precio">{{formatearPrecio(producto.precio)}}</p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="producto-info">
+          <p class="producto-descripcion">{{producto.descripcion}}</p>
+        </div>
+      </a>
+    </ng-container>
+  </section>
+
+  @if (mostrarBotonVerMas || isExpanded) {
+    <div class="boton-container">
+      <button class="boton-ver-mas" (click)="toggleExpansion()">
+        {{ getTextoBoton() }}
+        <span class="icono" [class.expanded]="isExpanded">▼</span>
+      </button>
+    </div>
+  }
+</div>
