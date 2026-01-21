@@ -69,7 +69,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.95;
+  opacity: 0;
+  pointer-events: auto;
+}
+
+.producto-item:hover .punto-medio,
+.punto-medio:hover {
+  opacity: 1;
 }
 
 .punto-medio:hover {
@@ -78,7 +84,6 @@
   background: rgba(34,34,34,0.18);
   border-color: #009aa2;
   box-shadow: 0 4px 16px rgba(0,0,0,0.16);
-  opacity: 1;
 }
 
 /* Información extra al hover sobre el punto */

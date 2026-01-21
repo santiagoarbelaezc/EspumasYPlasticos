@@ -24,6 +24,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contacto/contacto').then(m => m.Contacto)
   },
   {
+    path: 'politica',
+    loadComponent: () => import('./components/politica/politica').then(m => m.Politica)
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then(m => m.Login)
   },

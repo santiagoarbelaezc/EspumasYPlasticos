@@ -12,6 +12,7 @@ import { Producto } from '../../models/productos/producto';
 })
 export class GridProductosComponent {
   @Input() productos: Producto[] = [];
+  hoveredIndex: number | null = null;
   
   get primeraFila(): Producto[] {
     return this.productos.slice(0, 4);
@@ -19,5 +20,14 @@ export class GridProductosComponent {
   
   get segundaFila(): Producto[] {
     return this.productos.slice(4, 8);
+  }
+
+  formatearPrecio(precio?: number): string {
+    if (!precio) return '';
+    return `$${precio.toLocaleString('es-CO')}`;
+  }
+
+  setHoveredIndex(index: number | null): void {
+    this.hoveredIndex = index;
   }
 }

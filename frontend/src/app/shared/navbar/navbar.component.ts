@@ -30,11 +30,11 @@ export class NavbarComponent {
   
   // Sugerencias/recomendaciones específicas
   suggestions = [
-    'colchones',
-    'almohadas', 
-    'sabanas',
-    'alcobas',
-    'colchonetas'
+    'colchon',
+    'almohada', 
+    'sabana',
+    'alcoba',
+    'colchoneta'
   ];
   
   filteredSuggestions: string[] = [];
