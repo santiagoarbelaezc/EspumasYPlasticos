@@ -177,7 +177,7 @@
 /* === RESPONSIVE - OCULTAR EN MOBILE === */
 @media (max-width: 768px) {
   .menu-dropdown-wrapper {
-    display: none !important;
+    display: flex !important;
   }
 }
 

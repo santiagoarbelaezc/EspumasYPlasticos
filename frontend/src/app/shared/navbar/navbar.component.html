@@ -47,17 +47,53 @@
 
   <!-- EXTREMA DERECHA: Buscador + Llave (desktop) y hamburguesa (mobile) -->
   <div class="navbar-right">
-    <!-- Buscador - Ahora expandible en mobile -->
-    <form (submit)="onSearchSubmit($event)" class="search-wrapper" 
-          [class.expandido]="searchExpanded" (click)="toggleSearch()">
-      <input #searchInput type="text" class="search-input" 
-             placeholder="¿Qué estás buscando?"
-             [value]="searchQuery"
-             (input)="onSearchInput($event)"
-             (click)="$event.stopPropagation()">
-      <fa-icon [icon]="faMagnifyingGlass" class="search-icon" 
-               (click)="preventEvent($event)"></fa-icon>
-    </form>
+    <!-- Contenedor de búsqueda con sugerencias -->
+    <div class="search-container" [class.expandido]="searchExpanded">
+      <form (submit)="onSearchSubmit($event)" class="search-wrapper">
+        <div class="search-input-wrapper">
+          <input #searchInput 
+                 type="text" 
+                 class="search-input" 
+                 placeholder="¿Qué estás buscando?"
+                 [(ngModel)]="searchQuery"
+                 (input)="onSearchInput($event)"
+                 (focus)="onSearchFocus()"
+                 (blur)="onSearchBlur()"
+                 name="searchQuery"
+                 [class.has-text]="searchQuery">
+          
+          <!-- Botón para limpiar búsqueda -->
+          <button *ngIf="searchQuery" 
+                  type="button" 
+                  class="clear-btn" 
+                  (click)="clearSearch()"
+                  aria-label="Limpiar búsqueda">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </button>
+          
+          <!-- Botón de búsqueda -->
+          <button type="submit" class="search-btn" aria-label="Buscar">
+            <fa-icon [icon]="faMagnifyingGlass"></fa-icon>
+          </button>
+        </div>
+      </form>
+
+      <!-- Contenedor de sugerencias -->
+      <div class="suggestions-container" *ngIf="showSuggestions && filteredSuggestions.length > 0">
+        <div class="suggestions-header">
+          <span class="suggestions-title">Recomendaciones</span>
+        </div>
+        <div class="suggestions-list">
+          <div *ngFor="let suggestion of filteredSuggestions" 
+               class="suggestion-item"
+               (click)="selectSuggestion(suggestion)"
+               (mousedown)="$event.preventDefault()">
+            <fa-icon [icon]="faMagnifyingGlass" class="suggestion-icon"></fa-icon>
+            <span class="suggestion-text">{{ suggestion }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Ícono llave a la derecha -->
     <div class="login-wrapper">

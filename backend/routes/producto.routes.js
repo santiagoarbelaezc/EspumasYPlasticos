@@ -17,6 +17,15 @@ const controller = require('../controllers/producto.controller');
 // Obtener todos los productos con sus imágenes
 router.get('/', controller.obtenerProductos);
 
+// Obtener productos aleatorios
+router.get('/aleatorios', controller.obtenerProductosAleatorios);
+
+// Obtener todos los productos de una categoría
+router.get('/categoria/:categoria_id', controller.obtenerProductosPorCategoria);
+
+// Buscar productos por nombre o similares
+router.get('/buscar/nombre', controller.buscarProductosPorNombre);
+
 // Obtener un producto individual con todas sus imágenes
 router.get('/:id', controller.obtenerProductoPorId);
 

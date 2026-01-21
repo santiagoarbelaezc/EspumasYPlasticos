@@ -119,4 +119,31 @@ export class ProductoService {
   eliminarProducto(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
+    /**
+     * Obtiene productos aleatorios
+     * @param cantidad Número de productos aleatorios a obtener (opcional, por defecto 5)
+     * @returns Observable con array de ProductoDTO
+     */
+    obtenerProductosAleatorios(cantidad: number = 5): Observable<ProductoDTO[]> {
+      let params = new HttpParams().set('cantidad', cantidad.toString());
+      return this.http.get<ProductoDTO[]>(`${this.apiUrl}/aleatorios`, { params });
+    }
+
+    /**
+     * Obtiene todos los productos que pertenecen a una categoría
+     * @param categoriaId ID de la categoría
+     * @returns Observable con array de ProductoDTO
+     */
+    obtenerProductosPorCategoria(categoriaId: number): Observable<ProductoDTO[]> {
+      return this.http.get<ProductoDTO[]>(`${this.apiUrl}/categoria/${categoriaId}`);
+    }
+    /**
+     * Busca productos por nombre o similares
+     * @param nombre Término de búsqueda
+     * @returns Observable con array de ProductoDTO
+     */
+    buscarProductosPorNombre(nombre: string): Observable<ProductoDTO[]> {
+      const params = new HttpParams().set('nombre', nombre);
+      return this.http.get<ProductoDTO[]>(`${this.apiUrl}/buscar/nombre`, { params });
+    }
 }

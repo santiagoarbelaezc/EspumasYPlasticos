@@ -59,6 +59,95 @@ exports.obtenerProductos = async (req, res) => {
   }
 };
 
+
+// ====================
+// 🎲 Obtener productos aleatorios
+// ====================
+exports.obtenerProductosAleatorios = async (req, res) => {
+  try {
+    // Puedes pasar ?cantidad=5 para obtener 5 productos aleatorios
+    const cantidad = parseInt(req.query.cantidad, 10) || 5;
+    // Consulta productos aleatorios
+    const [productos] = await db.query(`
+      SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio,
+        p.subcategoria_id,
+        s.nombre AS subcategoria,
+        c.nombre AS categoria
+      FROM productos p
+      JOIN subcategorias s ON p.subcategoria_id = s.id
+      JOIN categorias c ON s.categoria_id = c.id
+      ORDER BY RAND()
+      LIMIT ?
+    `, [cantidad]);
+
+    if (productos.length === 0) {
+      return res.json([]);
+    }
+    const productoIds = productos.map(p => p.id);
+    const [imagenes] = await db.query(`
+      SELECT producto_id, imagen_url
+      FROM producto_imagenes
+      WHERE producto_id IN (?)
+    `, [productoIds]);
+    const productosConImagenes = productos.map(prod => {
+      const imagenesDelProducto = imagenes
+        .filter(img => img.producto_id === prod.id)
+        .map(img => img.imagen_url);
+      return {
+        ...prod,
+        imagenes: imagenesDelProducto
+      };
+    });
+    res.json(productosConImagenes);
+  } catch (err) {
+    console.error('❌ Error al obtener productos aleatorios:', err);
+    res.status(500).json({ error: 'No se pudieron obtener productos aleatorios' });
+  }
+};
+
+// ====================
+// 📦 Obtener productos por categoría
+// ====================
+exports.obtenerProductosPorCategoria = async (req, res) => {
+  try {
+    const { categoria_id } = req.params;
+    // Consulta productos que pertenecen a una categoría específica
+    const [productos] = await db.query(`
+      SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio,
+        p.subcategoria_id,
+        s.nombre AS subcategoria,
+        c.nombre AS categoria
+      FROM productos p
+      JOIN subcategorias s ON p.subcategoria_id = s.id
+      JOIN categorias c ON s.categoria_id = c.id
+      WHERE c.id = ?
+    `, [categoria_id]);
+
+    if (productos.length === 0) {
+      return res.json([]);
+    }
+    const productoIds = productos.map(p => p.id);
+    const [imagenes] = await db.query(`
+      SELECT producto_id, imagen_url
+      FROM producto_imagenes
+      WHERE producto_id IN (?)
+    `, [productoIds]);
+    const productosConImagenes = productos.map(prod => {
+      const imagenesDelProducto = imagenes
+        .filter(img => img.producto_id === prod.id)
+        .map(img => img.imagen_url);
+      return {
+        ...prod,
+        imagenes: imagenesDelProducto
+      };
+    });
+    res.json(productosConImagenes);
+  } catch (err) {
+    console.error('❌ Error al obtener productos por categoría:', err);
+    res.status(500).json({ error: 'No se pudieron obtener productos por categoría' });
+  }
+};
+
 // ================================
 // 📦 Crear producto con múltiples imágenes (mínimo 1)
 // ================================
@@ -117,6 +206,52 @@ exports.crearProductoDesdeRuta = async (req, res) => {
     res.status(500).json({ error: 'Error interno al crear el producto' });
   } finally {
     connection.release(); // Liberar conexión
+  }
+};
+
+// ============================
+// 🔎 Buscar productos por nombre o similares
+// ============================
+exports.buscarProductosPorNombre = async (req, res) => {
+  try {
+    const { nombre } = req.query;
+    if (!nombre || nombre.trim().length === 0) {
+      return res.status(400).json({ error: 'Debes proporcionar un nombre para buscar.' });
+    }
+    // Buscar productos cuyo nombre contenga el término (case-insensitive)
+    const [productos] = await db.query(`
+      SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio,
+        p.subcategoria_id,
+        s.nombre AS subcategoria,
+        c.nombre AS categoria
+      FROM productos p
+      JOIN subcategorias s ON p.subcategoria_id = s.id
+      JOIN categorias c ON s.categoria_id = c.id
+      WHERE p.nombre LIKE ?
+    `, [`%${nombre}%`]);
+
+    if (productos.length === 0) {
+      return res.json([]);
+    }
+    const productoIds = productos.map(p => p.id);
+    const [imagenes] = await db.query(`
+      SELECT producto_id, imagen_url
+      FROM producto_imagenes
+      WHERE producto_id IN (?)
+    `, [productoIds]);
+    const productosConImagenes = productos.map(prod => {
+      const imagenesDelProducto = imagenes
+        .filter(img => img.producto_id === prod.id)
+        .map(img => img.imagen_url);
+      return {
+        ...prod,
+        imagenes: imagenesDelProducto
+      };
+    });
+    res.json(productosConImagenes);
+  } catch (err) {
+    console.error('❌ Error al buscar productos por nombre:', err);
+    res.status(500).json({ error: 'No se pudo realizar la búsqueda de productos' });
   }
 };
 

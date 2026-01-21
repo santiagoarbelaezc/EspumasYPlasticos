@@ -2,13 +2,15 @@ import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faKey, faMapMarkerAlt, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faMapMarkerAlt, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { MenuDropdownComponent } from './menu-dropdown/menu-dropdown.component';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, MenuDropdownComponent],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, MenuDropdownComponent, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -16,23 +18,39 @@ export class NavbarComponent {
   faKey = faKey;
   faMapMarkerAlt = faMapMarkerAlt;
   faMagnifyingGlass = faMagnifyingGlass;
+  faTimes = faTimes;
   
   logoHover = false;
   menuAbierto = false;
   scrolled = false;
   searchExpanded = false;
   searchQuery = '';
+  showSuggestions = false;
+  isSearchFocused = false;
+  
+  // Sugerencias/recomendaciones específicas
+  suggestions = [
+    'colchones',
+    'almohadas', 
+    'sabanas',
+    'alcobas',
+    'colchonetas'
+  ];
+  
+  filteredSuggestions: string[] = [];
 
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
+
+  constructor(private router: Router) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     // Cambia el estado cuando se hace scroll (más de 10px)
     this.scrolled = window.scrollY > 10;
     
-    // Cerrar buscador al hacer scroll en mobile
-    if (this.searchExpanded && window.innerWidth <= 768) {
-      this.collapseSearch();
+    // Cerrar sugerencias al hacer scroll
+    if (this.showSuggestions) {
+      this.closeSuggestions();
     }
   }
 
@@ -50,10 +68,21 @@ export class NavbarComponent {
       }
     }
     
+    // Cerrar sugerencias si se hace clic fuera
+    if (this.showSuggestions) {
+      const target = event.target as HTMLElement;
+      const isClickInsideSearch = target.closest('.search-container') || 
+                                  target.closest('.search-input');
+      
+      if (!isClickInsideSearch) {
+        this.closeSuggestions();
+      }
+    }
+    
     // Cerrar buscador si se hace clic fuera en mobile
     if (this.searchExpanded && window.innerWidth <= 768) {
       const target = event.target as HTMLElement;
-      const isClickInsideSearch = target.closest('.search-wrapper') || 
+      const isClickInsideSearch = target.closest('.search-container') || 
                                   target.closest('.search-input');
       
       if (!isClickInsideSearch) {
@@ -78,9 +107,9 @@ export class NavbarComponent {
   toggleMenu(): void {
     this.menuAbierto = !this.menuAbierto;
     
-    // Cerrar buscador si se abre el menú
-    if (this.menuAbierto && this.searchExpanded) {
-      this.collapseSearch();
+    // Cerrar sugerencias si se abre el menú
+    if (this.menuAbierto) {
+      this.closeSuggestions();
     }
     
     // Bloquear scroll del body cuando el menú está abierto
@@ -112,6 +141,8 @@ export class NavbarComponent {
             this.searchInput.nativeElement.focus();
           }
         }, 150);
+      } else {
+        this.closeSuggestions();
       }
     }
   }
@@ -119,25 +150,111 @@ export class NavbarComponent {
   collapseSearch(): void {
     this.searchExpanded = false;
     this.searchQuery = '';
+    this.closeSuggestions();
   }
 
   onSearchInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     this.searchQuery = input.value;
+    
+    // Filtrar sugerencias según la búsqueda
+    if (this.searchQuery.trim()) {
+      this.filteredSuggestions = this.suggestions.filter(suggestion =>
+        suggestion.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+      this.showSuggestions = true;
+    } else {
+      // Mostrar todas las sugerencias si no hay búsqueda
+      this.filteredSuggestions = [...this.suggestions];
+      this.showSuggestions = true;
+    }
+  }
+
+  onSearchFocus(): void {
+    this.isSearchFocused = true;
+    // Mostrar sugerencias cuando se enfoca el input
+    if (!this.searchQuery.trim()) {
+      this.filteredSuggestions = [...this.suggestions];
+      this.showSuggestions = true;
+    }
+  }
+
+  onSearchBlur(): void {
+    this.isSearchFocused = false;
+    // No cerrar inmediatamente para permitir clic en sugerencias
+    setTimeout(() => {
+      if (!this.isSearchFocused && !this.isMouseOverSuggestions()) {
+        this.closeSuggestions();
+      }
+    }, 200);
+  }
+
+   private performSearch(): void {
+    if (this.searchQuery.trim()) {
+      console.log('Buscando:', this.searchQuery);
+      
+      // Navegar a la página de productos con el término de búsqueda
+      this.router.navigate(['/productos'], { 
+        queryParams: { 
+          busqueda: this.searchQuery,
+          tipo: 'nombre'
+        } 
+      });
+      
+      // Cerrar sugerencias
+      this.closeSuggestions();
+      
+      // Cerrar buscador en mobile después de buscar
+      if (window.innerWidth <= 768) {
+        this.collapseSearch();
+      }
+      
+      // Limpiar búsqueda
+      this.searchQuery = '';
+    }
+  }
+
+  selectSuggestion(suggestion: string): void {
+    this.searchQuery = suggestion;
+    this.performSearch();
   }
 
   onSearchSubmit(event: Event): void {
     event.preventDefault();
     
     if (this.searchQuery.trim()) {
-      // Aquí puedes implementar la lógica de búsqueda
-      console.log('Buscando:', this.searchQuery);
-      
-      // Cerrar buscador en mobile después de buscar
-      if (window.innerWidth <= 768) {
-        this.collapseSearch();
-      }
+      this.performSearch();
     }
+  }
+
+  
+
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.closeSuggestions();
+    if (this.searchInput?.nativeElement) {
+      this.searchInput.nativeElement.focus();
+    }
+  }
+
+  
+  private closeSuggestions(): void {
+    this.showSuggestions = false;
+    this.filteredSuggestions = [];
+  }
+
+  private isMouseOverSuggestions(): boolean {
+    const suggestionsElement = document.querySelector('.suggestions-container');
+    if (!suggestionsElement) return false;
+    
+    const mouseX = (window as any).mouseX || 0;
+    const mouseY = (window as any).mouseY || 0;
+    const rect = suggestionsElement.getBoundingClientRect();
+    
+    return mouseX >= rect.left && 
+           mouseX <= rect.right && 
+           mouseY >= rect.top && 
+           mouseY <= rect.bottom;
   }
 
   // Método para manejar el clic en el logo (mobile)
@@ -148,12 +265,14 @@ export class NavbarComponent {
     if (this.searchExpanded) {
       this.collapseSearch();
     }
+    this.closeSuggestions();
   }
 
   // Método para manejar la navegación (cierra menús)
   navigateAndClose(): void {
     this.closeMenu();
     this.collapseSearch();
+    this.closeSuggestions();
   }
 
   // Método para prevenir eventos no deseados

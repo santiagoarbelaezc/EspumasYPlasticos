@@ -1,15 +1,9 @@
-<section class="carrusel-container">
+<section class="carrusel-container" *ngIf="categoriaId">
   <!-- Encabezado -->
-  <div class="carrusel-header" *ngIf="productos.length > 0 && !isLoading">
+  <div class="carrusel-header" *ngIf="productos.length > 0">
     <div class="header-content">
-      <h2 class="carrusel-title">
-        <span *ngIf="categoriaProducto">Productos relacionados en {{ categoriaProducto }}</span>
-        <span *ngIf="!categoriaProducto">Productos que te podrían interesar</span>
-      </h2>
-      <p class="carrusel-subtitle">
-        <span *ngIf="productoSeleccionado">Basado en tu selección de "{{ productoSeleccionado.nombre }}"</span>
-        <span *ngIf="!productoSeleccionado">Productos seleccionados para ti</span>
-      </p>
+      <h2 class="carrusel-title">{{ titulo }}</h2>
+      
     </div>
   </div>
 
@@ -17,7 +11,7 @@
   <div class="carrusel-loading" *ngIf="isLoading">
     <div class="spinner-container">
       <div class="spinner"></div>
-      <p>{{ mensajeEstado }}</p>
+      <p>Cargando productos...</p>
     </div>
   </div>
 
@@ -27,7 +21,7 @@
       <div class="error-icon">⚠️</div>
       <h3>Error al cargar</h3>
       <p>{{ error }}</p>
-      <button class="retry-btn" (click)="reintentar()" *ngIf="productoSeleccionado">Reintentar</button>
+      <button class="retry-btn" (click)="reintentar()">Reintentar</button>
     </div>
   </div>
 
@@ -76,11 +70,12 @@
             [attr.data-product-id]="producto.id"
             role="article"
             tabindex="0"
-            (click)="selectProduct(producto)">
+            (click)="selectProduct(producto)"
+            style="cursor:pointer;">
             
             <!-- Badge destacado -->
             <div class="producto-badge" *ngIf="i < 2 && producto.cantidad > 0">
-              Relacionado
+              Destacado
             </div>
             
             <!-- Imagen -->
@@ -121,20 +116,15 @@
             <div class="producto-info">
               <h3 class="producto-nombre" [title]="producto.nombre">{{ producto.nombre }}</h3>
               
-              <div class="producto-categorias">
-                <span class="producto-categoria" *ngIf="producto.categoria">
-                  {{ producto.categoria }}
-                </span>
-                <span class="producto-subcategoria" *ngIf="producto.subcategoria">
-                  {{ producto.subcategoria }}
-                </span>
-              </div>
+              <span class="producto-subcategoria" *ngIf="producto.subcategoria">
+                {{ producto.subcategoria }}
+              </span>
               
               <div class="producto-footer">
                 <div class="producto-precio">{{ formatearPrecio(producto.precio) }}</div>
                 <div class="producto-meta">
                   <div class="producto-stock" [class.agotado]="producto.cantidad === 0">
-                    {{ producto.cantidad === 0 ? 'Agotado' : 'Disponible' }}
+                    {{ producto.cantidad === 0 ? 'Agotado' : '' }}
                   </div>
                 </div>
               </div>
@@ -185,13 +175,9 @@
           <line x1="15" y1="15" x2="19" y2="19" stroke="currentColor" stroke-width="2"/>
         </svg>
       </div>
-      <h3>No hay productos relacionados disponibles</h3>
-      <p *ngIf="productoSeleccionado">
-        No encontramos productos relacionados con "{{ productoSeleccionado.nombre }}"
-      </p>
-      <p *ngIf="!productoSeleccionado">
-        Selecciona un producto para ver relacionados.
-      </p>
+      <h3>No hay productos disponibles</h3>
+      <p>Pronto agregaremos más productos a esta categoría.</p>
+      <button class="explore-btn" (click)="exploreMore()">Explorar más</button>
     </div>
   </div>
 </section>

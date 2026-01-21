@@ -23,7 +23,6 @@
   -webkit-touch-callout: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
 /* Clase para cuando se hace scroll hacia abajo */
@@ -42,7 +41,6 @@
 /* === AÑADIR PADDING AL BODY PARA COMPENSAR EL NAVBAR FIXED === */
 body {
   padding-top: 84px;
-  
 }
 
 /* === LOGO MOBILE (oculto en desktop) === */
@@ -79,6 +77,7 @@ body {
   border-radius: 20px;
   transition: all 0.3s ease;
   cursor: pointer;
+  
 }
 
 .location:hover {
@@ -115,6 +114,8 @@ body {
   justify-content: center;
   flex: 1;
   min-width: 0;
+  position: relative;
+  left: 35px;
 }
 
 .navbar-content {
@@ -196,28 +197,35 @@ body {
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
-  min-width: 180px;
+  gap: 20px;
+  min-width: 200px;
   flex-shrink: 0;
   justify-content: flex-end;
 }
 
+/* === CONTENEDOR DE BÚSQUEDA === */
+.search-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 /* === BUSCADOR === */
 .search-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
   background-color: #f5f5f5;
   border: 1.5px solid rgba(0, 154, 162, 0.2);
   border-radius: 24px;
   padding: 8px 16px;
-  width: 220px;
+  width: 260px; /* Aumentado de 220px */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   /* iPhone optimizations */
   -webkit-appearance: none;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  -webkit-overflow-scrolling: touch;
 }
 
 .search-wrapper:hover,
@@ -226,6 +234,15 @@ body {
   border-color: #15CD82;
   box-shadow: 0 4px 16px rgba(21, 205, 130, 0.2);
   transform: translateY(-1px);
+  width: 280px; /* Se expande un poco más al hacer hover/focus */
+}
+
+/* Input wrapper para iconos */
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .search-input {
@@ -237,6 +254,8 @@ body {
   font-size: 0.95rem;
   color: #2D2D2D;
   font-weight: 500;
+  width: 100%;
+  padding: 0 40px 0 0; /* Espacio para iconos */
   /* iPhone optimizations */
   -webkit-appearance: none;
   appearance: none;
@@ -254,18 +273,65 @@ body {
   outline: none;
 }
 
-.search-icon {
-  font-size: 1rem;
-  color: #999;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  pointer-events: none;
+/* Estilo para el input cuando tiene texto */
+.search-input.has-text {
+  padding-right: 70px;
 }
 
-.search-wrapper:hover .search-icon,
-.search-wrapper:focus-within .search-icon {
+/* Botón de búsqueda mejorado */
+.search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.search-btn:hover {
   color: #15CD82;
-  transform: scale(1.1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.search-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Botón para limpiar búsqueda */
+.clear-btn {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 2;
+  opacity: 0.7;
+}
+
+.clear-btn:hover {
+  color: #ff6b6b;
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.clear-btn:active {
+  transform: translateY(-50%) scale(0.95);
 }
 
 /* === LOGIN === */
@@ -451,11 +517,137 @@ body {
   opacity: 1;
   visibility: visible;
 }
+
+/* === SUGERENCIAS DE BÚSQUEDA === */
+.suggestions-container {
+  position: absolute;
+  top: calc(100% + 8px); /* Más espacio debajo del search */
+  right: 0;
+  width: 280px; /* Ancho fijo para alinearse con el search */
+  background: #ffffff;
+  border: 1.5px solid rgba(21, 205, 130, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(21, 205, 130, 0.15);
+  z-index: 1100;
+  max-height: 320px;
+  overflow-y: auto;
+  animation: suggestionsFadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.95);
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  /* iPhone optimizations */
+  -webkit-overflow-scrolling: touch;
+}
+
+@keyframes suggestionsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Encabezado de sugerencias */
+.suggestions-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 154, 162, 0.1);
+  background: linear-gradient(135deg, #f8fcfb 0%, #e8f8f6 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+.suggestions-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #009AA2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Lista de sugerencias */
+.suggestions-list {
+  padding: 8px 0;
+}
+
+/* Ítems individuales de sugerencia */
+.suggestion-item {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 3px solid transparent;
+  background: transparent;
+  /* iPhone optimizations */
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+}
+
+.suggestion-item:hover {
+  background: linear-gradient(135deg, #f8fcfb 0%, #e8f8f6 100%);
+  border-left: 3px solid #15CD82;
+  padding-left: 13px;
+}
+
+.suggestion-item:active {
+  background: linear-gradient(135deg, #e8f8f6 0%, #d4f2ed 100%);
+  transform: scale(0.995);
+}
+
+/* Ícono de sugerencia */
+.suggestion-icon {
+  font-size: 0.85rem;
+  color: #999;
+  width: 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.suggestion-item:hover .suggestion-icon {
+  color: #15CD82;
+  transform: scale(1.1);
+}
+
+/* Texto de sugerencia */
+.suggestion-text {
+  font-size: 0.95rem;
+  color: #2D2D2D;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  transition: all 0.3s ease;
+}
+
+.suggestion-item:hover .suggestion-text {
+  color: #009AA2;
+}
+
+/* === SCROLLBAR PERSONALIZADO PARA SUGERENCIAS === */
+.suggestions-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.suggestions-container::-webkit-scrollbar-track {
+  background: rgba(0, 154, 162, 0.05);
+  border-radius: 0 3px 3px 0;
+}
+
+.suggestions-container::-webkit-scrollbar-thumb {
+  background: rgba(21, 205, 130, 0.3);
+  border-radius: 3px;
+}
+
+.suggestions-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(21, 205, 130, 0.5);
+}
+
 /* === MEDIA QUERIES PARA RESPONSIVE === */
 @media (max-width: 1200px) {
   .head {
     padding: 10px 40px;
-    
   }
   
   .head.scrolled {
@@ -467,7 +659,16 @@ body {
   }
   
   .search-wrapper {
-    width: 200px;
+    width: 240px; /* Ajustado proporcionalmente */
+  }
+  
+  .search-wrapper:hover,
+  .search-wrapper:focus-within {
+    width: 260px;
+  }
+  
+  .suggestions-container {
+    width: 260px; /* Ajustado para coincidir */
   }
   
   body {
@@ -493,7 +694,16 @@ body {
   }
   
   .search-wrapper {
-    width: 180px;
+    width: 220px;
+  }
+  
+  .search-wrapper:hover,
+  .search-wrapper:focus-within {
+    width: 240px;
+  }
+  
+  .suggestions-container {
+    width: 240px;
   }
   
   .navbar-content {
@@ -504,14 +714,15 @@ body {
     padding-top: 76px;
   }
 }
-/* === RESPONSIVE MOBILE (768px y menos) - MEJORADO PARA SER CONSISTENTE === */
+
+/* === RESPONSIVE MOBILE (768px y menos) === */
 @media (max-width: 768px) {
   /* Ocultar elementos de desktop en mobile */
   .desktop-only {
     display: none !important;
   }
   
-  /* Header mobile - estilo consistente con hero */
+  /* Header mobile */
   .head {
     padding: 16px 20px !important;
     height: 70px;
@@ -538,7 +749,7 @@ body {
     background-color: white !important;
   }
   
-  /* Logo mobile - estilo limpio */
+  /* Logo mobile */
   .logo-mobile {
     display: block;
     z-index: 1002;
@@ -575,6 +786,9 @@ body {
     transform: translateY(-10px);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .navbar-center.menuAbierto {
@@ -584,10 +798,10 @@ body {
     pointer-events: auto;
   }
   
-  /* Navbar content mobile - diseño limpio y consistente */
+  /* Navbar content mobile */
   .navbar-content {
     background: white;
-    border-radius: 0 0 0 0;
+    border-radius: 0;
     padding: 0;
     margin: 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -600,8 +814,9 @@ body {
     max-height: calc(100vh - 70px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    /* iPhone safe area bottom */
     padding-bottom: max(0px, env(safe-area-inset-bottom));
+    align-items: center;
+    justify-content: center;
   }
   
   /* Nav groups mobile */
@@ -618,7 +833,7 @@ body {
     border-bottom: none;
   }
   
-  /* Enlaces mobile - diseño simple como en hero */
+  /* Enlaces mobile */
   .nav-group a {
     width: 100%;
     padding: 18px 24px !important;
@@ -641,12 +856,10 @@ body {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
   
-  /* Efecto hover/active - sutil como en hero */
   .nav-group a:active {
     background-color: #f8f8f8 !important;
   }
   
-  /* Enlace activo - estilo consistente */
   .nav-group a.active {
     background: #f8f8f8 !important;
     color: #009AA2 !important;
@@ -659,7 +872,7 @@ body {
     transform: none !important;
   }
   
-  /* Navbar right mobile - diseño minimalista */
+  /* Navbar right mobile */
   .navbar-right {
     display: flex;
     align-items: center;
@@ -668,7 +881,7 @@ body {
     flex-shrink: 0;
   }
   
-  /* Buscador mobile - diseño simple */
+  /* Buscador mobile */
   .search-wrapper {
     width: 44px;
     height: 44px;
@@ -683,11 +896,10 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    position: relative;
   }
   
   .search-wrapper.expandido {
-    width: 180px;
+    width: 200px; /* Ancho aumentado en mobile */
     border-radius: 4px;
     padding: 0 12px;
     justify-content: flex-start;
@@ -695,9 +907,8 @@ body {
     background: white;
   }
   
-  .search-wrapper:active {
-    transform: scale(0.98);
-    border-color: #009AA2;
+  .search-wrapper.expandido .search-input-wrapper {
+    width: 100%;
   }
   
   .search-input {
@@ -706,36 +917,62 @@ body {
     width: 0;
     opacity: 0;
     transition: all 0.3s ease;
-    padding: 0;
-    border: none;
-    color: #000;
+    padding: 4px 8px 4px 0;
   }
   
   .search-wrapper.expandido .search-input {
     width: 100%;
     opacity: 1;
-    padding: 4px 8px 4px 0;
+    padding-right: 60px;
   }
   
-  .search-input::placeholder {
-    color: #777;
-    font-weight: 400;
+  /* Botones en mobile */
+  .search-wrapper.expandido .search-btn {
+    right: 12px;
+    padding: 10px;
   }
   
-  .search-icon {
-    font-size: 1rem;
-    color: #666;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    min-width: 20px;
+  .search-wrapper.expandido .clear-btn {
+    right: 45px;
+    padding: 10px;
   }
   
-  .search-wrapper.expandido .search-icon {
-    color: #009AA2;
-    margin-right: 8px;
+  /* Contenedor expandido en mobile */
+  .search-container.expandido {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 15px;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+    padding-top: max(15px, env(safe-area-inset-top));
+    height: 70px;
   }
   
-  /* Login mobile - diseño simple */
+  /* Sugerencias en mobile */
+  .search-container.expandido .suggestions-container {
+    position: fixed;
+    top: 70px;
+    left: 15px;
+    right: 15px;
+    width: auto !important;
+    max-height: calc(100vh - 85px);
+    border-radius: 0 0 12px 12px;
+    border-top: none;
+    margin-top: 0;
+  }
+  
+  .suggestion-item {
+    padding: 14px 16px;
+    min-height: 48px;
+  }
+  
+  /* Login mobile */
   .login-wrapper {
     padding: 0;
     border-radius: 4px;
@@ -766,7 +1003,7 @@ body {
     transform: rotate(8deg);
   }
   
-  /* Hamburguesa - diseño minimalista */
+  /* Hamburguesa */
   .hamburger {
     display: flex;
     width: 44px;
@@ -840,7 +1077,6 @@ body {
     transition: padding-top 0.3s ease;
   }
   
-  /* Mejorar scroll en iOS */
   .navbar-content {
     -webkit-overflow-scrolling: touch;
   }
@@ -869,7 +1105,19 @@ body {
   }
   
   .search-wrapper.expandido {
-    width: 160px;
+    width: 180px;
+  }
+  
+  .search-container.expandido {
+    padding: 12px;
+    height: 66px;
+  }
+  
+  .search-container.expandido .suggestions-container {
+    top: 66px;
+    left: 12px;
+    right: 12px;
+    max-height: calc(100vh - 78px);
   }
   
   .login-icon {
@@ -902,7 +1150,6 @@ body {
   }
 }
 
-/* === RESPONSIVE MUY PEQUEÑO (480px y menos) === */
 @media (max-width: 480px) {
   .head {
     padding: 12px 14px !important;
@@ -929,7 +1176,18 @@ body {
   }
   
   .search-wrapper.expandido {
-    width: 140px;
+    width: 160px;
+  }
+  
+  .search-container.expandido {
+    padding: 10px;
+    height: 62px;
+  }
+  
+  .search-container.expandido .suggestions-container {
+    top: 62px;
+    left: 10px;
+    right: 10px;
   }
   
   .search-input {
@@ -962,7 +1220,6 @@ body {
   }
 }
 
-/* === RESPONSIVE EXTRA PEQUEÑO (360px y menos) === */
 @media (max-width: 360px) {
   .head {
     padding: 10px 12px !important;
@@ -989,7 +1246,19 @@ body {
   }
   
   .search-wrapper.expandido {
-    width: 120px;
+    width: 140px;
+  }
+  
+  .search-container.expandido {
+    padding: 8px;
+    height: 58px;
+  }
+  
+  .search-container.expandido .suggestions-container {
+    top: 58px;
+    left: 8px;
+    right: 8px;
+    max-height: calc(100vh - 66px);
   }
   
   .search-input {
@@ -1004,6 +1273,10 @@ body {
     width: 14px;
     height: 1.8px;
     margin: 2px 0;
+  }
+  
+  .suggestion-text {
+    font-size: 0.9rem;
   }
   
   .nav-group a {
@@ -1041,5 +1314,81 @@ body {
   /* Scroll suave */
   .navbar-content {
     -webkit-overflow-scrolling: touch;
+  }
+  
+  .suggestions-container {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .suggestion-item:active {
+    background: linear-gradient(135deg, #e8f8f6 0%, #d4f2ed 100%);
+  }
+  
+  .search-btn:active,
+  .clear-btn:active {
+    transform: translateY(-50%) scale(0.9);
+  }
+}
+
+/* === ESTILOS PARA DESKTOP === */
+@media (min-width: 769px) {
+  .suggestions-container {
+    min-width: 280px;
+    max-width: 350px;
+  }
+  
+  /* Ajustar para que coincida con el ancho del input */
+  .search-input:focus ~ .suggestions-container {
+    width: 280px;
+  }
+}
+
+/* === CAMBIO PROPUESTO === */
+@media (max-width: 768px) {
+  .navbar-center {
+    left: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .navbar-content {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .navbar-center.menuAbierto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    left: 0 !important;
+    right: 0 !important;
+  }
+  .navbar-content.abierto {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100vw;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    .navbar-center,
+    .navbar-center.menuAbierto {
+      left: 0 !important;
+      right: 0 !important;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .navbar-content,
+    .navbar-content.abierto {
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100vw;
+    }
   }
 }

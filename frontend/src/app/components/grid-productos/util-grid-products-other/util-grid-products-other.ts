@@ -14,7 +14,7 @@ export class UtilGridProductsOther {
         id: 1,
         imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768952039/grid-8_bt7cis.jpg',
         descripcion: 'Colchones',
-        link: '/productos',
+        link: '/productos?busqueda=colchon&tipo=nombre',
         altura: 'baja'
       },
       {
@@ -50,14 +50,14 @@ export class UtilGridProductsOther {
         id: 6,
         imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768952038/grid-3_sfpknt.jpg',
         
-        descripcion: 'Protector Colchón',
+        descripcion: 'Alcobas',
         link: '/productos',
         altura: 'alta'
       },
       {
         id: 7,
         imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768952038/grid-6_qtmjn8.jpg',
-        descripcion: 'Alcobas',
+        descripcion: 'Protector Colchón',
         link: '/productos',
         altura: 'baja'
       },
