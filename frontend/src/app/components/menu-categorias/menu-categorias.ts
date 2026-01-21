@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CategoriaService } from '../../services/categorias/categoria.service';
+import { SubcategoriaSeleccionadaService } from '../../services/productos/subcategoria-seleccionada.service';
 import { CategoriaConSubcategoriasDTO } from '../../models/categorias/categoria-sub.dto';
 
 interface CategoriaConExpanded extends CategoriaConSubcategoriasDTO {
@@ -21,6 +22,7 @@ export class MenuCategorias implements OnInit {
 
   constructor(
     private categoriaService: CategoriaService,
+    private subcategoriaSeleccionadaService: SubcategoriaSeleccionadaService,
     private router: Router
   ) {}
 
@@ -49,14 +51,48 @@ export class MenuCategorias implements OnInit {
     categoria.expanded = !categoria.expanded;
   }
 
-  seleccionarSubcategoria(subcategoriaId: number): void {
-    // Navegar a productos filtrados por subcategoría
-    this.router.navigate(['/productos'], { 
-      queryParams: { subcategoria: subcategoriaId } 
+  /**
+   * Selecciona una subcategoría y actualiza la lista de productos
+   * @param subcategoriaId ID de la subcategoría seleccionada
+   * @param categoriaId ID de la categoría
+   */
+  seleccionarSubcategoria(subcategoriaId: number, categoriaId: number): void {
+    // Actualizar el servicio de subcategoría seleccionada
+    this.subcategoriaSeleccionadaService.setSubcategoriaSeleccionada(subcategoriaId);
+    
+    // Navegar a productos con query params
+    this.router.navigate(['/productos'], {
+      queryParams: {
+        categoria_id: categoriaId,
+        subcategoria_id: subcategoriaId
+      }
     });
   }
 
+  /**
+   * Ver todos los productos de una categoría sin filtro de subcategoría
+   * @param categoriaId ID de la categoría
+   */
+  verTodosProductosDeCategoria(categoriaId: number): void {
+    // Actualizar el servicio
+    this.subcategoriaSeleccionadaService.setSubcategoriaSeleccionada(null);
+    
+    // Navegar a productos con query param de categoría
+    this.router.navigate(['/productos'], {
+      queryParams: {
+        categoria_id: categoriaId
+      }
+    });
+  }
+
+  /**
+   * Ver todos los productos sin filtro
+   */
   verTodosProductos(): void {
+    // Resetear la selección de subcategoría
+    this.subcategoriaSeleccionadaService.resetear();
+    
+    // Navegar a productos
     this.router.navigate(['/productos']);
   }
 }

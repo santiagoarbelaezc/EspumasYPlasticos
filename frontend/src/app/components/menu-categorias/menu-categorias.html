@@ -52,7 +52,7 @@
           >
             <button 
               class="subcategoria-btn" 
-              (click)="seleccionarSubcategoria(sub.id)"
+              (click)="seleccionarSubcategoria(sub.id, cat.id)"
             >
               <span class="subcategoria-nombre">{{ sub.nombre }}</span>
               <span class="subcategoria-count" [attr.data-count]="sub.cantidad">

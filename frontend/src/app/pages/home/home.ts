@@ -11,6 +11,7 @@ import { CarruselHome } from "../../components/carrusel-home/carrusel-home";
 import { BannerHome } from "../../components/banner-home/banner-home";
 import { CategoriasHome } from "../../components/categorias-home/categorias-home";
 import { UtilGridProductos } from "../../components/grid-productos/util-grid-productos/util-grid-productos";
+import { UtilGridProductsOther } from "../../components/grid-productos/util-grid-products-other/util-grid-products-other";
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,8 @@ import { UtilGridProductos } from "../../components/grid-productos/util-grid-pro
     CarruselHome,
     BannerHome,
     CategoriasHome,
-    UtilGridProductos
+    UtilGridProductos,
+    UtilGridProductsOther
 ],
   templateUrl: './home.html',
   styleUrl: './home.css'

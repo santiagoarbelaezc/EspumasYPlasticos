@@ -4,7 +4,26 @@
     <p class="categorias-subtitle">Explora todos nuestros productos por categoría</p>
   </div>
 
-  <div class="categorias-main">
+  <!-- Estado de carga -->
+  <div class="categorias-loading" *ngIf="cargando">
+    <div class="spinner-container">
+      <div class="spinner"></div>
+      <p>Cargando categorías...</p>
+    </div>
+  </div>
+
+  <!-- Estado de error -->
+  <div class="categorias-error" *ngIf="error && !cargando">
+    <div class="error-content">
+      <div class="error-icon">⚠️</div>
+      <h3>Error al cargar</h3>
+      <p>{{ error }}</p>
+      <button class="retry-btn" (click)="cargarCategorias()">Reintentar</button>
+    </div>
+  </div>
+
+  <!-- Carrusel de categorías -->
+  <div class="categorias-main" *ngIf="!cargando && !error && categorias.length > 0">
     <!-- Botón anterior -->
     <button
       class="categorias-btn categorias-btn-prev"
@@ -54,5 +73,10 @@
       aria-label="Siguiente categoría">
       <fa-icon [icon]="faChevronRight"></fa-icon>
     </button>
+  </div>
+
+  <!-- Sin categorías -->
+  <div class="categorias-empty" *ngIf="!cargando && !error && categorias.length === 0">
+    <p>No hay categorías disponibles</p>
   </div>
 </section>

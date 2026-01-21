@@ -1,24 +1,33 @@
-<a class="social-button facebook-button"
-   href="https://www.facebook.com/profile.php?id=100080040966300"
-   target="_blank"
-   aria-label="Síguenos en Facebook"
-   title="Síguenos en Facebook">
-  <fa-icon [icon]="['fab', 'facebook-f']"></fa-icon>
-</a>
+<div class="social-buttons-container">
+  <a href="https://www.facebook.com/p/Plaxtilineas-100080040966300/"
+     class="social-button facebook-button"
+     target="_blank"
+     rel="noopener noreferrer nofollow"
+     aria-label="Síguenos en Facebook"
+     title="Síguenos en Facebook">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+  </a>
 
-<a class="social-button instagram-button"
-   href="https://www.instagram.com/plaxtilineas/"
-   target="_blank"
-   aria-label="Síguenos en Instagram"
-   title="Síguenos en Instagram">
-  <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
-</a>
+  <a href="https://www.instagram.com/plaxtilineas/"
+     class="social-button instagram-button"
+     target="_blank"
+     rel="noopener noreferrer nofollow"
+     aria-label="Síguenos en Instagram"
+     title="Síguenos en Instagram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+  </a>
 
-<a class="social-button whatsapp-button"
-   href="https://wa.me/1234567890?text=Hola%2C%20quisiera%20más%20información."
-   target="_blank"
-   aria-label="Chatea con nosotros por WhatsApp"
-   title="Chatea con nosotros por WhatsApp">
-  <fa-icon [icon]="['fab', 'whatsapp']"></fa-icon>
-  <div class="notification">1</div>
-</a>
+  <a href="https://wa.me/+573006680125?text=Hola, necesito ayuda"
+     class="social-button whatsapp-button"
+     target="_blank"
+     rel="noopener noreferrer nofollow"
+     aria-label="Chatea con nosotros por WhatsApp"
+     title="Chatea con nosotros por WhatsApp"
+     (mouseenter)="onWhatsAppMouseEnter()"
+     (mouseleave)="onWhatsAppMouseLeave()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    <div class="notification">1</div>
+  </a>
+
+  <div class="help-message" id="helpMessage">¿Necesitas ayuda?</div>
+</div>

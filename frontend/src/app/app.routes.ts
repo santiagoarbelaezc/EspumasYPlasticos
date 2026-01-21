@@ -12,7 +12,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/productos/productos').then(m => m.Productos)
   },
   {
-    path: 'producto-detalle',
+    path: 'producto/:id/detalle-producto-espumasyplasticos',
     loadComponent: () => import('./components/descripcion-productos/descripcion/descripcion').then(m => m.Descripcion)
   },
   {

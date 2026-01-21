@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/productos/producto.service';
+import { SubcategoriaSeleccionadaService } from '../../services/productos/subcategoria-seleccionada.service';
 import { ProductoSeleccionadoService } from '../../services/productos/producto-seleccionado.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface Producto {
   id: number;
@@ -24,29 +27,58 @@ export interface Producto {
   templateUrl: './productos-list.html',
   styleUrl: './productos-list.css'
 })
-export class ProductosList implements OnInit {
+export class ProductosList implements OnInit, OnDestroy {
   productos: Producto[] = [];
   cargando: boolean = true;
   error: string | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private productoService: ProductoService,
+    private subcategoriaSeleccionadaService: SubcategoriaSeleccionadaService,
     private productoSeleccionadoService: ProductoSeleccionadoService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.cargarProductos();
+    // Suscribirse a cambios en los query params de la ruta
+    this.activatedRoute.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const subcategoriaId = params['subcategoria_id'] ? parseInt(params['subcategoria_id'], 10) : null;
+        const categoriaId = params['categoria_id'] ? parseInt(params['categoria_id'], 10) : null;
+        
+        // Actualizar el servicio con la subcategoría de los query params
+        if (subcategoriaId) {
+          this.subcategoriaSeleccionadaService.setSubcategoriaSeleccionada(subcategoriaId);
+        } else {
+          this.subcategoriaSeleccionadaService.resetear();
+        }
+        
+        // Cargar productos
+        this.cargarProductos(subcategoriaId);
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
-   * Carga todos los productos desde el servicio
+   * Carga productos según la subcategoría seleccionada
+   * Si subcategoriaId es null, carga todos los productos
    */
-  cargarProductos() {
+  cargarProductos(subcategoriaId: number | null = null) {
     this.cargando = true;
     this.error = null;
 
-    this.productoService.obtenerProductos().subscribe({
+    const observablProductos$ = subcategoriaId 
+      ? this.productoService.obtenerProductosPorSubcategoria(subcategoriaId)
+      : this.productoService.obtenerProductos();
+
+    observablProductos$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (datos) => {
         this.productos = datos;
         this.cargando = false;
@@ -86,9 +118,9 @@ export class ProductosList implements OnInit {
    */
   verDetalles(producto: Producto) {
     console.log('Viendo detalles del producto:', producto);
-    // Guardar el producto en el servicio
+    // Guardar el producto en el servicio (como respaldo)
     this.productoSeleccionadoService.setProducto(producto);
-    // Navegar a la página de detalles
-    this.router.navigate(['/producto-detalle']);
+    // Navegar a la página de detalles con el ID
+    this.router.navigate(['/producto', producto.id, 'detalle-producto-espumasyplasticos']);
   }
 }

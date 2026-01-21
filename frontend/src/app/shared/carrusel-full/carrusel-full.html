@@ -107,7 +107,7 @@
                 <div class="producto-precio">{{ formatearPrecio(producto.precio) }}</div>
                 <div class="producto-meta">
                   <div class="producto-stock" [class.agotado]="producto.cantidad === 0">
-                    {{ producto.cantidad > 0 ? '✓ Envío Gratis' : 'Agotado' }}
+                    {{ producto.cantidad === 0 ? 'Agotado' : '' }}
                   </div>
                   <div class="producto-rating" *ngIf="producto.rating">
                     <fa-icon 

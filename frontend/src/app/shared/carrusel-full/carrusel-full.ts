@@ -10,6 +10,12 @@ import {
   faBoxOpen,
   faSearch
 } from '@fortawesome/free-solid-svg-icons';
+import { ProductoService } from '../../services/productos/producto.service';
+import { SubcategoriaSeleccionadaService } from '../../services/productos/subcategoria-seleccionada.service';
+import { ProductoSeleccionadoService } from '../../services/productos/producto-seleccionado.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface Producto {
   id: number;
@@ -32,9 +38,10 @@ export interface Producto {
   styleUrls: ['./carrusel-full.css']
 })
 export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
-  @Input() productos: Producto[] = [];
   @Input() titulo: string = 'Productos Destacados';
   @Input() subtitulo?: string = '';
+  
+  productos: Producto[] = [];
   
   @ViewChild('carouselContainer', { static: false }) carouselContainer!: ElementRef;
   @ViewChild('carouselContent', { static: false }) carouselContent!: ElementRef;
@@ -68,18 +75,46 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
   isLoading = false;
   error: string | null = null;
 
+  private destroy$ = new Subject<void>();
   private resizeListener: (() => void) | null = null;
   private rafId: number | null = null;
   private lastWheelTime = 0;
   private wheelDelta = 0;
 
+  constructor(
+    private productoService: ProductoService,
+    private subcategoriaSeleccionadaService: SubcategoriaSeleccionadaService,
+    private productoSeleccionadoService: ProductoSeleccionadoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
+
   ngOnInit() {
     console.log('🎠 Iniciando Carrusel Fluid...');
-    console.log('📊 Productos recibidos:', this.productos.length);
     
-    if (!this.productos || this.productos.length === 0) {
-      console.warn('⚠️ No hay productos para mostrar');
-    }
+    // Carga inicial: si no hay query params, cargar todos los productos
+    const initialSubcategoriaId = this.activatedRoute.snapshot.queryParams['subcategoria_id'] 
+      ? parseInt(this.activatedRoute.snapshot.queryParams['subcategoria_id'], 10) 
+      : null;
+    this.cargarProductos(initialSubcategoriaId);
+    
+    // Suscribirse a cambios en los query params de la ruta
+    this.activatedRoute.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        const subcategoriaId = params['subcategoria_id'] ? parseInt(params['subcategoria_id'], 10) : null;
+        this.cargarProductos(subcategoriaId);
+      });
+    
+    // También suscribirse a cambios directos del servicio (para cuando se cambia desde otros componentes)
+    this.subcategoriaSeleccionadaService.getSubcategoriaSeleccionada()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(subcategoriaId => {
+        // Solo cargar si no hay query params activos
+        if (!this.activatedRoute.snapshot.queryParams['subcategoria_id']) {
+          this.cargarProductos(subcategoriaId);
+        }
+      });
     
     this.updateItemsPerView();
     this.resizeListener = () => {
@@ -105,6 +140,38 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
     }
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Carga productos según la subcategoría seleccionada
+   * Si subcategoriaId es null, carga todos los productos
+   */
+  cargarProductos(subcategoriaId: number | null = null) {
+    this.isLoading = true;
+    this.error = null;
+
+    const observablProductos$ = subcategoriaId 
+      ? this.productoService.obtenerProductosPorSubcategoria(subcategoriaId)
+      : this.productoService.obtenerProductos();
+
+    observablProductos$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (datos) => {
+        this.productos = datos;
+        this.currentIndex = 0; // Resetear a la primera página
+        this.isLoading = false;
+        console.log('✅ Productos del carrusel cargados:', this.productos.length);
+        setTimeout(() => {
+          this.updateTrackPosition();
+        }, 100);
+      },
+      error: (err) => {
+        console.error('❌ Error al cargar productos:', err);
+        this.error = 'Error al cargar los productos.';
+        this.isLoading = false;
+      }
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -512,7 +579,8 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
   // Métodos de interacción
   selectProduct(producto: Producto) {
     console.log('Producto seleccionado:', producto);
-    // Aquí puedes emitir un evento o navegar al detalle
+    this.productoSeleccionadoService.setProducto(producto);
+    this.router.navigate(['/producto', producto.id, 'detalle-producto-espumasyplasticos']);
   }
 
   addToCart(producto: Producto, event: Event) {
@@ -524,17 +592,18 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
   viewDetails(producto: Producto, event: Event) {
     event.stopPropagation();
     console.log('Ver detalles:', producto);
-    // Lógica para ver detalles
+    this.productoSeleccionadoService.setProducto(producto);
+    this.router.navigate(['/producto', producto.id, 'detalle-producto-espumasyplasticos']);
   }
 
   reintentar() {
     console.log('Reintentando cargar productos...');
-    // Lógica para reintentar carga
+    this.cargarProductos(null);
   }
 
   exploreMore() {
     console.log('Explorando más productos...');
-    // Lógica para explorar más
+    this.router.navigate(['/productos']);
   }
 
   handleImageError(event: Event) {

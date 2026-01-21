@@ -2,8 +2,12 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, HostListener, Afte
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { CategoriaService } from '../../services/categorias/categoria.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 interface Categoria {
+  id?: number;
   nombre: string;
   imagen: string;
 }
@@ -22,36 +26,9 @@ export class CategoriasHome implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('categoriasTrack', { static: false }) categoriasTrack!: ElementRef;
   @ViewChild('categoriasContent', { static: false }) categoriasContent!: ElementRef;
 
-  categorias: Categoria[] = [
-    {
-      nombre: 'Colchones',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714513/colchones_un8rze.jpg'
-    },
-    {
-      nombre: 'Almohadas',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714512/almohadas_xsghon.jpg'
-    },
-    {
-      nombre: 'Alcobas',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714512/alcobas_lujv4f.jpg'
-    },
-    {
-      nombre: 'Cojinerías',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714512/cojinerias_umwipn.jpg'
-    },
-    {
-      nombre: 'Telas',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714513/telas_t6ylvp.jpg'
-    },
-    {
-      nombre: 'Camping',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714512/camping_xgkqzm.jpg'
-    },
-    {
-      nombre: 'Baby',
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768535114/WhatsApp_Image_2026-01-15_at_10.44.22_PM_ugjtjb.jpg'
-    }
-  ];
+  categorias: Categoria[] = [];
+  cargando: boolean = true;
+  error: string | null = null;
 
   currentIndex = 0;
   itemsPerView = 7;
@@ -64,12 +41,16 @@ export class CategoriasHome implements OnInit, OnDestroy, AfterViewInit {
   lastDragTime = 0;
   transitionDuration = 400;
 
+  private destroy$ = new Subject<void>();
   private resizeListener: (() => void) | null = null;
   private rafId: number | null = null;
   private lastWheelTime = 0;
   private wheelDelta = 0;
 
+  constructor(private categoriaService: CategoriaService) {}
+
   ngOnInit() {
+    this.cargarCategorias();
     this.updateItemsPerView();
     this.resizeListener = () => {
       requestAnimationFrame(() => {
@@ -94,6 +75,39 @@ export class CategoriasHome implements OnInit, OnDestroy, AfterViewInit {
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
     }
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  /**
+   * Carga las categorías desde el servicio
+   */
+  cargarCategorias() {
+    this.cargando = true;
+    this.error = null;
+
+    this.categoriaService.obtenerCategorias()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (datos) => {
+          // Mapear los datos del backend al formato esperado
+          this.categorias = datos.map(cat => ({
+            id: cat.id,
+            nombre: cat.nombre,
+            imagen: cat.icono_url || 'https://via.placeholder.com/300x300?text=' + cat.nombre
+          }));
+          this.cargando = false;
+          console.log('✅ Categorías cargadas:', this.categorias.length);
+          setTimeout(() => {
+            this.updateTrackPosition();
+          }, 100);
+        },
+        error: (err) => {
+          console.error('❌ Error al cargar categorías:', err);
+          this.error = 'Error al cargar las categorías.';
+          this.cargando = false;
+        }
+      });
   }
 
   @HostListener('window:resize', ['$event'])

@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProductoSeleccionadoService } from '../../../services/productos/producto-seleccionado.service';
+import { ProductoService } from '../../../services/productos/producto.service';
 import { ProductoDTO } from '../../../models/productos/producto.dto';
 
 @Component({
@@ -26,7 +27,9 @@ export class DescripcionSeleccionado implements OnInit, OnDestroy {
 
   constructor(
     private productoSeleccionadoService: ProductoSeleccionadoService,
-    private router: Router
+    private productoService: ProductoService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -39,25 +42,52 @@ export class DescripcionSeleccionado implements OnInit, OnDestroy {
   }
 
   /**
-   * Carga el producto seleccionado desde el servicio
+   * Carga el producto desde la ruta o desde el servicio
    */
   private cargarProducto(): void {
-    this.productoSeleccionadoService.getProducto()
+    // Primero intentar obtener el ID de la ruta
+    this.activatedRoute.paramMap
       .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (producto) => {
-          if (producto) {
-            this.producto = producto;
-            this.error = false;
-          } else {
-            this.error = true;
-          }
-          this.cargando = false;
-        },
-        error: (err) => {
-          console.error('Error cargando producto:', err);
-          this.error = true;
-          this.cargando = false;
+      .subscribe(params => {
+        const idParam = params.get('id');
+        if (idParam) {
+          // Cargar desde la API usando el ID de la ruta
+          const productoId = parseInt(idParam, 10);
+          this.productoService.obtenerProductoPorId(productoId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (producto) => {
+                this.producto = producto;
+                this.error = false;
+                this.cargando = false;
+                console.log('✅ Producto cargado desde ruta:', producto);
+              },
+              error: (err) => {
+                console.error('Error cargando producto desde ruta:', err);
+                this.error = true;
+                this.cargando = false;
+              }
+            });
+        } else {
+          // Fallback: cargar desde el servicio (si viene de navegación interna)
+          this.productoSeleccionadoService.getProducto()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (producto) => {
+                if (producto) {
+                  this.producto = producto;
+                  this.error = false;
+                } else {
+                  this.error = true;
+                }
+                this.cargando = false;
+              },
+              error: (err) => {
+                console.error('Error cargando producto:', err);
+                this.error = true;
+                this.cargando = false;
+              }
+            });
         }
       });
   }
