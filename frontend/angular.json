@@ -20,7 +20,12 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "*.mp4",
+                "input": "public/videos",
+                "output": "assets/videos"
+              }
             ],
             "styles": [
               "src/styles.css"

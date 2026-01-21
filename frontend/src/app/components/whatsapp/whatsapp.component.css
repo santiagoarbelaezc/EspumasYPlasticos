@@ -1,3 +1,4 @@
+
 .seccion-chat {
   background-color: var(--color-complementario-2);
   padding: 80px 20px;
@@ -5,15 +6,93 @@
   justify-content: center;
 }
 
-.chat-container {
+.chat-video-split {
   display: flex;
-  align-items: flex-start;
-  gap: 40px;
-  max-width: 1000px;
+  gap: 48px;
+  max-width: 1400px;
   width: 100%;
-  position: relative;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
+  min-height: 70vh;
+}
+
+.chat-content-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 340px;
+  max-width: 440px;
+  flex: 1 1 420px;
+  gap: 40px;
+  height: 100%;
+}
+
+.video-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 2 1 900px;
+  min-width: 400px;
+  max-width: 900px;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 16/7.5;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.18);
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 340px;
+}
+
+.video-main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 32px;
+}
+
+.video-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.45);
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.video-play-overlay:hover {
+  background: rgba(0,0,0,0.65);
+}
+
+.video-play-overlay svg {
+  color: #fff;
+  width: 64px;
+  height: 64px;
+}
+
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg,rgba(0,0,0,0.08) 0%,rgba(0,0,0,0.18) 100%);
+  border-radius: 24px;
+  z-index: 1;
 }
 
 /* === Chat estilo WhatsApp simulado === */
@@ -190,21 +269,49 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .chat-container {
+@media (max-width: 1024px) {
+  .chat-video-split {
     flex-direction: column;
+    gap: 32px;
     align-items: center;
+    min-height: unset;
   }
-
-  .botones-redes {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 30px;
-  }
-
-  .chat-box {
+  .video-side, .chat-content-side {
     max-width: 100%;
+    min-width: 0;
+    width: 100%;
+  }
+  .video-wrapper {
+    max-width: 100vw;
+    aspect-ratio: 16/9;
+    min-height: 220px;
+    border-radius: 18px;
+  }
+  .video-main, .video-overlay {
+    border-radius: 18px;
+  }
+  .chat-content-side {
+    max-width: 100vw;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .seccion-chat {
+    padding: 40px 4vw;
+  }
+  .chat-video-split {
+    gap: 18px;
+  }
+  .chat-content-side {
+    gap: 14px;
+    max-width: 100vw;
+  }
+  .video-wrapper {
+    border-radius: 10px;
+    min-height: 120px;
+  }
+  .video-main, .video-overlay {
+    border-radius: 10px;
   }
 }

@@ -128,7 +128,7 @@ export class DescripcionSeleccionado implements OnInit, OnDestroy {
     if (!this.producto) return '';
 
     const mensaje = `Hola, me interesa el producto: ${this.producto.nombre}. Precio: ${this.formatearPrecio(this.producto.precio)}. ¿Podría brindarme más información?`;
-    const enlace = `https://wa.me/573004556777?text=${encodeURIComponent(mensaje)}`;
+    const enlace = `https://api.whatsapp.com/send/?phone=573113416659&text=${encodeURIComponent(mensaje)}&type=phone_number&app_absent=0`;
     return enlace;
   }
 

@@ -10,6 +10,12 @@
   <!-- Menú desplegable -->
   <div class="dropdown-menu" [class.visible]="menuVisible">
     <div class="dropdown-content">
+      <!-- Botón de todos los productos -->
+      <div class="todos-productos-btn-wrapper">
+        <a routerLink="/productos" (click)="closeMenu()" class="todos-productos-btn">
+          <span>Todos los productos</span>
+        </a>
+      </div>
       <!-- Columnas de categorías -->
       <div class="categorias-grid">
         <div class="categoria-column" 
@@ -17,20 +23,18 @@
              (mouseenter)="onCategoriaHover(categoria.id)"
              (mouseleave)="onCategoriaLeave()"
              [class.active]="hoveredCategoriaId === categoria.id">
-          
           <!-- Encabezado de categoría -->
           <a [routerLink]="['/productos']" 
-             [queryParams]="{ categoria: categoria.id }"
+             [queryParams]="{ categoria_id: categoria.id }"
              (click)="closeMenu()"
              class="categoria-header">
             <span class="categoria-name">{{ categoria.nombre }}</span>
           </a>
-
           <!-- Subcategorías -->
           <div class="subcategorias" *ngIf="categoria.subcategorias && categoria.subcategorias.length > 0">
             <a *ngFor="let subcategoria of categoria.subcategorias"
                [routerLink]="['/productos']"
-               [queryParams]="{ categoria: categoria.id, subcategoria: subcategoria.id }"
+               [queryParams]="{ categoria_id: categoria.id, subcategoria_id: subcategoria.id }"
                (click)="closeMenu()"
                class="subcategoria-link">
               {{ subcategoria.nombre }}

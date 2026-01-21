@@ -1,3 +1,48 @@
+/* Botón destacado para todos los productos */
+.todos-productos-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 18px;
+}
+
+.todos-productos-btn {
+  display: inline-block;
+  color: #2D2D2D;
+  background: none;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 8px 0 8px 0;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s cubic-bezier(0.4,0,0.2,1);
+  margin-left: 32px;
+  cursor: pointer;
+}
+
+.todos-productos-btn::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, #15CD82, #009AA2);
+  border-radius: 2px;
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.todos-productos-btn:hover,
+.todos-productos-btn:focus {
+  color: #15CD82;
+}
+
+.todos-productos-btn:hover::after,
+.todos-productos-btn:focus::after {
+  width: 100%;
+}
 /* === CONTENEDOR PRINCIPAL === */
 .menu-dropdown-wrapper {
   position: relative;

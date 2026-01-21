@@ -1,49 +1,72 @@
 <section class="seccion-chat">
-  <div class="chat-container">
-
-    <!-- Ventana simulada de WhatsApp -->
-    <div class="chat-box">
-
-      <!-- Encabezado tipo WhatsApp -->
-      <div class="chat-header">
-        <fa-icon [icon]="['fab', 'whatsapp']" class="icon-wsp"></fa-icon>
-        <div class="chat-info">
-          <h4>Espumas y Plásticos</h4>
-          <span>En línea</span>
+  <div class="chat-video-split">
+    <!-- Lado izquierdo: WhatsApp y redes -->
+    <div class="chat-content-side">
+      <div class="chat-box">
+        <div class="chat-header">
+          <fa-icon [icon]="['fab', 'whatsapp']" class="icon-wsp"></fa-icon>
+          <div class="chat-info">
+            <h4>Espumas y Plásticos</h4>
+            <span>En línea</span>
+          </div>
+        </div>
+        <div class="chat-mensajes">
+          <div class="sistema">Espumas y Plásticos se unió al chat</div>
+          <div class="mensaje empresa">Hola 👋<br>Estamos para ayudarte. ¿Cuál es tu inquietud?</div>
+        </div>
+        <div class="chat-footer">
+          <a href="https://api.whatsapp.com/send/?phone=573113416659&text=Hola%20%21%20estoy%20interesad%40%20en%20un%20producto." target="_blank" rel="noopener" class="btn-chat">Iniciar chat</a>
         </div>
       </div>
-
-      <!-- Mensajes simulados -->
-      <div class="chat-mensajes">
-        <div class="sistema">Espumas y Plásticos se unió al chat</div>
-        <div class="mensaje empresa">Hola 👋<br>Estamos para ayudarte. ¿Cuál es tu inquietud?</div>
-      </div>
-
-      <!-- Botón del cliente -->
-      <div class="chat-footer">
-        <a href="https://wa.me/573001112233" target="_blank" class="btn-chat">Iniciar chat</a>
-      </div>
-
+      <section class="redes-sociales">
+        <h3>Contáctanos en nuestras redes</h3>
+        <div class="botones-redes">
+          <a href="https://www.facebook.com/espumasyplasticosaxm" target="_blank" rel="noopener" class="btn-red facebook" aria-label="Facebook">
+            <fa-icon [icon]="['fab', 'facebook-f']"></fa-icon>
+            <span>Facebook</span>
+          </a>
+          <a href="https://www.instagram.com/espumasyplasticos/" target="_blank" rel="noopener" class="btn-red instagram" aria-label="Instagram">
+            <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
+            <span>Instagram</span>
+          </a>
+          <a href="https://www.tiktok.com/@espumasyplasticos" target="_blank" rel="noopener" class="btn-red tiktok" aria-label="TikTok">
+            <fa-icon [icon]="['fab', 'tiktok']"></fa-icon>
+            <span>TikTok</span>
+          </a>
+        </div>
+      </section>
     </div>
 
-    <!-- Redes sociales al costado -->
-    <section class="redes-sociales">
-      <h3>Contáctanos en nuestras redes</h3>
-      <div class="botones-redes">
-        <a href="#" class="btn-red facebook" aria-label="Facebook">
-          <fa-icon [icon]="['fab', 'facebook-f']"></fa-icon>
-          <span>Facebook</span>
-        </a>
-        <a href="#" class="btn-red instagram" aria-label="Instagram">
-          <fa-icon [icon]="['fab', 'instagram']"></fa-icon>
-          <span>Instagram</span>
-        </a>
-        <a href="#" class="btn-red tiktok" aria-label="TikTok">
-          <fa-icon [icon]="['fab', 'tiktok']"></fa-icon>
-          <span>TikTok</span>
-        </a>
+    <!-- Lado derecho: Video -->
+    <div class="video-side">
+      <div class="video-wrapper">
+        <video
+          #videoElement
+          class="video-main"
+          [src]="getVideoUrl()"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="metadata"
+          (play)="handlePlayVideo()"
+          (pause)="handleVideoPause()"
+        >
+          Tu navegador no soporta videos HTML5
+        </video>
+        <button
+          *ngIf="!isVideoPlaying()"
+          class="video-play-overlay"
+          (click)="handlePlayVideo()"
+          aria-label="Reproducir video"
+        >
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="39" stroke="currentColor" stroke-width="2"/>
+            <path d="M32 25L32 55L58 40L32 25Z" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="video-overlay"></div>
       </div>
-    </section>
-
+    </div>
   </div>
 </section>
