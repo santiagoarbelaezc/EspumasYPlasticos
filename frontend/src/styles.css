@@ -32,6 +32,29 @@ body {
   box-sizing: border-box;
 }
 
+:root {
+  --color-principal: #009AA2;
+  --color-secundario: #15CD82;
+  --color-negro: #2D2D2D;
+  --color-blanco: #FFFFFF;
+
+  --color-complementario-1: #57C9C9;
+  --color-complementario-2: #E1E2E3;
+  --color-complementario-3: #71FFC2;
+  --color-complementario-4: #9EA0A3;
+  --color-complementario-5: #444444;
+  --color-complementario-6: #056D6D;
+
+  --color-whatsapp: #25D366;
+  --color-facebook: #1877F2;
+  --color-instagram: #E1306C;
+  --color-background: rgba(255, 255, 255, 0.95);
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-text: #333333;
+  --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
 /* Estilos globales para scrollbar - WebKit (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 10px;
