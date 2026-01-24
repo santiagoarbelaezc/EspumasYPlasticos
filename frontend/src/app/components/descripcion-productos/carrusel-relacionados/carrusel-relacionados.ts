@@ -6,6 +6,7 @@ import { takeUntil, switchMap, catchError, finalize } from 'rxjs/operators';
 import { of, forkJoin } from 'rxjs';
 import { ProductoDTO } from '../../../models/productos/producto.dto';
 import { ProductoService } from '../../../services/productos/producto.service';
+import { ProductosExampleService } from '../../../services/productos.example';
 import { ProductoSeleccionadoService } from '../../../services/productos/producto-seleccionado.service';
 
 @Component({
@@ -54,6 +55,7 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
   private wheelDelta = 0;
 
   private productoService = inject(ProductoService);
+  private productosExampleService = inject(ProductosExampleService);
   private productoSeleccionadoService = inject(ProductoSeleccionadoService);
   private router = inject(Router);
 
@@ -117,6 +119,24 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
     // Determinar la categoría del producto
     this.categoriaProducto = producto.categoria || null;
     
+    // Usar datos del servicio de ejemplo
+    const productosRelacionados = this.productosExampleService.getProductosRelacionados(producto.id, this.TOTAL_PRODUCTOS);
+    
+    this.productos = productosRelacionados;
+    this.isLoading = false;
+    
+    if (this.productos.length > 0) {
+      this.mensajeEstado = `${this.productos.length} productos relacionados encontrados`;
+      console.log('✅ Productos relacionados cargados desde ejemplo:', this.productos.length);
+    } else {
+      this.mensajeEstado = 'No se encontraron productos relacionados';
+      this.error = 'No hay productos relacionados disponibles.';
+    }
+    
+    setTimeout(() => this.updateTrackPosition(), 100);
+
+    // Código comentado: Estrategia compleja con servicio real
+    /*
     // Obtener todas las categorías disponibles primero para mapear nombre a ID
     // Nota: Necesitarías un servicio para obtener categorías. Si no tienes, 
     // usaremos la estrategia de búsqueda por nombre
@@ -146,11 +166,14 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
           this.productos = [];
         }
       });
+    */
   }
 
   /**
    * Estrategia mejorada para obtener productos relacionados
+   * COMENTADO: Ya no se usa, se reemplazó por getProductosRelacionados del servicio de ejemplo
    */
+  /*
   private obtenerProductosEstrategicos(producto: ProductoDTO) {
     const estrategias = [
       // Estrategia 1: Productos de la misma categoría (si tenemos categoría)
@@ -181,10 +204,13 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
       })
     );
   }
+  */
 
   /**
    * Estrategia 1: Obtener productos por categoría
+   * COMENTADO: Ya no se usa
    */
+  /*
   private obtenerProductosPorCategoria(producto: ProductoDTO) {
     if (!producto.categoria) {
       return of([]);
@@ -205,10 +231,13 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
       })
     );
   }
+  */
 
   /**
    * Estrategia 2: Obtener productos por similitud en nombre
+   * COMENTADO: Ya no se usa
    */
+  /*
   private obtenerProductosPorSimilitud(producto: ProductoDTO) {
     if (!producto.nombre) {
       return of([]);
@@ -244,19 +273,25 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
       catchError(() => of([]))
     );
   }
+  */
 
   /**
    * Estrategia 3: Obtener productos aleatorios
+   * COMENTADO: Ya no se usa
    */
+  /*
   private obtenerProductosAleatorios(cantidad: number) {
     return this.productoService.obtenerProductosAleatorios(cantidad).pipe(
       catchError(() => of([]))
     );
   }
+  */
 
   /**
    * Extrae palabras clave del nombre del producto
+   * COMENTADO: Ya no se usa
    */
+  /*
   private extraerPalabrasClave(nombre: string): string[] {
     const palabrasComunes = ['de', 'y', 'o', 'la', 'el', 'un', 'una', 'para', 'con', 'en', 'por', 'sin'];
     const palabras = nombre.toLowerCase()
@@ -270,10 +305,13 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
     
     return [...new Set(palabras)]; // Eliminar duplicados
   }
+  */
 
   /**
    * Combina productos de diferentes estrategias de manera inteligente
+   * COMENTADO: Ya no se usa
    */
+  /*
   private combinarProductosEstrategicamente(
     productoBase: ProductoDTO,
     productosCategoria: ProductoDTO[],
@@ -325,11 +363,13 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
     // Mezclar ligeramente pero mantener cierta agrupación por relevancia
     return this.mezclarInteligente(productosFiltrados, agregadosCategoria, agregadosSimilares);
   }
+  */
 
   /**
    * Mezcla productos de manera inteligente
-   * Mantiene algunos productos relacionados juntos pero evita patrones predecibles
+   * COMENTADO: Ya no se usa
    */
+  /*
   private mezclarInteligente(
     productos: ProductoDTO[], 
     cantidadCategoria: number, 
@@ -351,10 +391,13 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
     
     return mezclados;
   }
+  */
 
   /**
    * Elimina productos duplicados por ID
+   * COMENTADO: Ya no se usa
    */
+  /*
   private eliminarDuplicados(productos: ProductoDTO[], excluirId: number): ProductoDTO[] {
     const unicos = new Map<number, ProductoDTO>();
     
@@ -366,6 +409,7 @@ export class CarruselRelacionados implements OnInit, OnDestroy, AfterViewInit {
     
     return Array.from(unicos.values());
   }
+  */
 
   // Métodos del carrusel (igual que en CarruselFull)
   @HostListener('window:resize', ['$event'])

@@ -2,6 +2,9 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CategoriaService } from '../../../services/categorias/categoria.service';
+import { CategoriasExampleService } from '../../../services/categorias.example';
+import { SubcategoriasExampleService } from '../../../services/subcategorias.example';
+import { ProductosExampleService } from '../../../services/productos.example';
 import { CategoriaConSubcategoriasDTO } from '../../../models/categorias/categoria-sub.dto';
 
 @Component({
@@ -16,13 +19,36 @@ export class MenuDropdownComponent implements OnInit {
   menuVisible = false;
   hoveredCategoriaId: number | null = null;
 
-  constructor(private categoriaService: CategoriaService) {}
+  constructor(
+    private categoriaService: CategoriaService,
+    private categoriasExampleService: CategoriasExampleService,
+    private subcategoriasExampleService: SubcategoriasExampleService,
+    private productosExampleService: ProductosExampleService
+  ) {}
 
   ngOnInit(): void {
     this.cargarCategorias();
   }
 
   cargarCategorias(): void {
+    // Usar datos del servicio de ejemplo
+    const categoriasEjemplo = this.categoriasExampleService.getCategorias();
+    this.categorias = categoriasEjemplo.map(categoria => {
+      const subcategorias = this.subcategoriasExampleService.getSubcategoriasPorCategoria(categoria.id);
+      return {
+        id: categoria.id,
+        nombre: categoria.nombre,
+        icono_url: categoria.icono_url,
+        subcategorias: subcategorias.map(sub => ({
+          id: sub.id,
+          nombre: sub.nombre,
+          cantidad: this.productosExampleService.getProductosPorSubcategoriaId(sub.id).length
+        }))
+      };
+    });
+
+    // Código comentado: Obtener datos del servicio real
+    /*
     this.categoriaService.obtenerCategoriasConSubcategorias().subscribe({
       next: (data) => {
         this.categorias = data;
@@ -31,6 +57,7 @@ export class MenuDropdownComponent implements OnInit {
         console.error('Error cargando categorías:', err);
       }
     });
+    */
   }
 
   onMouseEnter(): void {

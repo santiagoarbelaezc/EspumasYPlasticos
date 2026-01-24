@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProductoSeleccionadoService } from '../../../services/productos/producto-seleccionado.service';
 import { ProductoService } from '../../../services/productos/producto.service';
+import { ProductosExampleService } from '../../../services/productos.example';
 import { ProductoDTO } from '../../../models/productos/producto.dto';
 
 @Component({
@@ -28,6 +29,7 @@ export class DescripcionSeleccionado implements OnInit, OnDestroy {
   constructor(
     private productoSeleccionadoService: ProductoSeleccionadoService,
     private productoService: ProductoService,
+    private productosExampleService: ProductosExampleService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {}
@@ -51,8 +53,22 @@ export class DescripcionSeleccionado implements OnInit, OnDestroy {
       .subscribe(params => {
         const idParam = params.get('id');
         if (idParam) {
-          // Cargar desde la API usando el ID de la ruta
+          // Cargar desde el servicio de ejemplo usando el ID de la ruta
           const productoId = parseInt(idParam, 10);
+          const producto = this.productosExampleService.getProductoPorId(productoId);
+          if (producto) {
+            this.producto = producto;
+            this.error = false;
+            this.cargando = false;
+            console.log('✅ Producto cargado desde ejemplo:', producto);
+          } else {
+            console.error('Producto no encontrado en ejemplo');
+            this.error = true;
+            this.cargando = false;
+          }
+
+          // Código comentado: Obtener datos del servicio real
+          /*
           this.productoService.obtenerProductoPorId(productoId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -68,6 +84,7 @@ export class DescripcionSeleccionado implements OnInit, OnDestroy {
                 this.cargando = false;
               }
             });
+          */
         } else {
           // Fallback: cargar desde el servicio (si viene de navegación interna)
           this.productoSeleccionadoService.getProducto()

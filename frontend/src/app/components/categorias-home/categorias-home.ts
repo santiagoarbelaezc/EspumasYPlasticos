@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { CategoriaService } from '../../services/categorias/categoria.service';
+import { CategoriasExampleService } from '../../services/categorias.example';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -47,7 +48,7 @@ export class CategoriasHome implements OnInit, OnDestroy, AfterViewInit {
   private lastWheelTime = 0;
   private wheelDelta = 0;
 
-  constructor(private categoriaService: CategoriaService) {}
+  constructor(private categoriaService: CategoriaService, private categoriasExampleService: CategoriasExampleService) {}
 
   ngOnInit() {
     this.cargarCategorias();
@@ -86,6 +87,8 @@ export class CategoriasHome implements OnInit, OnDestroy, AfterViewInit {
     this.cargando = true;
     this.error = null;
 
+    // Código comentado: Obtener datos del servicio real
+    /*
     this.categoriaService.obtenerCategorias()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -108,6 +111,20 @@ export class CategoriasHome implements OnInit, OnDestroy, AfterViewInit {
           this.cargando = false;
         }
       });
+    */
+
+    // Usar datos del servicio de ejemplo
+    const datos = this.categoriasExampleService.getCategorias();
+    this.categorias = datos.map(cat => ({
+      id: cat.id,
+      nombre: cat.nombre,
+      imagen: cat.icono_url || 'https://via.placeholder.com/300x300?text=' + cat.nombre
+    }));
+    this.cargando = false;
+    console.log('✅ Categorías cargadas desde ejemplo:', this.categorias.length);
+    setTimeout(() => {
+      this.updateTrackPosition();
+    }, 100);
   }
 
   @HostListener('window:resize', ['$event'])

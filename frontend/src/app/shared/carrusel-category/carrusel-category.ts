@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductoSeleccionadoService } from '../../services/productos/producto-seleccionado.service';
 import { ProductoService } from '../../services/productos/producto.service';
+import { ProductosExampleService } from '../../services/productos.example';
+import { CategoriasExampleService } from '../../services/categorias.example';
 import { ProductoDTO } from '../../models/productos/producto.dto';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -50,6 +52,8 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
 
   constructor(
     private productoService: ProductoService,
+    private productosExampleService: ProductosExampleService,
+    private categoriasExampleService: CategoriasExampleService,
     private router: Router,
     private productoSeleccionadoService: ProductoSeleccionadoService
   ) {}
@@ -90,6 +94,8 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
     this.isLoading = true;
     this.error = null;
     
+    // Código comentado: Obtener datos del servicio real
+    /*
     this.productoService.obtenerProductosPorCategoria(categoriaId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -108,6 +114,21 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
           this.isLoading = false;
         }
       });
+    */
+
+    // Usar datos del servicio de ejemplo
+    const categoria = this.categoriasExampleService.getCategoriaPorId(categoriaId);
+    const categoriaNombre = categoria ? categoria.nombre : '';
+    const productos = categoriaNombre 
+      ? this.productosExampleService.getProductosPorCategoria(categoriaNombre)
+      : this.productosExampleService.getProductosEjemplo();
+    this.productos = productos;
+    this.currentIndex = 0; // Resetear a la primera página
+    this.isLoading = false;
+    console.log('✅ Productos del carrusel cargados desde ejemplo:', this.productos.length);
+    setTimeout(() => {
+      this.updateTrackPosition();
+    }, 100);
   }
 
   @HostListener('window:resize', ['$event'])

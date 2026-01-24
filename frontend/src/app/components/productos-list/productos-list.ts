@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductoService } from '../../services/productos/producto.service';
+import { ProductosExampleService } from '../../services/productos.example';
 import { SubcategoriaSeleccionadaService } from '../../services/productos/subcategoria-seleccionada.service';
 import { ProductoSeleccionadoService } from '../../services/productos/producto-seleccionado.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { takeUntil, switchMap } from 'rxjs/operators';
 
 export interface Producto {
@@ -38,6 +39,7 @@ export class ProductosList implements OnInit, OnDestroy {
 
   constructor(
     private productoService: ProductoService,
+    private productosExampleService: ProductosExampleService,
     private subcategoriaSeleccionadaService: SubcategoriaSeleccionadaService,
     private productoSeleccionadoService: ProductoSeleccionadoService,
     private router: Router,
@@ -104,7 +106,14 @@ export class ProductosList implements OnInit, OnDestroy {
   private cargarTodosLosProductos() {
     this.cargando = true;
     this.error = null;
+    // Usar datos del servicio de ejemplo
+    const productos = this.productosExampleService.getProductosEjemplo();
+    return of(productos);
+
+    // Código comentado: Obtener datos del servicio real
+    /*
     return this.productoService.obtenerProductos();
+    */
   }
 
   /**
@@ -113,7 +122,14 @@ export class ProductosList implements OnInit, OnDestroy {
   private cargarProductosPorSubcategoria(subcategoriaId: number) {
     this.cargando = true;
     this.error = null;
+    // Usar datos del servicio de ejemplo
+    const productos = this.productosExampleService.getProductosPorSubcategoriaId(subcategoriaId);
+    return of(productos);
+
+    // Código comentado: Obtener datos del servicio real
+    /*
     return this.productoService.obtenerProductosPorSubcategoria(subcategoriaId);
+    */
   }
 
   /**
@@ -122,7 +138,17 @@ export class ProductosList implements OnInit, OnDestroy {
   private cargarProductosPorBusqueda(termino: string) {
     this.cargando = true;
     this.error = null;
+    // Usar datos del servicio de ejemplo
+    const todosProductos = this.productosExampleService.getProductosEjemplo();
+    const productosFiltrados = todosProductos.filter(producto =>
+      producto.nombre.toLowerCase().includes(termino.toLowerCase())
+    );
+    return of(productosFiltrados);
+
+    // Código comentado: Obtener datos del servicio real
+    /*
     return this.productoService.buscarProductosPorNombre(termino);
+    */
   }
 
   /**

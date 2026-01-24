@@ -11,6 +11,7 @@ import {
   faSearch
 } from '@fortawesome/free-solid-svg-icons';
 import { ProductoService } from '../../services/productos/producto.service';
+import { ProductosExampleService } from '../../services/productos.example';
 import { SubcategoriaSeleccionadaService } from '../../services/productos/subcategoria-seleccionada.service';
 import { ProductoSeleccionadoService } from '../../services/productos/producto-seleccionado.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -83,6 +84,7 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private productoService: ProductoService,
+    private productosExampleService: ProductosExampleService,
     private subcategoriaSeleccionadaService: SubcategoriaSeleccionadaService,
     private productoSeleccionadoService: ProductoSeleccionadoService,
     private router: Router,
@@ -152,6 +154,8 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
     this.isLoading = true;
     this.error = null;
 
+    // Código comentado: Obtener datos del servicio real
+    /*
     const observablProductos$ = subcategoriaId 
       ? this.productoService.obtenerProductosPorSubcategoria(subcategoriaId)
       : this.productoService.obtenerProductos();
@@ -172,6 +176,19 @@ export class CarruselFull implements OnInit, OnDestroy, AfterViewInit {
         this.isLoading = false;
       }
     });
+    */
+
+    // Usar datos del servicio de ejemplo
+    const datos = subcategoriaId
+      ? this.productosExampleService.getProductosPorSubcategoriaId(subcategoriaId)
+      : this.productosExampleService.getProductosEjemplo();
+    this.productos = datos;
+    this.currentIndex = 0; // Resetear a la primera página
+    this.isLoading = false;
+    console.log('✅ Productos del carrusel cargados desde ejemplo:', this.productos.length);
+    setTimeout(() => {
+      this.updateTrackPosition();
+    }, 100);
   }
 
   @HostListener('window:resize', ['$event'])

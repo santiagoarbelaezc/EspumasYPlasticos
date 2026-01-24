@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CategoriaService } from '../../services/categorias/categoria.service';
+import { CategoriasExampleService } from '../../services/categorias.example';
+import { SubcategoriasExampleService } from '../../services/subcategorias.example';
+import { ProductosExampleService } from '../../services/productos.example';
 import { SubcategoriaSeleccionadaService } from '../../services/productos/subcategoria-seleccionada.service';
 import { CategoriaConSubcategoriasDTO } from '../../models/categorias/categoria-sub.dto';
 
@@ -22,6 +25,9 @@ export class MenuCategorias implements OnInit {
 
   constructor(
     private categoriaService: CategoriaService,
+    private categoriasExampleService: CategoriasExampleService,
+    private subcategoriasExampleService: SubcategoriasExampleService,
+    private productosExampleService: ProductosExampleService,
     private subcategoriaSeleccionadaService: SubcategoriaSeleccionadaService,
     private router: Router
   ) {}
@@ -32,6 +38,29 @@ export class MenuCategorias implements OnInit {
 
   cargarCategorias(): void {
     this.cargando = true;
+    
+    // Usar datos del servicio de ejemplo
+    const categoriasEjemplo = this.categoriasExampleService.getCategorias();
+    const categoriasConSubcategorias = categoriasEjemplo.map(categoria => {
+      const subcategorias = this.subcategoriasExampleService.getSubcategoriasPorCategoria(categoria.id);
+      return {
+        id: categoria.id,
+        nombre: categoria.nombre,
+        icono_url: categoria.icono_url,
+        subcategorias: subcategorias.map(sub => ({
+          id: sub.id,
+          nombre: sub.nombre,
+          cantidad: this.productosExampleService.getProductosPorSubcategoriaId(sub.id).length
+        })),
+        expanded: false
+      };
+    });
+    
+    this.categorias = categoriasConSubcategorias;
+    this.cargando = false;
+
+    // Código comentado: Obtener datos del servicio real
+    /*
     this.categoriaService.obtenerCategoriasConSubcategorias().subscribe({
       next: (data) => {
         this.categorias = data.map(cat => ({
@@ -45,6 +74,7 @@ export class MenuCategorias implements OnInit {
         this.cargando = false;
       }
     });
+    */
   }
 
   toggle(categoria: CategoriaConExpanded): void {
