@@ -8,6 +8,7 @@ import { DescripcionSeleccionado } from '../descripcion-seleccionado/descripcion
 import { GridProductosInteres } from '../grid-productos-interes/grid-productos-interes';
 import { CarruselRelacionados } from "../carrusel-relacionados/carrusel-relacionados";
 import { UtilGridProductosInteres } from "../util-grid-productos-interes/util-grid-productos-interes";
+import { CarruselCategoryComponent } from "../../../shared/carrusel-category/carrusel-category";
 
 @Component({
   selector: 'app-descripcion',
@@ -19,7 +20,8 @@ import { UtilGridProductosInteres } from "../util-grid-productos-interes/util-gr
     FooterComponent,
     DescripcionSeleccionado,
     CarruselRelacionados,
-    UtilGridProductosInteres
+    UtilGridProductosInteres,
+    CarruselCategoryComponent
 ],
   templateUrl: './descripcion.html',
   styleUrl: './descripcion.css'

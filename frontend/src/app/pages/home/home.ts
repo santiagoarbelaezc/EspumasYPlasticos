@@ -26,7 +26,6 @@ import { CarruselCategoryComponent } from '../../shared/carrusel-category/carrus
     RedesSocialesComponent,
     HeaderEnlacesComponent,
     HeroComponent,
-    CarruselHome,
     BannerHome,
     CategoriasHome,
     UtilGridProductos,
