@@ -19,7 +19,7 @@ import { CarruselCategoryComponent } from "../../../shared/carrusel-category/car
     NavbarComponent,
     FooterComponent,
     DescripcionSeleccionado,
-    CarruselRelacionados,
+    
     UtilGridProductosInteres,
     CarruselCategoryComponent
 ],

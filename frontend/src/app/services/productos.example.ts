@@ -545,7 +545,31 @@ Ideal para hacer ejercicio en casa`,
         'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768954321/espumas_plasticos_productos/1768954315777-6y0xq5g.jpg',
         'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768954321/espumas_plasticos_productos/1768954315786-msbuqce.jpg'
       ]
-    }
+    },
+    {
+      id: 27,
+      nombre: 'Almohada Aloe Vera',
+      descripcion: `Almohada aloe vera
+
+$20.000
+
+Marca: aloe vera
+
+Modelo: tradicional
+
+Medidas: 50 cm de ancho x 75 cm de largo
+
+Materiales: algodón siliconado, forro con cremallera para fácil lavado`,
+      cantidad: 13,
+      precio: 20000,
+      subcategoria_id: 17,
+      subcategoria: 'Aloe Vera',
+      categoria: 'Almohadas',
+      imagenes: [
+        'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768879025/espumas_plasticos_productos/1768879025558-4akrkvy.jpg'
+      ]
+    },
+
   ];
 
   constructor() { }
