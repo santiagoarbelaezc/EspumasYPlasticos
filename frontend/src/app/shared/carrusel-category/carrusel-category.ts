@@ -145,6 +145,9 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
     
     const isMobile = window.innerWidth <= 768;
     
+    // Deshabilitar wheel scroll en móvil - solo flechas
+    if (isMobile) return;
+    
     // En móvil, solo responder a scroll muy horizontal (trackpad)
     // Permitir scroll vertical normal de la página
     const absDeltaX = Math.abs(event.deltaX);
@@ -202,6 +205,10 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
   startDrag(event: MouseEvent | TouchEvent) {
     if (this.isAnimating) return;
     
+    // Deshabilitar drag en móvil - solo flechas
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
+    
     // Solo responder a mouse left button o touch
     if ('button' in event && event.button !== 0) return;
     
@@ -226,6 +233,10 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
 
   onDrag(event: MouseEvent | TouchEvent) {
     if (!this.isDragging || this.isAnimating) return;
+    
+    // Deshabilitar drag en móvil - solo flechas
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
     
     const now = Date.now();
     const timeDiff = now - this.lastDragTime;
@@ -255,6 +266,10 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
   endDrag(event: MouseEvent | TouchEvent) {
     if (!this.isDragging) return;
     
+    // Deshabilitar drag en móvil - solo flechas
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return;
+    
     this.isDragging = false;
     
     // Restaurar transiciones (igual que el segundo código)
@@ -266,7 +281,6 @@ export class CarruselCategoryComponent implements OnInit, OnDestroy, AfterViewIn
     const absDiff = Math.abs(diff);
     
     // Adaptativo: umbral más bajo en móvil (igual que el segundo código)
-    const isMobile = window.innerWidth <= 768;
     const effectiveThreshold = isMobile ? 20 : this.dragThreshold;
     
     // Aplicar momentum si hay suficiente velocidad (igual que el segundo código)

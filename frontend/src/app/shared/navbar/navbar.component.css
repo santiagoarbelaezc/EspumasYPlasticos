@@ -724,8 +724,8 @@ body {
   
   /* Header mobile */
   .head {
-    padding: 16px 20px !important;
-    height: 70px;
+    padding: 20px 20px !important;
+    height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -737,14 +737,14 @@ body {
     /* iPhone safe areas */
     padding-left: max(20px, env(safe-area-inset-left)) !important;
     padding-right: max(20px, env(safe-area-inset-right)) !important;
-    padding-top: max(16px, env(safe-area-inset-top)) !important;
+    padding-top: max(20px, env(safe-area-inset-top)) !important;
     transition: all 0.3s ease;
     font-family: 'Avenir Next LT Pro', sans-serif;
   }
   
   .head.scrolled {
-    padding: 12px 20px !important;
-    padding-top: max(12px, env(safe-area-inset-top)) !important;
+    padding: 16px 20px !important;
+    padding-top: max(16px, env(safe-area-inset-top)) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
     background-color: white !important;
   }
@@ -757,7 +757,7 @@ body {
   }
   
   .logo-mobile img {
-    height: 40px;
+    height: 48px;
     width: auto;
     transition: transform 0.3s ease;
     filter: none;
@@ -775,7 +775,7 @@ body {
   /* Navbar center para mobile */
   .navbar-center {
     position: fixed;
-    top: 70px;
+    top: 80px;
     left: 0;
     right: 0;
     width: 100%;
@@ -802,7 +802,7 @@ body {
   .navbar-content {
     background: white;
     border-radius: 0;
-    padding: 0;
+    padding: 20px 0;
     margin: 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     border: none;
@@ -811,10 +811,10 @@ body {
     flex-direction: column;
     gap: 0;
     width: 100%;
-    max-height: calc(100vh - 70px);
+    max-height: calc(100vh - 80px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: max(0px, env(safe-area-inset-bottom));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
     align-items: center;
     justify-content: center;
   }
@@ -825,21 +825,22 @@ body {
     gap: 0;
     width: 100%;
     padding: 0;
+    margin-bottom: 8px;
   }
   
   .nav-group.izquierda {
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border-bottom: none;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.03);
   }
   
   /* Enlaces mobile */
   .nav-group a {
     width: 100%;
-    padding: 18px 24px !important;
-    font-size: 1rem !important;
+    padding: 28px 32px !important;
+    font-size: 1.2rem !important;
     font-weight: 500 !important;
-    text-align: left;
+    text-align: center;
     border-radius: 0 !important;
     transition: all 0.3s ease;
     background: transparent;
@@ -849,23 +850,26 @@ body {
     position: relative;
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
-    min-height: 56px;
+    min-height: 72px;
     display: flex;
     align-items: center;
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    justify-content: center;
   }
   
   .nav-group a:active {
-    background-color: #f8f8f8 !important;
+    background-color: #f0f9f7 !important;
+    transform: scale(0.98);
   }
   
   .nav-group a.active {
-    background: #f8f8f8 !important;
+    background: linear-gradient(135deg, #f8fcfb 0%, #e8f8f6 100%) !important;
     color: #009AA2 !important;
     font-weight: 600 !important;
-    border-left: 4px solid #009AA2 !important;
+    border-left: 5px solid #009AA2 !important;
     border-bottom: 1px solid rgba(0, 154, 162, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(0, 154, 162, 0.1);
   }
   
   .inicio-link {
@@ -883,10 +887,10 @@ body {
   
   /* Buscador mobile */
   .search-wrapper {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     padding: 0;
-    border-radius: 4px;
+    border-radius: 6px;
     background: #f8f8f8;
     border: 1px solid rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -975,9 +979,9 @@ body {
   /* Login mobile */
   .login-wrapper {
     padding: 0;
-    border-radius: 4px;
-    width: 44px;
-    height: 44px;
+    border-radius: 6px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1006,9 +1010,9 @@ body {
   /* Hamburguesa */
   .hamburger {
     display: flex;
-    width: 44px;
-    height: 44px;
-    border-radius: 4px;
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
     background: #f8f8f8;
     border: 1px solid rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
@@ -1055,7 +1059,7 @@ body {
   /* Overlay para menú mobile */
   .menu-overlay {
     position: fixed;
-    top: 70px;
+    top: 80px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -1072,8 +1076,8 @@ body {
   }
   
   body {
-    padding-top: 70px;
-    padding-top: calc(70px + env(safe-area-inset-top));
+    padding-top: 80px;
+    padding-top: calc(80px + env(safe-area-inset-top));
     transition: padding-top 0.3s ease;
   }
   
@@ -1085,8 +1089,149 @@ body {
 /* === RESPONSIVE PEQUEÑO (576px y menos) === */
 @media (max-width: 576px) {
   .head {
-    padding: 14px 16px !important;
-    height: 66px;
+    padding: 18px 16px !important;
+    height: 76px;
+  }
+  
+  .logo-mobile img {
+    height: 44px;
+  }
+  
+  .navbar-center {
+    top: 76px;
+  }
+  
+  .search-wrapper,
+  .login-wrapper,
+  .hamburger {
+    width: 46px;
+    height: 46px;
+  }
+  
+  .search-wrapper.expandido {
+    width: 200px;
+  }
+  
+  .search-container.expandido {
+    padding: 14px;
+    height: 76px;
+  }
+  
+  .search-container.expandido .suggestions-container {
+    top: 76px;
+    left: 14px;
+    right: 14px;
+    max-height: calc(100vh - 90px);
+  }
+  
+  .login-icon {
+    font-size: 1.15rem;
+  }
+  
+  .hamburger-line {
+    width: 20px;
+    height: 2.5px;
+    margin: 3px 0;
+  }
+  
+  .nav-group a {
+    padding: 24px 28px !important;
+    min-height: 68px;
+    font-size: 1.15rem !important;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .navbar-content {
+    max-height: calc(100vh - 76px);
+  }
+  
+  body {
+    padding-top: 76px;
+    padding-top: calc(76px + env(safe-area-inset-top));
+  }
+  
+  .menu-overlay {
+    top: 76px;
+  }
+}
+
+@media (max-width: 480px) {
+  .head {
+    padding: 16px 14px !important;
+    height: 72px;
+  }
+  
+  .logo-mobile img {
+    height: 42px;
+  }
+  
+  .navbar-center {
+    top: 72px;
+  }
+  
+  .navbar-right {
+    gap: 12px;
+  }
+  
+  .search-wrapper,
+  .login-wrapper,
+  .hamburger {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .search-wrapper.expandido {
+    width: 180px;
+  }
+  
+  .search-container.expandido {
+    padding: 12px;
+    height: 72px;
+  }
+  
+  .search-container.expandido .suggestions-container {
+    top: 72px;
+    left: 12px;
+    right: 12px;
+  }
+  
+  .search-input {
+    font-size: 0.95rem;
+  }
+  
+  .login-icon {
+    font-size: 1.1rem;
+  }
+  
+  .hamburger-line {
+    width: 18px;
+    height: 2.5px;
+    margin: 2.5px 0;
+  }
+  
+  .nav-group a {
+    padding: 22px 24px !important;
+    min-height: 64px;
+    font-size: 1.1rem !important;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  body {
+    padding-top: 72px;
+    padding-top: calc(72px + env(safe-area-inset-top));
+  }
+  
+  .menu-overlay {
+    top: 72px;
+  }
+}
+
+@media (max-width: 360px) {
+  .head {
+    padding: 14px 12px !important;
+    height: 68px;
   }
   
   .logo-mobile img {
@@ -1094,7 +1239,11 @@ body {
   }
   
   .navbar-center {
-    top: 66px;
+    top: 68px;
+  }
+  
+  .navbar-right {
+    gap: 10px;
   }
   
   .search-wrapper,
@@ -1105,89 +1254,27 @@ body {
   }
   
   .search-wrapper.expandido {
-    width: 180px;
-  }
-  
-  .search-container.expandido {
-    padding: 12px;
-    height: 66px;
-  }
-  
-  .search-container.expandido .suggestions-container {
-    top: 66px;
-    left: 12px;
-    right: 12px;
-    max-height: calc(100vh - 78px);
-  }
-  
-  .login-icon {
-    font-size: 1.1rem;
-  }
-  
-  .hamburger-line {
-    width: 18px;
-    height: 2px;
-    margin: 2.5px 0;
+    width: 160px;
   }
   
   .nav-group a {
-    padding: 16px 20px !important;
-    min-height: 52px;
-    font-size: 0.95rem !important;
-  }
-  
-  .navbar-content {
-    max-height: calc(100vh - 66px);
-  }
-  
-  body {
-    padding-top: 66px;
-    padding-top: calc(66px + env(safe-area-inset-top));
-  }
-  
-  .menu-overlay {
-    top: 66px;
-  }
-}
-
-@media (max-width: 480px) {
-  .head {
-    padding: 12px 14px !important;
-    height: 62px;
-  }
-  
-  .logo-mobile img {
-    height: 36px;
-  }
-  
-  .navbar-center {
-    top: 62px;
-  }
-  
-  .navbar-right {
-    gap: 10px;
-  }
-  
-  .search-wrapper,
-  .login-wrapper,
-  .hamburger {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .search-wrapper.expandido {
-    width: 160px;
+    text-align: center;
+    padding: 20px 20px !important;
+    min-height: 60px;
+    font-size: 1.05rem !important;
+    justify-content: center;
   }
   
   .search-container.expandido {
     padding: 10px;
-    height: 62px;
+    height: 68px;
   }
   
   .search-container.expandido .suggestions-container {
-    top: 62px;
+    top: 68px;
     left: 10px;
     right: 10px;
+    max-height: calc(100vh - 78px);
   }
   
   .search-input {
@@ -1201,97 +1288,20 @@ body {
   .hamburger-line {
     width: 16px;
     height: 2px;
-    margin: 2.2px 0;
-  }
-  
-  .nav-group a {
-    padding: 15px 18px !important;
-    min-height: 48px;
-    font-size: 0.9rem !important;
-  }
-  
-  body {
-    padding-top: 62px;
-    padding-top: calc(62px + env(safe-area-inset-top));
-  }
-  
-  .menu-overlay {
-    top: 62px;
-  }
-}
-
-@media (max-width: 360px) {
-  .head {
-    padding: 10px 12px !important;
-    height: 58px;
-  }
-  
-  .logo-mobile img {
-    height: 34px;
-  }
-  
-  .navbar-center {
-    top: 58px;
-  }
-  
-  .navbar-right {
-    gap: 8px;
-  }
-  
-  .search-wrapper,
-  .login-wrapper,
-  .hamburger {
-    width: 38px;
-    height: 38px;
-  }
-  
-  .search-wrapper.expandido {
-    width: 140px;
-  }
-  
-  .search-container.expandido {
-    padding: 8px;
-    height: 58px;
-  }
-  
-  .search-container.expandido .suggestions-container {
-    top: 58px;
-    left: 8px;
-    right: 8px;
-    max-height: calc(100vh - 66px);
-  }
-  
-  .search-input {
-    font-size: 0.85rem;
-  }
-  
-  .login-icon {
-    font-size: 1rem;
-  }
-  
-  .hamburger-line {
-    width: 14px;
-    height: 1.8px;
-    margin: 2px 0;
+    margin: 2.5px 0;
   }
   
   .suggestion-text {
     font-size: 0.9rem;
   }
   
-  .nav-group a {
-    padding: 14px 16px !important;
-    min-height: 44px;
-    font-size: 0.85rem !important;
-  }
-  
   body {
-    padding-top: 58px;
-    padding-top: calc(58px + env(safe-area-inset-top));
+    padding-top: 68px;
+    padding-top: calc(68px + env(safe-area-inset-top));
   }
   
   .menu-overlay {
-    top: 58px;
+    top: 68px;
   }
 }
 
@@ -1350,6 +1360,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    top: 80px;
   }
   .navbar-content {
     align-items: center;

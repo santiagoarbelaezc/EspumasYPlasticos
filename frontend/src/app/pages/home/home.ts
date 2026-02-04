@@ -7,7 +7,7 @@ import { UbicacionComponent } from "../../components/ubicacion/ubicacion.compone
 import { RedesSocialesComponent } from "../../shared/botones-sociales/botones-sociales.component";
 import { HeroComponent } from "../../components/header-index/header-index.component";
 import { HeaderEnlacesComponent } from "../../components/header-enlaces/header-enlaces.component";
-import { CarruselHome } from "../../components/carrusel-home/carrusel-home";
+
 import { BannerHome } from "../../components/banner-home/banner-home";
 import { CategoriasHome } from "../../components/categorias-home/categorias-home";
 import { UtilGridProductos } from "../../components/grid-productos/util-grid-productos/util-grid-productos";
