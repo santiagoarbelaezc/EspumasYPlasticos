@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div class="productos-layout">
-  <app-menu-categorias #menuCategorias></app-menu-categorias>
+  <app-menu-categorias #menuCategorias (subcategoriaSeleccionada)="closeMenu()"></app-menu-categorias>
   <app-productos-list></app-productos-list>
 </div>
 

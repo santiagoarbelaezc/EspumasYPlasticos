@@ -11,9 +11,9 @@ import { RouterModule } from '@angular/router';
 })
 export class NosotrosComponent implements OnInit, OnDestroy {
   imagenesCarrusel = [
-    { url: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768537699/background_ifpfga.png', alt: 'Producción de espumas' },
-    { url: 'assets/img/premium_photo-1661595077028-9ff236368cb5.jpeg', alt: 'Productos terminados' },
-    { url: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768537800/img8_ngk0vl.jpg', alt: 'Transformación de materiales' }
+    { url: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1770251063/quienes_somos_u6li7u.jpg', alt: 'Producción de espumas' },
+    { url: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1770251313/quienes_somos3_u9i0cn.jpg', alt: 'Productos terminados' },
+    { url: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1770251544/quienes_somos4_qiixk2.jpg', alt: 'Transformación de materiales' }
   ];
 
   currentSlide = 0;

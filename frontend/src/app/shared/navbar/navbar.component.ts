@@ -30,11 +30,18 @@ export class NavbarComponent {
   
   // Sugerencias/recomendaciones específicas
   suggestions = [
+    'colchón',
     'colchon',
     'almohada', 
+    'sábana',
     'sabana',
     'alcoba',
-    'colchoneta'
+    'colchoneta',
+    'gym',
+    'gým',
+    'espuma',
+    'plástico',
+    'plastico'
   ];
   
   filteredSuggestions: string[] = [];
@@ -42,6 +49,43 @@ export class NavbarComponent {
   @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    // Test de normalización para debug
+    console.log('=== TEST NORMALIZACIÓN ===');
+    console.log('gým normalizado:', this.normalizarTexto('gým'));
+    console.log('gym normalizado:', this.normalizarTexto('gym'));
+    console.log('colchón normalizado:', this.normalizarTexto('colchón'));
+    console.log('colchon normalizado:', this.normalizarTexto('colchon'));
+    console.log('==========================');
+  }
+
+  /**
+   * Normaliza una cadena eliminando tildes y diacríticos
+   * @param str Cadena a normalizar
+   * @returns Cadena sin tildes ni acentos
+   */
+  private normalizarTexto(str: string): string {
+    if (!str) return '';
+    
+    // Mapa de reemplazos directo para caracteres comunes
+    const mapaAcentos: { [key: string]: string } = {
+      'á': 'a', 'à': 'a', 'ä': 'a', 'â': 'a', 'ā': 'a', 'ã': 'a',
+      'é': 'e', 'è': 'e', 'ë': 'e', 'ê': 'e', 'ē': 'e',
+      'í': 'i', 'ì': 'i', 'ï': 'i', 'î': 'i', 'ī': 'i',
+      'ó': 'o', 'ò': 'o', 'ö': 'o', 'ô': 'o', 'ō': 'o', 'õ': 'o',
+      'ú': 'u', 'ù': 'u', 'ü': 'u', 'û': 'u', 'ū': 'u',
+      'ý': 'y', 'ÿ': 'y',
+      'ñ': 'n', 'ç': 'c'
+    };
+    
+    return str
+      .toLowerCase()
+      .split('')
+      .map(char => mapaAcentos[char] || char)
+      .join('')
+      .trim();
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -157,14 +201,29 @@ export class NavbarComponent {
     const input = event.target as HTMLInputElement;
     this.searchQuery = input.value;
     
+    console.log('=== DEBUG BÚSQUEDA ===');
+    console.log('Array de sugerencias:', this.suggestions);
+    
     // Filtrar sugerencias según la búsqueda
     if (this.searchQuery.trim()) {
-      this.filteredSuggestions = this.suggestions.filter(suggestion =>
-        suggestion.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-      this.showSuggestions = true;
+      const queryNormalizada = this.normalizarTexto(this.searchQuery);
+      console.log('Query original:', this.searchQuery);
+      console.log('Query normalizada:', queryNormalizada);
+      
+      // Filtrar sugerencias que contengan el texto buscado (normalizado)
+      this.filteredSuggestions = this.suggestions.filter(suggestion => {
+        const sugerenciaNormalizada = this.normalizarTexto(suggestion);
+        const matches = sugerenciaNormalizada.includes(queryNormalizada);
+        
+        console.log(`Comparando: "${suggestion}" (normalizada: "${sugerenciaNormalizada}") contiene "${queryNormalizada}" = ${matches}`);
+        
+        return matches;
+      });
+      
+      console.log('Sugerencias filtradas:', this.filteredSuggestions);
+      console.log('showSuggestions se pone en:', this.filteredSuggestions.length > 0);
+      this.showSuggestions = this.filteredSuggestions.length > 0;
     } else {
-      // Mostrar todas las sugerencias si no hay búsqueda
       this.filteredSuggestions = [...this.suggestions];
       this.showSuggestions = true;
     }
@@ -191,7 +250,9 @@ export class NavbarComponent {
 
    private performSearch(): void {
     if (this.searchQuery.trim()) {
+      console.log('🚨 performSearch() ejecutándose!');
       console.log('Buscando:', this.searchQuery);
+      console.trace('Stack trace para ver desde dónde se llama');
       
       // Navegar a la página de productos con el término de búsqueda
       this.router.navigate(['/productos'], { 
@@ -215,11 +276,13 @@ export class NavbarComponent {
   }
 
   selectSuggestion(suggestion: string): void {
+    console.log('🟡 selectSuggestion() ejecutándose con:', suggestion);
     this.searchQuery = suggestion;
     this.performSearch();
   }
 
   onSearchSubmit(event: Event): void {
+    console.log('🔴 onSearchSubmit() ejecutándose!', event);
     event.preventDefault();
     
     if (this.searchQuery.trim()) {

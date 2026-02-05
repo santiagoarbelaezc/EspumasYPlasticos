@@ -18,6 +18,7 @@ export class MenuDropdownComponent implements OnInit {
   categorias: CategoriaConSubcategoriasDTO[] = [];
   menuVisible = false;
   hoveredCategoriaId: number | null = null;
+  private closeMenuTimer: any;
 
   constructor(
     private categoriaService: CategoriaService,
@@ -61,12 +62,20 @@ export class MenuDropdownComponent implements OnInit {
   }
 
   onMouseEnter(): void {
+    // Cancelar cualquier timer de cierre pendiente
+    if (this.closeMenuTimer) {
+      clearTimeout(this.closeMenuTimer);
+      this.closeMenuTimer = null;
+    }
     this.menuVisible = true;
   }
 
   onMouseLeave(): void {
-    this.menuVisible = false;
-    this.hoveredCategoriaId = null;
+    // Esperar 1 segundo antes de cerrar el menú
+    this.closeMenuTimer = setTimeout(() => {
+      this.menuVisible = false;
+      this.hoveredCategoriaId = null;
+    }, 1000);
   }
 
   onCategoriaHover(categoriaId: number): void {
@@ -79,6 +88,11 @@ export class MenuDropdownComponent implements OnInit {
 
   // Cerrar menú cuando se navega
   closeMenu(): void {
+    // Cancelar cualquier timer pendiente
+    if (this.closeMenuTimer) {
+      clearTimeout(this.closeMenuTimer);
+      this.closeMenuTimer = null;
+    }
     this.menuVisible = false;
     this.hoveredCategoriaId = null;
   }

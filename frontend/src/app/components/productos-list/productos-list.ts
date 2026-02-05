@@ -133,16 +133,44 @@ export class ProductosList implements OnInit, OnDestroy {
   }
 
   /**
-   * Carga productos por búsqueda de nombre
+   * Normaliza texto eliminando acentos para búsqueda
+   */
+  private normalizarTexto(str: string): string {
+    if (!str) return '';
+    
+    const mapaAcentos: { [key: string]: string } = {
+      'á': 'a', 'à': 'a', 'ä': 'a', 'â': 'a', 'ā': 'a', 'ã': 'a',
+      'é': 'e', 'è': 'e', 'ë': 'e', 'ê': 'e', 'ē': 'e',
+      'í': 'i', 'ì': 'i', 'ï': 'i', 'î': 'i', 'ī': 'i',
+      'ó': 'o', 'ò': 'o', 'ö': 'o', 'ô': 'o', 'ō': 'o', 'õ': 'o',
+      'ú': 'u', 'ù': 'u', 'ü': 'u', 'û': 'u', 'ū': 'u',
+      'ý': 'y', 'ÿ': 'y',
+      'ñ': 'n', 'ç': 'c'
+    };
+    
+    return str
+      .toLowerCase()
+      .split('')
+      .map(char => mapaAcentos[char] || char)
+      .join('')
+      .trim();
+  }
+
+  /**
+   * Carga productos por búsqueda de nombre (con normalización de acentos)
    */
   private cargarProductosPorBusqueda(termino: string) {
     this.cargando = true;
     this.error = null;
     // Usar datos del servicio de ejemplo
     const todosProductos = this.productosExampleService.getProductosEjemplo();
-    const productosFiltrados = todosProductos.filter(producto =>
-      producto.nombre.toLowerCase().includes(termino.toLowerCase())
-    );
+    const terminoNormalizado = this.normalizarTexto(termino);
+    
+    const productosFiltrados = todosProductos.filter(producto => {
+      const nombreNormalizado = this.normalizarTexto(producto.nombre);
+      return nombreNormalizado.includes(terminoNormalizado);
+    });
+    
     return of(productosFiltrados);
 
     // Código comentado: Obtener datos del servicio real

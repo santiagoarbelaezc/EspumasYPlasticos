@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CategoriaService } from '../../services/categorias/categoria.service';
@@ -22,6 +22,8 @@ interface CategoriaConExpanded extends CategoriaConSubcategoriasDTO {
 export class MenuCategorias implements OnInit {
   categorias: CategoriaConExpanded[] = [];
   cargando = false;
+
+  @Output() subcategoriaSeleccionada = new EventEmitter<void>();
 
   constructor(
     private categoriaService: CategoriaService,
@@ -90,6 +92,9 @@ export class MenuCategorias implements OnInit {
     // Actualizar el servicio de subcategoría seleccionada
     this.subcategoriaSeleccionadaService.setSubcategoriaSeleccionada(subcategoriaId);
     
+    // Emitir evento para cerrar menú en móvil
+    this.subcategoriaSeleccionada.emit();
+    
     // Navegar a productos con query params
     this.router.navigate(['/productos'], {
       queryParams: {
@@ -121,6 +126,9 @@ export class MenuCategorias implements OnInit {
   verTodosProductos(): void {
     // Resetear la selección de subcategoría
     this.subcategoriaSeleccionadaService.resetear();
+    
+    // Emitir evento para cerrar menú en móvil
+    this.subcategoriaSeleccionada.emit();
     
     // Navegar a productos
     this.router.navigate(['/productos']);
