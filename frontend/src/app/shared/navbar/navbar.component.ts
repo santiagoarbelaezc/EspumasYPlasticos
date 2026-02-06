@@ -321,15 +321,24 @@ export class NavbarComponent {
   }
 
   // Método para manejar el clic en el logo (mobile)
-  onLogoClick(): void {
-    if (this.menuAbierto) {
-      this.closeMenu();
-    }
-    if (this.searchExpanded) {
-      this.collapseSearch();
-    }
-    this.closeSuggestions();
+  onLogoClick(event: Event): void {
+  event.preventDefault();
+  
+  // Cerrar menús y sugerencias
+  if (this.menuAbierto) {
+    this.closeMenu();
   }
+  if (this.searchExpanded) {
+    this.collapseSearch();
+  }
+  this.closeSuggestions();
+  
+  // Navegar al inicio
+  this.router.navigate(['/']).then(() => {
+    // Si ya estábamos en inicio, hacer scroll al top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
   // Método para manejar la navegación (cierra menús)
   navigateAndClose(): void {

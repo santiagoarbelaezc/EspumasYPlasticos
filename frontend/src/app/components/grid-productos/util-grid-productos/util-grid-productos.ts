@@ -12,75 +12,75 @@ import { Producto } from '../../../models/productos/producto';
 export class UtilGridProductos {
   productos: Producto[] = [
     {
-      id: 1,
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/imagen-section3_dtqjok.jpg',
-      descripcion: 'Colchones de máxima calidad',
-      nombre: 'Colchón OrthoMax',
-      precio: 1250000,
-      link: '/productos',
-      altura: 'baja'
-    },
-    {
-      id: 2,
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section_qbmhfx.jpg',
-      descripcion: 'Sábanas 100% algodón egipcio',
-      nombre: 'Sábanas Premium',
-      precio: 249900,
-      link: '/productos',
-      altura: 'alta'
-    },
-    {
       id: 3,
-      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section2_dwrc99.jpg',
-      descripcion: 'Cojines ergonómicos y decorativos',
-      nombre: 'Set Cojines',
-      precio: 189900,
-      link: '/productos',
+      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/imagen-section3_dtqjok.jpg',
+      descripcion: 'Colchon Semi Ortopedico Duplex',
+      nombre: 'Colchon Semi Ortopedico Duplex',
+      precio: 600000,
+      link: '/producto/3/detalle-producto-espumasyplasticos',
       altura: 'baja'
     },
     {
-      id: 4,
+      id: 11,
+      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section_qbmhfx.jpg',
+      descripcion: 'Colchon Confort Verona',
+      nombre: 'Colchon Confort Verona',
+      precio: 990000,
+      link: '/producto/11/detalle-producto-espumasyplasticos',
+      altura: 'alta'
+    },
+    {
+      id: 14,
+      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section2_dwrc99.jpg',
+      descripcion: 'Cojineria para Silla Columpio',
+      nombre: 'Cojineria para Silla Columpio',
+      precio: 150000,
+      link: '/producto/14/detalle-producto-espumasyplasticos',
+      altura: 'baja'
+    },
+    {
+      id: 24,
       imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833974/img-section8_nr2yyu.jpg',
-      descripcion: 'Almohadas viscoelásticas',
-      nombre: 'Almohada Memory',
-      precio: 89900,
-      link: '/productos',
+      descripcion: 'Sabanas en Género',
+      nombre: 'Sabanas en Género',
+      precio: 60000,
+      link: '/producto/24/detalle-producto-espumasyplasticos',
       altura: 'alta'
     },
     {
-      id: 5,
+      id: 13,
       imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section4_xubdf0.jpg',
-      descripcion: 'Colchones con tecnología avanzada',
-      nombre: 'Colchón Premium+',
-      precio: 1890000,
-      link: '/productos',
+      descripcion: 'Almohada Ortopedica Cervical',
+      nombre: 'Almohada Ortopedica Cervical',
+      precio: 50000,
+      link: '/producto/13/detalle-producto-espumasyplasticos',
       altura: 'alta'
     },
     {
-      id: 6,
+      id: 16,
       imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section5_shxle2.jpg',
-      descripcion: 'Sábanas de seda y satén',
-      nombre: 'Sábanas Deluxe',
-      precio: 349900,
-      link: '/productos',
+      descripcion: 'Colchon Ortopedico Premium',
+      nombre: 'Colchon Ortopedico Premium',
+      precio: 790000,
+      link: '/producto/16/detalle-producto-espumasyplasticos',
       altura: 'alta'
     },
     {
-      id: 7,
+      id: 10,
       imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768714512/alcobas_lujv4f.jpg',
       descripcion: 'Alcobas completas estilo nórdico',
-      nombre: 'Alcoba Nórdica',
-      precio: 2750000,
-      link: '/productos',
+      nombre: 'Casata Forro en Tela Acolchada con Cremallera',
+      precio: 75000,
+      link: '/producto/10/detalle-producto-espumasyplasticos',
       altura: 'baja'
     },
     {
-      id: 8,
+      id: 23,
       imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1768833975/img-section6_wqtfpv.jpg',
       descripcion: 'Accesorios para tu descanso',
-      nombre: 'Kit Accesorios',
-      precio: 159900,
-      link: '/productos',
+      nombre: 'Protector Acolchado Impermeable',
+      precio: 100000,
+      link: '/producto/23/detalle-producto-espumasyplasticos',
       altura: 'baja'
     }
   ];

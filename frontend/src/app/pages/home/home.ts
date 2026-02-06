@@ -8,11 +8,12 @@ import { RedesSocialesComponent } from "../../shared/botones-sociales/botones-so
 import { HeroComponent } from "../../components/header-index/header-index.component";
 import { HeaderEnlacesComponent } from "../../components/header-enlaces/header-enlaces.component";
 
-import { BannerHome } from "../../components/banner-home/banner-home";
+
 import { CategoriasHome } from "../../components/categorias-home/categorias-home";
 import { UtilGridProductos } from "../../components/grid-productos/util-grid-productos/util-grid-productos";
 import { UtilGridProductsOther } from "../../components/grid-productos/util-grid-products-other/util-grid-products-other";
 import { CarruselCategoryComponent } from '../../shared/carrusel-category/carrusel-category';
+import { BannerFull } from "../../shared/banner-full/banner-full";
 
 @Component({
   selector: 'app-home',
@@ -26,11 +27,11 @@ import { CarruselCategoryComponent } from '../../shared/carrusel-category/carrus
     RedesSocialesComponent,
     HeaderEnlacesComponent,
     HeroComponent,
-    BannerHome,
     CategoriasHome,
     UtilGridProductos,
     UtilGridProductsOther,
-    CarruselCategoryComponent
+    CarruselCategoryComponent,
+    BannerFull
 ],
   templateUrl: './home.html',
   styleUrl: './home.css'

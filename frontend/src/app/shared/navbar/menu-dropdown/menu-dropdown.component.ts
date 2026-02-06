@@ -75,7 +75,7 @@ export class MenuDropdownComponent implements OnInit {
     this.closeMenuTimer = setTimeout(() => {
       this.menuVisible = false;
       this.hoveredCategoriaId = null;
-    }, 1000);
+    }, 500);
   }
 
   onCategoriaHover(categoriaId: number): void {

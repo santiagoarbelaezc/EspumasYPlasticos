@@ -1,7 +1,7 @@
 <header class="head" [class.scrolled]="scrolled">
   <!-- Logo para mobile -->
   <div class="logo-mobile">
-    <a routerLink="/" (click)="onLogoClick()">
+    <a href="/" (click)="onLogoClick($event)">
       <img src="assets/img/logo-mini.png" alt="Logo" />
     </a>
   </div>
@@ -33,12 +33,11 @@
            (mouseenter)="logoHover = true"
            (mouseleave)="logoHover = false"
            [class.expandido]="logoHover">
-        <a routerLink="/" (click)="navigateAndClose()">
+        <a href="/" (click)="onLogoClick($event)" style="cursor: pointer;">
           <img src="assets/img/logo-mini.png" alt="Logo Mini" class="logo-mini" />
           <img src="assets/img/logo-grande.png" alt="Logo Grande" class="logo-grande" />
         </a>
       </div>
-
       <!-- Menú derecho -->
       <div class="nav-group derecha" [class.shift]="logoHover">
         <a routerLink="/nosotros" routerLinkActive="active" 
