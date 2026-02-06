@@ -1,1 +1,90 @@
-<p>trio-card works!</p>
+<div class="trio-section">
+  <!-- Encabezado -->
+  <div class="encabezado-trio">
+    <h2 class="titulo-seccion">{{ titulo }}</h2>
+    @if (subtitulo) {
+      <p class="subtitulo-seccion">{{ subtitulo }}</p>
+    }
+  </div>
+
+  <!-- Contenedor de productos -->
+  <div class="trio-container">
+    @for (producto of productosParaMostrar; track producto.id; let i = $index) {
+      <div class="producto-columna"
+           [class.placeholder]="esPlaceholder(producto)"
+           (mouseenter)="!esPlaceholder(producto) && setHoveredIndex(i)"
+           (mouseleave)="setHoveredIndex(null)">
+        
+        @if (!esPlaceholder(producto)) {
+          <a [routerLink]="producto.link" class="producto-card">
+            
+            <!-- Badge destacado -->
+            @if (producto.esDestacado) {
+              <div class="badge-destacado">
+                <span class="badge-text">PRODUCTO DEL MES</span>
+              </div>
+            }
+            
+            <!-- Imagen del producto -->
+            <div class="card-imagen">
+              <img [src]="producto.imagen" [alt]="producto.nombre">
+              
+              <!-- Overlay hover -->
+              <div class="card-overlay"></div>
+              
+              <!-- Punto del medio para información -->
+              <div class="punto-info" (click)="$event.preventDefault();">
+                <div class="punto-interno">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12" y2="16"></line>
+                  </svg>
+                </div>
+                
+                <!-- Información al hover -->
+                @if (hoveredIndex === i) {
+                  <div class="info-hover">
+                    <h4 class="info-titulo">{{ producto.nombre }}</h4>
+                    @if (mostrarPrecios) {
+                      <p class="info-precio">{{ formatearPrecio(producto.precio) }}</p>
+                    }
+                    <p class="info-descripcion">{{ producto.descripcion }}</p>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Contenido de la card -->
+            <div class="card-contenido">
+              @if (producto.categoria) {
+                <span class="producto-categoria">{{ producto.categoria }}</span>
+              }
+              <h3 class="producto-titulo">{{ producto.nombre }}</h3>
+              <p class="producto-descripcion">{{ producto.descripcion }}</p>
+              @if (mostrarPrecios) {
+                <div class="producto-precio">{{ formatearPrecio(producto.precio) }}</div>
+              }
+            </div>
+
+          </a>
+        } @else {
+          <!-- Placeholder cuando no hay producto -->
+          <div class="producto-placeholder">
+            <div class="placeholder-icono">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#adb5bd" stroke-width="1">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <div class="placeholder-texto">
+              <p>Producto no disponible</p>
+            </div>
+          </div>
+        }
+        
+      </div>
+    }
+  </div>
+</div>

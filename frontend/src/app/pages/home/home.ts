@@ -14,6 +14,8 @@ import { UtilGridProductos } from "../../components/grid-productos/util-grid-pro
 import { UtilGridProductsOther } from "../../components/grid-productos/util-grid-products-other/util-grid-products-other";
 import { CarruselCategoryComponent } from '../../shared/carrusel-category/carrusel-category';
 import { BannerFull } from "../../shared/banner-full/banner-full";
+import { TrioCard } from "../../shared/trio-card/trio-card";
+import { Producto } from '../../models/productos/producto';
 
 @Component({
   selector: 'app-home',
@@ -31,9 +33,40 @@ import { BannerFull } from "../../shared/banner-full/banner-full";
     UtilGridProductos,
     UtilGridProductsOther,
     CarruselCategoryComponent,
-    BannerFull
+    BannerFull,
+    TrioCard
 ],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {}
+export class Home {
+  productosTrioCard: Producto[] = [
+    {
+      id: 1,
+      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1770337091/basecamatrio_m4clck.jpg',
+      nombre: 'Base Cama color gris',
+      descripcion: 'Base Cama de alta calidad',
+      link: '/productos/detalle/14',
+      altura: 'baja' as const,
+      precio: 0
+    },
+    {
+      id: 2,
+      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1770337091/colchonetas_ucy7rh.jpg',
+      nombre: 'Colchonetas',
+      descripcion: 'Colchonetas premium',
+      link: '/productos/detalle/19',
+      altura: 'alta' as const,
+      precio: 0
+    },
+    {
+      id: 3,
+      imagen: 'https://res.cloudinary.com/dsv1gdgya/image/upload/v1770340043/colchondarktrio_htiy6o.jpg',
+      nombre: 'Colchón Comfort',
+      descripcion: 'Colchón de máxima comodidad',
+      link: '/productos/detalle/3',
+      altura: 'baja' as const,
+      precio: 0
+    }
+  ];
+}

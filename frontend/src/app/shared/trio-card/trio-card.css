@@ -1,0 +1,394 @@
+/* Sección completa */
+.trio-section {
+  max-width: 1200px;
+  margin: 80px auto 60px;
+  padding: 0 24px;
+}
+
+/* Encabezado */
+.encabezado-trio {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.titulo-seccion {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.5px;
+}
+
+.subtitulo-seccion {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: #666;
+  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Contenedor principal de 3 columnas */
+.trio-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  align-items: stretch;
+}
+
+/* Cada columna - TODAS CON LA MISMA ALTURA */
+.producto-columna {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card principal */
+.producto-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  height: 100%;
+}
+
+.producto-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge destacado */
+.badge-destacado {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: linear-gradient(135deg, #009aa2 0%, #15cd82 100%);
+  padding: 6px 12px;
+  border-radius: 20px;
+  z-index: 3;
+}
+
+.badge-text {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+/* Contenedor de imagen */
+.card-imagen {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+  background: #f8f9fa;
+}
+
+.card-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.producto-card:hover .card-imagen img {
+  transform: scale(1.05);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.producto-card:hover .card-overlay {
+  opacity: 1;
+}
+
+/* Punto de información */
+.punto-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #1a1a1a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.producto-card:hover .punto-info {
+  opacity: 1;
+}
+
+.punto-info:hover {
+  background: #1a1a1a;
+  border-color: #009aa2;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.punto-info:hover .punto-interno svg {
+  stroke: white;
+}
+
+.punto-interno svg {
+  width: 20px;
+  height: 20px;
+  stroke: #1a1a1a;
+  transition: stroke 0.3s ease;
+}
+
+/* Información hover */
+.info-hover {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+  opacity: 0;
+  animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.info-titulo {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.info-precio {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #009aa2;
+  margin: 0 0 12px 0;
+}
+
+.info-descripcion {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Contenido de la card */
+.card-contenido {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.producto-categoria {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #009aa2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.producto-titulo {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.producto-descripcion {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.9375rem;
+  color: #666;
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.producto-precio {
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-top: auto;
+}
+
+/* Placeholder */
+.producto-placeholder {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #dee2e6;
+  padding: 40px 24px;
+}
+
+.placeholder-icono {
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.placeholder-texto {
+  text-align: center;
+  color: #6c757d;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  .trio-container {
+    gap: 24px;
+  }
+  
+  .card-imagen {
+    height: 240px;
+  }
+  
+  .titulo-seccion {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .trio-section {
+    margin: 60px auto 40px;
+    padding: 0 20px;
+  }
+  
+  .trio-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .encabezado-trio {
+    margin-bottom: 36px;
+  }
+  
+  .titulo-seccion {
+    font-size: 1.75rem;
+  }
+  
+  .subtitulo-seccion {
+    font-size: 1rem;
+  }
+  
+  .producto-columna:nth-child(3) {
+    grid-column: span 2;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .card-imagen {
+    height: 220px;
+  }
+  
+  .card-contenido {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .trio-section {
+    padding: 0 16px;
+    margin: 40px auto 30px;
+  }
+  
+  .trio-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .producto-columna:nth-child(3) {
+    grid-column: span 1;
+    max-width: 100%;
+  }
+  
+  .titulo-seccion {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  
+  .subtitulo-seccion {
+    font-size: 0.9375rem;
+  }
+  
+  .card-imagen {
+    height: 200px;
+  }
+  
+  .producto-titulo {
+    font-size: 1.125rem;
+  }
+  
+  .producto-precio {
+    font-size: 1.25rem;
+  }
+  
+  .punto-info {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .punto-interno svg {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .info-hover {
+    min-width: 180px;
+    padding: 16px;
+  }
+}
