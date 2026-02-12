@@ -23,6 +23,11 @@ app.use('/api/producto', productRoutes);
 app.use('/api/subcategoria', subcategoria);
 app.use('/api/categoria', categoria);
 
+// 🏥 Health check endpoint para Elastic Beanstalk
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', message: 'Backend is healthy' });
+});
+
 const fs = require('fs');
 
 // 🌐 Servir Angular compilado solo si existe (evita errores en desarrollo)
