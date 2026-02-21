@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    overflow: hidden;
+    margin-top: 80px;
+}
+
+.hero-header {
+    width: 100%;
+    margin-top: -84px;
+    padding-top: 84px;
+    overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+    .hero-header {
+        margin-top: -78px;
+        padding-top: 78px;
+    }
+}
+
+@media (max-width: 992px) {
+    .hero-header {
+        margin-top: -76px;
+        padding-top: 76px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-header {
+        margin-top: -80px;
+        padding-top: 80px;
+    }
+}

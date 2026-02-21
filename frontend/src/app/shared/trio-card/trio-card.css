@@ -1,61 +1,74 @@
-/* Sección completa */
+/* ═══════════════════════════════════════════════════
+   TRIO CARD — Editorial / Header-Index Style
+   ═══════════════════════════════════════════════════ */
+
 .trio-section {
-  max-width: 1200px;
-  margin: 80px auto 60px;
-  padding: 0 24px;
+  max-width: 1550px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-/* Encabezado */
+/* ── Encabezado ────────────────────────────────── */
 .encabezado-trio {
-  text-align: center;
   margin-bottom: 48px;
 }
 
 .titulo-seccion {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0 0 16px 0;
+  margin: 0 0 12px 0;
   letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.titulo-seccion-highlight {
+  background: linear-gradient(135deg, #009AA2 0%, #15CD82 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .subtitulo-seccion {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   font-weight: 400;
   color: #666;
   margin: 0;
-  max-width: 600px;
-  margin: 0 auto;
   line-height: 1.6;
+  letter-spacing: 0.3px;
+  max-width: 520px;
 }
 
-/* Contenedor principal de 3 columnas */
+/* ── Grilla de 3 columnas ──────────────────────── */
 .trio-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  align-items: stretch;
+  gap: 0;
 }
 
-/* Cada columna - TODAS CON LA MISMA ALTURA */
 .producto-columna {
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #e0e0e0;
 }
 
-/* Card principal */
+.producto-columna:last-child {
+  border-right: none;
+}
+
+/* ── Card ───────────────────────────────────────── */
 .producto-card {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: 12px;
+  background: transparent;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.4s ease;
   text-decoration: none;
   color: inherit;
   position: relative;
@@ -63,83 +76,84 @@
 }
 
 .producto-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  background: #fafafa;
 }
 
-/* Badge destacado */
+/* ── Badge ──────────────────────────────────────── */
 .badge-destacado {
   position: absolute;
-  top: 16px;
-  left: 16px;
-  background: linear-gradient(135deg, #009aa2 0%, #15cd82 100%);
-  padding: 6px 12px;
-  border-radius: 20px;
+  top: 20px;
+  left: 20px;
   z-index: 3;
 }
 
 .badge-text {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  color: white;
-  letter-spacing: 0.5px;
+  color: #009AA2;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: rgba(0, 154, 162, 0.08);
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 154, 162, 0.2);
 }
 
-/* Contenedor de imagen */
+/* ── Imagen ─────────────────────────────────────── */
 .card-imagen {
   position: relative;
   width: 100%;
-  height: 280px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #f8f9fa;
+  background: #f5f5f5;
 }
 
 .card-imagen img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 0.5s ease;
+  filter: grayscale(0%);
 }
 
 .producto-card:hover .card-imagen img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .card-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 100%);
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 40%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .producto-card:hover .card-overlay {
   opacity: 1;
 }
 
-/* Punto de información */
+/* ── Punto de información ───────────────────────── */
 .punto-info {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 44px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #1a1a1a;
-  border-radius: 50%;
+  bottom: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  background: white;
+  border: 1px solid #1a1a1a;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 4;
   opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .producto-card:hover .punto-info {
@@ -148,8 +162,7 @@
 
 .punto-info:hover {
   background: #1a1a1a;
-  border-color: #009aa2;
-  transform: translate(-50%, -50%) scale(1.1);
+  border-color: #1a1a1a;
 }
 
 .punto-info:hover .punto-interno svg {
@@ -157,23 +170,21 @@
 }
 
 .punto-interno svg {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   stroke: #1a1a1a;
   transition: stroke 0.3s ease;
 }
 
-/* Información hover */
+/* ── Tooltip info ───────────────────────────────── */
 .info-hover {
   position: absolute;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 220px;
+  bottom: 64px;
+  right: 0;
+  min-width: 240px;
   background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 24px;
+  border: 1px solid #e0e0e0;
   z-index: 5;
   opacity: 0;
   animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
@@ -183,55 +194,56 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
 }
 
 .info-titulo {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #1a1a1a;
   margin: 0 0 8px 0;
+  letter-spacing: -0.2px;
 }
 
 .info-precio {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: #009aa2;
-  margin: 0 0 12px 0;
+  color: #009AA2;
+  margin: 0 0 10px 0;
 }
 
 .info-descripcion {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: #666;
   margin: 0;
   line-height: 1.5;
 }
 
-/* Contenido de la card */
+/* ── Contenido de la card ───────────────────────── */
 .card-contenido {
-  padding: 24px;
+  padding: 24px 24px 28px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: white;
+  background: transparent;
 }
 
 .producto-categoria {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-weight: 600;
-  color: #009aa2;
+  color: #009AA2;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
 }
 
 .producto-titulo {
@@ -239,14 +251,15 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0 0 12px 0;
-  line-height: 1.3;
+  margin: 0 0 10px 0;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
 }
 
 .producto-descripcion {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 0.9375rem;
-  color: #666;
+  font-size: 0.9rem;
+  color: #888;
   margin: 0 0 20px 0;
   line-height: 1.6;
   flex: 1;
@@ -254,87 +267,123 @@
 
 .producto-precio {
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #1a1a1a;
   margin-top: auto;
+  letter-spacing: -0.3px;
 }
 
-/* Placeholder */
+/* ── Ver producto link ──────────────────────────── */
+.ver-producto {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Avenir Next LT Pro', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  transition: color 0.3s ease, gap 0.3s ease;
+}
+
+.ver-producto svg {
+  transition: transform 0.3s ease;
+}
+
+.producto-card:hover .ver-producto {
+  color: #009AA2;
+}
+
+.producto-card:hover .ver-producto svg {
+  transform: translateX(4px);
+}
+
+/* ── Placeholder ────────────────────────────────── */
 .producto-placeholder {
   flex: 1;
   height: 100%;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 12px;
+  background: #fafafa;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px dashed #dee2e6;
+  border: 1px dashed #ddd;
   padding: 40px 24px;
 }
 
 .placeholder-icono {
   margin-bottom: 20px;
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 .placeholder-texto {
   text-align: center;
-  color: #6c757d;
+  color: #aaa;
   font-family: 'Avenir Next LT Pro', sans-serif;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
-/* Responsive */
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════ */
+
 @media screen and (max-width: 1024px) {
-  .trio-container {
-    gap: 24px;
+  .trio-section {
+    padding: 50px 24px;
   }
-  
-  .card-imagen {
-    height: 240px;
-  }
-  
+
   .titulo-seccion {
-    font-size: 2rem;
+    font-size: 2.2rem;
+  }
+
+  .card-imagen {
+    aspect-ratio: 4 / 3;
   }
 }
 
 @media screen and (max-width: 768px) {
   .trio-section {
-    margin: 60px auto 40px;
-    padding: 0 20px;
+    padding: 40px 20px;
+    margin: 0 auto;
   }
-  
-  .trio-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
+
   .encabezado-trio {
     margin-bottom: 36px;
   }
-  
+
   .titulo-seccion {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
   }
-  
+
   .subtitulo-seccion {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
-  
-  .producto-columna:nth-child(3) {
-    grid-column: span 2;
-    max-width: 400px;
-    margin: 0 auto;
+
+  .trio-container {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
-  
+
+  .producto-columna {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .producto-columna:last-child {
+    border-bottom: none;
+  }
+
   .card-imagen {
-    height: 220px;
+    aspect-ratio: 16 / 9;
   }
-  
+
   .card-contenido {
     padding: 20px;
   }
@@ -342,53 +391,42 @@
 
 @media screen and (max-width: 576px) {
   .trio-section {
-    padding: 0 16px;
-    margin: 40px auto 30px;
+    padding: 30px 16px;
   }
-  
-  .trio-container {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  
-  .producto-columna:nth-child(3) {
-    grid-column: span 1;
-    max-width: 100%;
-  }
-  
+
   .titulo-seccion {
     font-size: 1.5rem;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
-  
+
   .subtitulo-seccion {
-    font-size: 0.9375rem;
+    font-size: 0.9rem;
   }
-  
+
   .card-imagen {
-    height: 200px;
+    aspect-ratio: 3 / 2;
   }
-  
+
   .producto-titulo {
-    font-size: 1.125rem;
+    font-size: 1.1rem;
   }
-  
+
   .producto-precio {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
-  
+
   .punto-info {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
-  
+
   .punto-interno svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
-  
+
   .info-hover {
-    min-width: 180px;
-    padding: 16px;
+    min-width: 200px;
+    padding: 18px;
   }
 }

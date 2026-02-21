@@ -1,14 +1,15 @@
 <app-navbar></app-navbar>
-<app-header-enlaces></app-header-enlaces>
+<app-header-video></app-header-video>
+
 <app-categorias-home></app-categorias-home>
 
 <!-- Carrusel de categoría Colchones -->
 
-<app-carrusel-category
-	[categoriaId]="1"
-	[titulo]="'Colchones'"
-	[subtitulo]="'Descubre nuestra variedad de colchones para todos los gustos.'">
+<app-carrusel-category [categoriaId]="1" [titulo]="'Colchones'"
+  [subtitulo]="'Descubre nuestra variedad de colchones para todos los gustos.'">
 </app-carrusel-category>
+
+<app-header-enlaces></app-header-enlaces>
 
 
 <app-util-grid-products-other></app-util-grid-products-other>
@@ -17,33 +18,22 @@
 
 
 
-<app-carrusel-category
-	[categoriaId]="3"
-	[titulo]="'Almohadas'"
-	[subtitulo]="'Descubre nuestra variedad de colchones para todos los gustos.'">
+<app-carrusel-category [categoriaId]="3" [titulo]="'Almohadas'"
+  [subtitulo]="'Descubre nuestra variedad de colchones para todos los gustos.'">
 </app-carrusel-category>
 
-<app-banner-full
-  titleBlack="COLCHONES"
-  titleCyan="ORTOPÉDICOS"
+<app-banner-full titleBlack="COLCHONES" titleCyan="ORTOPÉDICOS"
   description="Descubre la comodidad y el bienestar que ofrecen nuestros colchones ortopédicos. Diseñados especialmente para alineación de la columna vertebral, proporcionan el soporte perfecto que tu cuerpo necesita para un descanso reparador y rejuvenecedor. Relájate como nunca antes."
-  image="https://res.cloudinary.com/dsv1gdgya/image/upload/v1768929069/cama_rt5zzv.png"
-  imagePosition="right">
+  image="https://res.cloudinary.com/dsv1gdgya/image/upload/v1768929069/cama_rt5zzv.png" imagePosition="right">
 </app-banner-full>
 
-<app-banner-full
-  titleBlack="BASE CAMA"
-  titleCyan="COLCHÓN"
+<app-banner-full titleBlack="BASE CAMA" titleCyan="COLCHÓN"
   description="Complementa tu descanso con nuestras bases cama de alta calidad. Diseñadas para brindar estabilidad y soporte óptimo a tu colchón, garantizan durabilidad excepcional y una base sólida para un sueño perfecto. El soporte ideal que tu colchón necesita para maximizar tu comodidad."
-  image="https://res.cloudinary.com/dsv1gdgya/image/upload/v1770314389/basecama_m1kzuk.png"
-  imagePosition="left">
+  image="https://res.cloudinary.com/dsv1gdgya/image/upload/v1770314389/basecama_m1kzuk.png" imagePosition="left">
 </app-banner-full>
 
-<app-trio-card 
-  [productos]="productosTrioCard"
-  [titulo]="'Nuestros Productos Destacados'"
-  [subtitulo]="'Descubre nuestra selección premium'"
-  [mostrarPrecios]="false">
+<app-trio-card [productos]="productosTrioCard" [titulo]="'Nuestros Productos Destacados'"
+  [subtitulo]="'Descubre nuestra selección premium'" [mostrarPrecios]="false">
 </app-trio-card>
 
 <app-ubicacion></app-ubicacion>
