@@ -10,7 +10,7 @@ import { RedesSocialesComponent } from "../../shared/botones-sociales/botones-so
 
 @Component({
   selector: 'app-nosotros',
-  imports: [NavbarComponent, FooterComponent, AliadosComponent, NosotrosComponent, MisionVisionComponent, LineaDeTiempoComponent, EmpleadosComponent, RedesSocialesComponent],
+  imports: [NavbarComponent, FooterComponent, AliadosComponent, NosotrosComponent, MisionVisionComponent, LineaDeTiempoComponent, RedesSocialesComponent],
   templateUrl: './nosotros.html',
   styleUrl: './nosotros.css'
 })
