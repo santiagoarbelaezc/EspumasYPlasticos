@@ -1,0 +1,27 @@
+<div class="menu-dropdown-wrapper" 
+     (mouseenter)="onMouseEnter()" 
+     (mouseleave)="onMouseLeave()">
+  
+  <!-- Trigger -->
+  <span class="dropdown-trigger">
+    Nuestras Empresas
+  </span>
+
+  <!-- Menú desplegable -->
+  <div class="dropdown-menu" [class.visible]="menuVisible">
+    <div class="dropdown-content">
+      <div class="categorias-grid">
+        <div class="categoria-column" *ngFor="let empresa of empresas">
+          <a [href]="empresa.url" target="_blank" rel="noopener noreferrer" class="categoria-header" (click)="closeMenu()">
+            <span class="categoria-name">{{ empresa.nombre }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay para cerrar menú -->
+  <div class="dropdown-overlay" 
+       [class.active]="menuVisible" 
+       (click)="onMouseLeave()"></div>
+</div>

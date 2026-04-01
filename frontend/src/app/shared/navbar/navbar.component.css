@@ -1,22 +1,37 @@
 /* === CONTENEDOR PRINCIPAL === */
-.head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #ffffff;
-  padding: 12px 70px;
+.header-container {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  font-family: 'Avenir Next LT Pro', sans-serif;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateY(0);
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Avenir Next LT Pro', sans-serif;
+}
+
+.header-container.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.header-container:hover {
+  box-shadow: 0 4px 20px rgba(21, 205, 130, 0.15);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 70px;
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  background-color: rgba(255, 255, 255, 0.95);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
   /* iPhone optimizations */
   -webkit-user-select: none;
   user-select: none;
@@ -26,21 +41,72 @@
 }
 
 /* Clase para cuando se hace scroll hacia abajo */
-.head.scrolled {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+.header-container.scrolled .head {
   padding: 8px 70px;
   background-color: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
 }
 
-.head:hover {
-  box-shadow: 0 4px 20px rgba(21, 205, 130, 0.15);
+/* === SUB-NAVBAR === */
+.navbar-sub {
+  background-color: #0d0d0d;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 70px;
+  font-size: 0.85rem;
+  letter-spacing: 0.2px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+}
+
+.header-container.scrolled .navbar-sub {
+  padding: 4px 70px;
+  opacity: 0.9;
+}
+
+.sub-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-icon {
+  color: #15CD82;
+  font-size: 1.1rem;
+}
+
+.sub-title {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.sub-desc {
+  color: #b0b0b0;
+  font-weight: 400;
+}
+
+/* Sobrescribir estilos para el dropdown en la barra negra */
+.navbar-sub ::ng-deep .dropdown-trigger {
+  color: #ffffff !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  padding: 0 !important;
+}
+
+.navbar-sub ::ng-deep .dropdown-trigger:hover {
+  color: #15CD82 !important;
+}
+
+.navbar-sub ::ng-deep .dropdown-trigger::after {
+  display: none; /* remove gradient line */
 }
 
 /* === AÑADIR PADDING AL BODY PARA COMPENSAR EL NAVBAR FIXED === */
 body {
-  padding-top: 84px;
+  padding-top: 125px;
 }
 
 /* === LOGO MOBILE (oculto en desktop) === */
@@ -650,8 +716,16 @@ body {
     padding: 10px 40px;
   }
   
-  .head.scrolled {
+  .header-container.scrolled .head {
     padding: 8px 40px;
+  }
+  
+  .navbar-sub {
+    padding: 8px 40px;
+  }
+  
+  .header-container.scrolled .navbar-sub {
+    padding: 4px 40px;
   }
   
   .navbar-left {
@@ -672,7 +746,7 @@ body {
   }
   
   body {
-    padding-top: 78px;
+    padding-top: 119px;
   }
 }
 
@@ -681,8 +755,16 @@ body {
     padding: 10px 30px;
   }
   
-  .head.scrolled {
+  .header-container.scrolled .head {
     padding: 8px 30px;
+  }
+  
+  .navbar-sub {
+    padding: 8px 30px;
+  }
+  
+  .header-container.scrolled .navbar-sub {
+    padding: 4px 30px;
   }
   
   .navbar-left {
@@ -710,8 +792,12 @@ body {
     gap: 20px;
   }
   
+  .sub-desc {
+    display: none; /* Hide descriptions to save space */
+  }
+
   body {
-    padding-top: 76px;
+    padding-top: 117px;
   }
 }
 
@@ -723,17 +809,23 @@ body {
   }
   
   /* Header mobile */
+  .header-container {
+    background-color: white !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
   .head {
     padding: 20px 20px !important;
     height: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: white !important;
+    background-color: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: none !important;
+    border-bottom: none !important;
     /* iPhone safe areas */
     padding-left: max(20px, env(safe-area-inset-left)) !important;
     padding-right: max(20px, env(safe-area-inset-right)) !important;
@@ -742,11 +834,9 @@ body {
     font-family: 'Avenir Next LT Pro', sans-serif;
   }
   
-  .head.scrolled {
+  .header-container.scrolled .head {
     padding: 16px 20px !important;
     padding-top: max(16px, env(safe-area-inset-top)) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    background-color: white !important;
   }
   
   /* Logo mobile */

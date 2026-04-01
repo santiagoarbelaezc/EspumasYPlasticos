@@ -1,4 +1,5 @@
-<header class="head" [class.scrolled]="scrolled">
+<header class="header-container" [class.scrolled]="scrolled">
+  <div class="head">
   <!-- Logo para mobile -->
   <div class="logo-mobile">
     <a href="/" (click)="onLogoClick($event)">
@@ -112,6 +113,29 @@
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     </button>
+  </div>
+  </div> <!-- Close .head -->
+
+  <!-- SUB-NAVBAR -->
+  <div class="navbar-sub desktop-only">
+    <div class="sub-item">
+      <fa-icon [icon]="faShoppingCart" class="sub-icon"></fa-icon>
+      <span class="sub-title">Compra ahora</span>
+      <span class="sub-desc">Todo para tus proyectos</span>
+    </div>
+    <div class="sub-item">
+      <fa-icon [icon]="faMapMarkerAlt" class="sub-icon"></fa-icon>
+      <span class="sub-title">Localiza la tienda</span>
+      <span class="sub-desc">Cra. 19 #19-35, Armenia, Quindío</span>
+    </div>
+    <div class="sub-item">
+      <fa-icon [icon]="faLeaf" class="sub-icon"></fa-icon>
+      <span class="sub-title">Soluciones</span>
+      <span class="sub-desc">Hogar y proyectos</span>
+    </div>
+    <div class="sub-item empresas-item">
+      <app-empresas-dropdown></app-empresas-dropdown>
+    </div>
   </div>
 
   <!-- Overlay para cerrar menú -->

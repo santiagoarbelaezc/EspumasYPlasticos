@@ -2,15 +2,16 @@ import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faKey, faMapMarkerAlt, faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faKey, faMapMarkerAlt, faMagnifyingGlass, faTimes, faShoppingCart, faLeaf } from '@fortawesome/free-solid-svg-icons';
 import { MenuDropdownComponent } from './menu-dropdown/menu-dropdown.component';
+import { EmpresasDropdownComponent } from './empresas-dropdown/empresas-dropdown.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FontAwesomeModule, MenuDropdownComponent, FormsModule],
+  imports: [CommonModule, RouterModule, FontAwesomeModule, MenuDropdownComponent, EmpresasDropdownComponent, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -19,6 +20,8 @@ export class NavbarComponent {
   faMapMarkerAlt = faMapMarkerAlt;
   faMagnifyingGlass = faMagnifyingGlass;
   faTimes = faTimes;
+  faShoppingCart = faShoppingCart;
+  faLeaf = faLeaf;
   
   logoHover = false;
   menuAbierto = false;
