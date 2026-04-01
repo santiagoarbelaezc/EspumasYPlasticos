@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HeaderVideo } from '../header-video/header-video';
 
 @Component({
   selector: 'app-nosotros-component',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HeaderVideo],
   templateUrl: './nosotros.component.html',
   styleUrl: './nosotros.component.css'
 })

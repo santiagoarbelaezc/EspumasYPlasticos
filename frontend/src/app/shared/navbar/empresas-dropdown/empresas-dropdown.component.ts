@@ -14,8 +14,7 @@ export class EmpresasDropdownComponent {
 
   empresas = [
     { nombre: 'Plaxtilineas', url: 'https://www.plaxtilineas.com/' },
-    { nombre: 'Districol', url: 'https://colchonesdistricol.com/' },
-    { nombre: 'Espumas y Plásticos', url: 'https://espumasyplasticos.com/' }
+    { nombre: 'Districol', url: 'https://colchonesdistricol.com/' }
   ];
 
   onMouseEnter(): void {

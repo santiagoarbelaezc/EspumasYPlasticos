@@ -15,7 +15,6 @@ import { UtilGridProductsOther } from "../../components/grid-productos/util-grid
 import { CarruselCategoryComponent } from '../../shared/carrusel-category/carrusel-category';
 import { BannerFull } from "../../shared/banner-full/banner-full";
 import { TrioCard } from "../../shared/trio-card/trio-card";
-import { HeaderVideo } from "../../components/header-video/header-video";
 import { Producto } from '../../models/productos/producto';
 
 @Component({
@@ -35,8 +34,7 @@ import { Producto } from '../../models/productos/producto';
     UtilGridProductsOther,
     CarruselCategoryComponent,
     BannerFull,
-    TrioCard,
-    HeaderVideo
+    TrioCard
   ],
   templateUrl: './home.html',
   styleUrl: './home.css'

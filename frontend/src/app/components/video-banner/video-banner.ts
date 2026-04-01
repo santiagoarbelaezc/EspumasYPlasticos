@@ -20,6 +20,7 @@ export class VideoBanner implements AfterViewInit, OnDestroy {
   private hideTimeout: any;
   private videoPlayAttempted = false;
   private timeUpdateListener: any;
+  private intersectionObserver?: IntersectionObserver;
 
   @ViewChild('heroVideo', { static: true }) heroVideo!: ElementRef<HTMLVideoElement>;
 
@@ -28,21 +29,27 @@ export class VideoBanner implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const video = this.heroVideo.nativeElement;
 
-    this.showOverlay = false;
+    this.showOverlay = true;
     this.cdr.detectChanges();
 
     if (!this.videoPlayAttempted) {
       this.videoPlayAttempted = true;
+      // Ya no hacemos autoplay al iniciar, mostramos overlay.
+    }
 
-      video.play()
-        .then(() => {
-          this.scheduleOverlay();
-        })
-        .catch(() => {
+    // Configurar Intersection Observer para pausar el video si sale del viewport
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting && !video.paused) {
+          video.pause();
+          this.isPlaying = false;
           this.showOverlay = true;
           this.cdr.detectChanges();
-        });
-    }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    this.intersectionObserver.observe(video);
 
     video.addEventListener('playing', () => {
       this.isPlaying = true;
@@ -97,14 +104,9 @@ export class VideoBanner implements AfterViewInit, OnDestroy {
   }
 
   onVideoLoaded() {
-    const video = this.heroVideo.nativeElement;
-    video.play().then(() => {
-      this.isPlaying = true;
-      this.cdr.detectChanges();
-    }).catch(() => {
-      this.isPlaying = false;
-      this.cdr.detectChanges();
-    });
+    this.isPlaying = false;
+    this.showOverlay = true;
+    this.cdr.detectChanges();
   }
 
   playVideo() {
@@ -124,6 +126,9 @@ export class VideoBanner implements AfterViewInit, OnDestroy {
     const video = this.heroVideo?.nativeElement;
     if (video && this.timeUpdateListener) {
       video.removeEventListener('timeupdate', this.timeUpdateListener);
+    }
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
     }
   }
 

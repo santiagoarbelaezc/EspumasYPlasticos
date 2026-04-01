@@ -139,12 +139,11 @@
 
 /* ── Botón de Play ──────────────────────────────── */
 .play-button {
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    width: 44px;
-    height: 44px;
-    border-radius: 0;
+    position: relative;
+    margin-top: 40px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
@@ -171,6 +170,7 @@
 
 .play-button:hover svg {
     color: #fff;
+    transform: scale(1.1);
 }
 
 .play-button.hidden {
@@ -208,10 +208,9 @@
     }
 
     .play-button {
-        width: 38px;
-        height: 38px;
-        bottom: 20px;
-        right: 20px;
+        width: 48px;
+        height: 48px;
+        margin-top: 30px;
     }
 
     .play-button svg {

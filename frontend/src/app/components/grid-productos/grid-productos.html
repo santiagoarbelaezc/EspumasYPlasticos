@@ -13,9 +13,6 @@
             <ng-container *ngIf="producto.nombre">
               <h3 class="producto-nombre">{{producto.nombre}}</h3>
             </ng-container>
-            <ng-container *ngIf="producto.precio">
-              <p class="producto-precio">{{formatearPrecio(producto.precio)}}</p>
-            </ng-container>
           </div>
         </div>
         
@@ -38,9 +35,6 @@
           <div class="info-extra" [class.visible]="hoveredIndex === (4 + i)">
             <ng-container *ngIf="producto.nombre">
               <h3 class="producto-nombre">{{producto.nombre}}</h3>
-            </ng-container>
-            <ng-container *ngIf="producto.precio">
-              <p class="producto-precio">{{formatearPrecio(producto.precio)}}</p>
             </ng-container>
           </div>
         </div>

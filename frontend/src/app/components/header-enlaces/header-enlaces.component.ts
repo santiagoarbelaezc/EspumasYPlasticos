@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -9,7 +9,18 @@ import { RouterModule } from '@angular/router';
   templateUrl: './header-enlaces.component.html',
   styleUrl: './header-enlaces.component.css'
 })
-export class HeaderEnlacesComponent {
+export class HeaderEnlacesComponent implements OnInit {
+  hideTitle = false;
+  titulo = 'Encuentra soluciones';
+  subtitulo = 'Explora nuestras categorías y marcas';
+  logoSrc = 'assets/img/logo-grande.png';
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.hideTitle = true;
+    }, 2000);
+  }
+
  items = [
     {
       title: 'Colchones',

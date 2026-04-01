@@ -1,18 +1,16 @@
+<!-- Contenedor del video a todo el ancho -->
+<section class="video-full-width">
+  <app-header-video></app-header-video>
+</section>
+
 <section class="section-header">
   <div class="container">
     <h2 class="section-title">Quiénes somos</h2>
     <p class="section-subtitle">
-      En Espumas y Plásticos convertimos insumos en soluciones confortables para el descanso y el bienestar. Con más de una década de experiencia en la industria, nos dedicamos a diseñar y fabricar productos que transforman la vida de nuestros clientes, combinando innovación, calidad y compromiso con la sostenibilidad.
+      En Espumas y Plásticos convertimos insumos en soluciones confortables para el descanso y el bienestar. Con más de
+      una década de experiencia en la industria, nos dedicamos a diseñar y fabricar productos que transforman la vida de
+      nuestros clientes, combinando innovación, calidad y compromiso con la sostenibilidad.
     </p>
-    <div class="section-carousel">
-      <div class="carousel-fade">
-        <img
-          *ngFor="let imagen of imagenesCarrusel; let i = index"
-          [src]="imagen.url"
-          [alt]="imagen.alt || 'Imagen carrusel'"
-          [class.active]="i === currentSlide"
-        />
-      </div>
-    </div>
+
   </div>
 </section>
