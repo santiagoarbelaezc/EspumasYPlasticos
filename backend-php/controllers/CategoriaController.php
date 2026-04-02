@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Config\Database;
 use App\Config\CloudinaryConfig;
 use App\Utils\Response;
+use App\Utils\Logger;
 use App\Middleware\UploadMiddleware;
 use PDO;
 
@@ -26,6 +27,7 @@ class CategoriaController {
         $nombre = $_POST['nombre'] ?? '';
         
         if (empty($nombre)) {
+            Logger::warning("⚠️  Intento de creación de categoría sin nombre");
             Response::error('El nombre es obligatorio', 400);
         }
 
@@ -34,6 +36,7 @@ class CategoriaController {
         $icono_public_id = $imageInfo['public_id'] ?? null;
 
         try {
+            Logger::info("📂 Creando nueva categoría: $nombre");
             $db = Database::getConnection();
             if ($icono_url) {
                 $stmt = $db->prepare('INSERT INTO categorias (nombre, icono_url, icono_public_id) VALUES (?, ?, ?)');
@@ -119,8 +122,10 @@ class CategoriaController {
             $stmt = $db->prepare('DELETE FROM categorias WHERE id = ?');
             $stmt->execute([$id]);
 
+            Logger::info("✅ Categoría ID: $id eliminada correctamente");
             Response::success(['mensaje' => 'Categoría eliminada correctamente']);
         } catch (\Exception $e) {
+            Logger::error("❌ Error eliminando categoría: " . $e->getMessage());
             Response::error('No se pudo eliminar la categoría', 500, $e->getMessage());
         }
     }

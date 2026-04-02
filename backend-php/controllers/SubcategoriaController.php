@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Utils\Response;
+use App\Utils\Logger;
 use PDO;
 
 class SubcategoriaController {
@@ -33,11 +34,14 @@ class SubcategoriaController {
         }
 
         try {
+            Logger::info("📂 Creando nueva subcategoría: $nombre en categoría: $categoria_id");
             $db = Database::getConnection();
             $stmt = $db->prepare('INSERT INTO subcategorias (nombre, categoria_id) VALUES (?, ?)');
             $stmt->execute([$nombre, $categoria_id]);
+            Logger::info("✅ Subcategoría creada con éxito");
             Response::success(['mensaje' => 'Subcategoría creada con éxito'], 201);
         } catch (\Exception $e) {
+            Logger::error("❌ Error creando subcategoría: " . $e->getMessage());
             Response::error('No se pudo crear la subcategoría', 500, $e->getMessage());
         }
     }

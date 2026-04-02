@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Config\Database;
 use App\Config\CloudinaryConfig;
 use App\Utils\Response;
+use App\Utils\Logger;
 use App\Middleware\UploadMiddleware;
 use PDO;
 
@@ -153,17 +154,20 @@ class ProductoController {
         $subcategoria_id = (int)($_POST['subcategoria_id'] ?? 0);
 
         if (empty($nombre) || $precio <= 0 || $cantidad < 0 || !$subcategoria_id) {
+            Logger::warning("⚠️  Intento de creación de producto con datos inválidos");
             Response::error('Datos inválidos. Verifica los campos del formulario.', 400);
         }
 
         $imagesInfo = UploadMiddleware::handleMultipleUpload('imagenes', 'espumas_plasticos_productos');
 
         if (empty($imagesInfo)) {
+            Logger::warning("⚠️  Intento de creación de producto sin imágenes");
             Response::error('Debes subir al menos una imagen del producto.', 400);
         }
 
         $db = Database::getConnection();
         try {
+            Logger::info("📦 Creando nuevo producto: $nombre");
             $db->beginTransaction();
 
             $stmt = $db->prepare('INSERT INTO productos (nombre, descripcion, cantidad, precio, subcategoria_id) VALUES (?, ?, ?, ?, ?)');
@@ -176,9 +180,11 @@ class ProductoController {
             }
 
             $db->commit();
+            Logger::info("✅ Producto creado con ID: $productoId y " . count($imagesInfo) . " imágenes");
             Response::success(['mensaje' => 'Producto creado exitosamente', 'productoId' => $productoId], 201);
         } catch (\Exception $e) {
             if ($db->inTransaction()) $db->rollBack();
+            Logger::error("❌ Error creando producto: " . $e->getMessage());
             Response::error('Error interno al crear el producto', 500, $e->getMessage());
         }
     }
@@ -293,6 +299,8 @@ class ProductoController {
             $stmtImg = $db->prepare('SELECT public_id FROM producto_imagenes WHERE producto_id = ?');
             $stmtImg->execute([$id]);
             $images = $stmtImg->fetchAll();
+
+            Logger::info("🗑️  Eliminando producto ID: $id (" . count($images) . " imágenes)");
 
             foreach ($images as $img) {
                 CloudinaryConfig::delete($img['public_id']);

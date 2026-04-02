@@ -7,6 +7,7 @@ namespace App\Config;
 use PDO;
 use PDOException;
 use Dotenv\Dotenv;
+use App\Utils\Logger;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -34,8 +35,11 @@ class Database {
             ];
 
             try {
+                Logger::info("🔄 Intentando conectar a la base de datos: $host:$port/$db");
                 self::$instance = new PDO($dsn, $user, $pass, $options);
+                Logger::info("✅ Conexión a la base de datos exitosa");
             } catch (PDOException $e) {
+                Logger::error("❌ Error de conexión a la base de datos: " . $e->getMessage());
                 header('Content-Type: application/json');
                 http_response_code(500);
                 echo json_encode([

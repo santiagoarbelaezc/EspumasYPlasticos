@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Utils\Response;
+use App\Utils\Logger;
 use Firebase\JWT\JWT;
 use PDO;
 
@@ -27,13 +28,12 @@ class AuthController {
         $usuario = $stmt->fetch();
 
         if (!$usuario) {
+            Logger::warning("⚠️  Intento de login fallido: Usuario no encontrado ($correo)");
             Response::error('Usuario no encontrado', 401);
         }
 
         if (!password_verify($password, $usuario['password'])) {
-            // Nota: En el proyecto Node usaban bcrypt.compare. 
-            // Si las contraseñas en la DB fueron hasheadas con bcrypt de Node, 
-            // password_verify de PHP debería ser compatible.
+            Logger::warning("⚠️  Intento de login fallido: Contraseña incorrecta ($correo)");
             Response::error('Contraseña incorrecta', 401);
         }
 
@@ -46,6 +46,8 @@ class AuthController {
         ];
 
         $jwt = JWT::encode($payload, $_ENV['JWT_SECRET'], 'HS256');
+
+        Logger::info("✅ Login exitoso: $correo (ID: " . $usuario['id'] . ")");
 
         Response::success([
             'mensaje' => 'Login exitoso',
