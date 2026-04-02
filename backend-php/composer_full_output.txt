@@ -1,0 +1,4 @@
+Security advisory pool filter completed in 0.111 seconds
+Found 469 package versions referenced in your dependency graph. 44 (9%) were filtered away.
+Pool optimizer completed in 0.065 seconds
+Found 425 package versions referenced in your dependency graph. 299 (70%) were optimized away.

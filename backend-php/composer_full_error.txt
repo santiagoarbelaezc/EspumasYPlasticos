@@ -1,0 +1,160 @@
+Running 2.9.5 (2026-01-29 11:40:53) with PHP 8.5.1 on Windows NT / 10.0
+Reading ./composer.json (C:\Users\Santiago\OneDrive\Escritorio\Repositorios\EspumasYPlasticos\backend-php\composer.json)
+Loading config file ./composer.json (C:\Users\Santiago\OneDrive\Escritorio\Repositorios\EspumasYPlasticos\backend-php\composer.json)
+Checked CA file /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem does not exist or it is not a file.
+Checked directory /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem does not exist or it is not a directory.
+Checked CA file /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a file.
+Checked directory /etc/pki/tls/certs/ca-bundle.crt does not exist or it is not a directory.
+Checked CA file /etc/ssl/certs/ca-certificates.crt does not exist or it is not a file.
+Checked directory /etc/ssl/certs/ca-certificates.crt does not exist or it is not a directory.
+Checked CA file /etc/ssl/ca-bundle.pem does not exist or it is not a file.
+Checked directory /etc/ssl/ca-bundle.pem does not exist or it is not a directory.
+Checked CA file /usr/ssl/certs/ca-bundle.crt does not exist or it is not a file.
+Checked directory /usr/ssl/certs/ca-bundle.crt does not exist or it is not a directory.
+Checked CA file /opt/local/share/curl/curl-ca-bundle.crt does not exist or it is not a file.
+Checked directory /opt/local/share/curl/curl-ca-bundle.crt does not exist or it is not a directory.
+Checked CA file /usr/local/share/curl/curl-ca-bundle.crt does not exist or it is not a file.
+Checked directory /usr/local/share/curl/curl-ca-bundle.crt does not exist or it is not a directory.
+Checked CA file /usr/share/ssl/certs/ca-bundle.crt does not exist or it is not a file.
+Checked directory /usr/share/ssl/certs/ca-bundle.crt does not exist or it is not a directory.
+Checked CA file /etc/ssl/cert.pem does not exist or it is not a file.
+Checked directory /etc/ssl/cert.pem does not exist or it is not a directory.
+Checked CA file /usr/local/etc/openssl/cert.pem does not exist or it is not a file.
+Checked directory /usr/local/etc/openssl/cert.pem does not exist or it is not a directory.
+Checked CA file /usr/local/etc/openssl@1.1/cert.pem does not exist or it is not a file.
+Checked directory /usr/local/etc/openssl@1.1/cert.pem does not exist or it is not a directory.
+Checked CA file /opt/homebrew/etc/openssl@3/cert.pem does not exist or it is not a file.
+Checked directory /opt/homebrew/etc/openssl@3/cert.pem does not exist or it is not a directory.
+Checked CA file /opt/homebrew/etc/openssl@1.1/cert.pem does not exist or it is not a file.
+Checked directory /opt/homebrew/etc/openssl@1.1/cert.pem does not exist or it is not a directory.
+Checked CA file /etc/pki/tls/certs does not exist or it is not a file.
+Checked directory /etc/pki/tls/certs does not exist or it is not a directory.
+Checked CA file /etc/ssl/certs does not exist or it is not a file.
+Checked directory /etc/ssl/certs does not exist or it is not a directory.
+Checked CA file C:\Users\Santiago\AppData\Local\Temp\ope3BC2.tmp: valid
+Executing command (CWD): git --version
+Executing command (C:\Users\Santiago\OneDrive\Escritorio\Repositorios\EspumasYPlasticos\backend-php): git branch -a --no-color --no-abbrev -v
+Executing async command (C:\Users\Santiago\OneDrive\Escritorio\Repositorios\EspumasYPlasticos\backend-php): git rev-list main..Santiago
+Executing async command (C:\Users\Santiago\OneDrive\Escritorio\Repositorios\EspumasYPlasticos\backend-php): git rev-list remotes/origin/main..Santiago
+Failed to initialize global composer: Composer could not find the config file: C:/Users/Santiago/AppData/Roaming/Composer/composer.json
+
+Loading composer repositories with package information
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/packages.json from cache
+Downloading https://repo.packagist.org/packages.json if modified
+[304] https://repo.packagist.org/packages.json
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-vlucas~phpdotenv.json from cache
+Downloading https://repo.packagist.org/p2/vlucas/phpdotenv.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-firebase~php-jwt.json from cache
+Downloading https://repo.packagist.org/p2/firebase/php-jwt.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-cloudinary~cloudinary_php.json from cache
+Downloading https://repo.packagist.org/p2/cloudinary/cloudinary_php.json if modified
+[304] https://repo.packagist.org/p2/vlucas/phpdotenv.json
+[304] https://repo.packagist.org/p2/cloudinary/cloudinary_php.json
+[304] https://repo.packagist.org/p2/firebase/php-jwt.json
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-graham-campbell~result-type.json from cache
+Downloading https://repo.packagist.org/p2/graham-campbell/result-type.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-phpoption~phpoption.json from cache
+Downloading https://repo.packagist.org/p2/phpoption/phpoption.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-ctype.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-ctype.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-mbstring.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-mbstring.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-php80.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-php80.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-cloudinary~transformation-builder-sdk.json from cache
+Downloading https://repo.packagist.org/p2/cloudinary/transformation-builder-sdk.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~guzzle.json from cache
+Downloading https://repo.packagist.org/p2/guzzlehttp/guzzle.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~promises.json from cache
+Downloading https://repo.packagist.org/p2/guzzlehttp/promises.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~psr7.json from cache
+Downloading https://repo.packagist.org/p2/guzzlehttp/psr7.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-monolog~monolog.json from cache
+Downloading https://repo.packagist.org/p2/monolog/monolog.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~log.json from cache
+Downloading https://repo.packagist.org/p2/psr/log.json if modified
+[304] https://repo.packagist.org/p2/graham-campbell/result-type.json
+[304] https://repo.packagist.org/p2/phpoption/phpoption.json
+[304] https://repo.packagist.org/p2/symfony/polyfill-ctype.json
+[304] https://repo.packagist.org/p2/symfony/polyfill-mbstring.json
+[304] https://repo.packagist.org/p2/symfony/polyfill-php80.json
+[304] https://repo.packagist.org/p2/cloudinary/transformation-builder-sdk.json
+[304] https://repo.packagist.org/p2/guzzlehttp/guzzle.json
+[304] https://repo.packagist.org/p2/guzzlehttp/promises.json
+[304] https://repo.packagist.org/p2/guzzlehttp/psr7.json
+[304] https://repo.packagist.org/p2/monolog/monolog.json
+[304] https://repo.packagist.org/p2/psr/log.json
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~http-client.json from cache
+Downloading https://repo.packagist.org/p2/psr/http-client.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~deprecation-contracts.json from cache
+Downloading https://repo.packagist.org/p2/symfony/deprecation-contracts.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~psr7.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~promises.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-intl-idn.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-intl-idn.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~http-factory.json from cache
+Downloading https://repo.packagist.org/p2/psr/http-factory.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~http-message.json from cache
+Downloading https://repo.packagist.org/p2/psr/http-message.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-ralouphie~getallheaders.json from cache
+Downloading https://repo.packagist.org/p2/ralouphie/getallheaders.json if modified
+[304] https://repo.packagist.org/p2/symfony/polyfill-intl-idn.json
+[304] https://repo.packagist.org/p2/ralouphie/getallheaders.json
+[304] https://repo.packagist.org/p2/psr/http-client.json
+[304] https://repo.packagist.org/p2/symfony/deprecation-contracts.json
+[304] https://repo.packagist.org/p2/psr/http-factory.json
+[304] https://repo.packagist.org/p2/psr/http-message.json
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-intl-normalizer.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-intl-normalizer.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-php72.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-php72.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-php70.json from cache
+Downloading https://repo.packagist.org/p2/symfony/polyfill-php70.json if modified
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-mbstring.json from cache
+[304] https://repo.packagist.org/p2/symfony/polyfill-intl-normalizer.json
+[304] https://repo.packagist.org/p2/symfony/polyfill-php72.json
+[304] https://repo.packagist.org/p2/symfony/polyfill-php70.json
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-paragonie~random_compat.json from cache
+Downloading https://repo.packagist.org/p2/paragonie/random_compat.json if modified
+[304] https://repo.packagist.org/p2/paragonie/random_compat.json
+Built pool.
+Running security advisory pool filter.
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-vlucas~phpdotenv.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-cloudinary~cloudinary_php.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-firebase~php-jwt.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-graham-campbell~result-type.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-phpoption~phpoption.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-ctype.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-mbstring.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-php80.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-cloudinary~transformation-builder-sdk.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~guzzle.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~promises.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-guzzlehttp~psr7.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-monolog~monolog.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~log.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-intl-idn.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-ralouphie~getallheaders.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~http-client.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~deprecation-contracts.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~http-factory.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-psr~http-message.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-intl-normalizer.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-php72.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-symfony~polyfill-php70.json from cache
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-paragonie~random_compat.json from cache
+Running pool optimizer.
+Updating dependencies
+Generating rules
+Resolving dependencies through SAT
+Looking at all rules.
+Something's changed, looking at all rules again (pass #1)
+Dependency resolution completed in 0.007 seconds
+Reading C:/Users/Santiago/AppData/Local/Composer/repo/https---repo.packagist.org/provider-firebase~php-jwt.json from cache
+Downloading https://packagist.org/api/security-advisories/
+[200] https://packagist.org/api/security-advisories/
+Your requirements could not be resolved to an installable set of packages.
+
+  Problem 1
+    - Root composer.json requires firebase/php-jwt ^6.10, found firebase/php-jwt[v6.10.0, v6.10.1, v6.10.2, v6.11.0, v6.11.1] but these were not loaded, because they are affected by security advisories ("PKSA-y2cr-5h3j-g3ys"). Go to https://packagist.org/security-advisories/ to find advisory details. To ignore the advisories, add them to the audit "ignore" config. To turn the feature off entirely, you can set "block-insecure" to false in your "audit" config.
+
