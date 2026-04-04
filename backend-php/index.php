@@ -12,10 +12,11 @@ use App\Utils\Logger;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-// Configuración de CORS
+// Configuración de CORS - Más permisiva para depuración
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Methods: *");
+header("Access-Control-Allow-Headers: *");
+header("Access-Control-Max-Age: 86400");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -80,6 +81,7 @@ $router = new Router();
 (require __DIR__ . '/routes/categoria.routes.php')($router);
 (require __DIR__ . '/routes/subcategoria.routes.php')($router);
 (require __DIR__ . '/routes/producto.routes.php')($router);
+(require __DIR__ . '/routes/importar.routes.php')($router);
 
 // Health check para Elastic Beanstalk o similares
 $router->add('GET', '/health', function() {

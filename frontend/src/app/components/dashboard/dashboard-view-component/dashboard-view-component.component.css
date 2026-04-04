@@ -111,6 +111,19 @@
   filter: drop-shadow(0 4px 12px rgba(21, 205, 130, 0.25));
 }
 
+.sync-card:hover {
+  background: linear-gradient(135deg, #009AA2 0%, #15CD82 100%);
+  border-color: #15CD82;
+}
+
+.sync-card:hover fa-icon {
+  color: #ffffff;
+}
+
+.sync-card:hover span {
+  color: #ffffff;
+}
+
 .card span {
   font-size: 1.2rem;
   font-weight: 700;

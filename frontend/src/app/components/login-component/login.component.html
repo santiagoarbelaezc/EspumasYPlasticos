@@ -24,15 +24,20 @@
       <!-- Contraseña -->
       <div>
         <label for="password">Contraseña</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          [(ngModel)]="dto.password"
-          placeholder="Tu contraseña"
-          required
-          #passwordRef="ngModel"
-        />
+        <div class="password-container">
+          <input
+            [type]="mostrarPassword ? 'text' : 'password'"
+            id="password"
+            name="password"
+            [(ngModel)]="dto.password"
+            placeholder="Tu contraseña"
+            required
+            #passwordRef="ngModel"
+          />
+          <button type="button" class="btn-toggle-password" (click)="togglePassword()">
+            {{ mostrarPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
         <div class="error" *ngIf="passwordRef.invalid && passwordRef.touched">
           La contraseña es obligatoria
         </div>

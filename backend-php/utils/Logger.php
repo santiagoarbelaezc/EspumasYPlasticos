@@ -24,11 +24,6 @@ class Logger {
         
         // Log to dev console (if in CLI or if desired to see in error log)
         error_log($formattedMessage);
-
-        // For local development feedback, if we want to see it in the terminal running a server:
-        if (php_sapi_name() === 'cli-server' || php_sapi_name() === 'cli') {
-            echo $formattedMessage;
-        }
     }
 
     public static function info(string $message): void {
@@ -45,5 +40,10 @@ class Logger {
 
     public static function request(string $method, string $uri): void {
         self::log("REQUEST: $method $uri", 'HTTP');
+    }
+
+    private static function console(string $level, string $message): void {
+        $time = date('Y-m-d H:i:s');
+        error_log("[$time] [$level] $message");
     }
 }

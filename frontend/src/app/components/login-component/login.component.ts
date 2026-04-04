@@ -20,6 +20,7 @@ import { AlertService } from '../../services/alert.service';
   export class LoginComponent {
     dto = new LoginDTO(); // Usa el DTO
     error = '';
+    mostrarPassword = false;
 
   constructor(private auth: AuthService, private router: Router, private alert: AlertService) {
     if (this.auth.getToken()) {
@@ -58,6 +59,10 @@ import { AlertService } from '../../services/alert.service';
 
   volverAlInicio(): void {
     this.router.navigate(['/']);
+  }
+
+  togglePassword(): void {
+    this.mostrarPassword = !this.mostrarPassword;
   }
 
 }

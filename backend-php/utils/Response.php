@@ -6,9 +6,11 @@ namespace App\Utils;
 
 class Response {
     public static function success($data = [], int $code = 200): void {
-        header('Content-Type: application/json');
+        header('Content-Type: application/json; charset=utf-8');
         http_response_code($code);
-        echo json_encode($data);
+        $json = json_encode($data);
+        Logger::info("OUTGOING SUCCESS: " . (strlen($json) > 100 ? substr($json, 0, 100) . "..." : $json));
+        echo $json;
         exit;
     }
 

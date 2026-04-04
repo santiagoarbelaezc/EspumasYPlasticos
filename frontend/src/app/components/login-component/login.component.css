@@ -137,6 +137,37 @@ form > div {
   font-size: 0.9rem;
 }
 
+/* Password Toggle Styles */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  padding-right: 45px; /* Espacio para el icono */
+}
+
+.btn-toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none !important;
+  border: none !important;
+  color: #888;
+  padding: 5px !important;
+  cursor: pointer;
+  box-shadow: none !important;
+  font-size: 1.1rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-toggle-password:hover {
+  color: #009AA2;
+  transform: none !important;
+}
+
 /* Mensajes de error */
 .error {
   color: #ff6b6b;
