@@ -13,7 +13,7 @@ export class EmpresasDropdownComponent {
   private closeMenuTimer: any;
 
   empresas = [
-    { nombre: 'Plaxtilineas', url: 'https://www.plaxtilineas.com/' },
+    { nombre: 'Plaxtilineas', url: 'https://plaxtilineas.com/' },
     { nombre: 'Districol', url: 'https://colchonesdistricol.com/' }
   ];
 

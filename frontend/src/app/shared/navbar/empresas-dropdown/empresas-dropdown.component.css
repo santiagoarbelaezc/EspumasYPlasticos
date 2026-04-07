@@ -90,11 +90,15 @@
 }
 
 .categoria-column {
-  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
   transition: all 0.3s ease;
   border-left: 3px solid transparent;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
+  text-decoration: none;
+  background-color: transparent;
 }
 
 .categoria-column:hover {
@@ -102,11 +106,7 @@
   border-left-color: #15CD82;
 }
 
-/* === ENLACES === */
-.categoria-header {
-  display: block;
-  text-decoration: none;
-}
+
 
 .categoria-name {
   color: #2D2D2D;
