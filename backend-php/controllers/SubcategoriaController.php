@@ -12,12 +12,32 @@ use PDO;
 class SubcategoriaController {
     public static function obtenerSubcategorias(): void {
         try {
+            $nombre = $_GET['nombre'] ?? null;
+            $categoria_id = $_GET['categoria_id'] ?? null;
             $db = Database::getConnection();
-            $stmt = $db->query('
+
+            $sql = "
                 SELECT s.id, s.nombre, s.categoria_id, c.nombre AS categoria
                 FROM subcategorias s
                 JOIN categorias c ON s.categoria_id = c.id
-            ');
+                WHERE 1=1
+            ";
+            $params = [];
+
+            if ($nombre) {
+                $sql .= " AND s.nombre LIKE ?";
+                $params[] = "%$nombre%";
+            }
+
+            if ($categoria_id) {
+                $sql .= " AND s.categoria_id = ?";
+                $params[] = $categoria_id;
+            }
+
+            $sql .= " ORDER BY c.nombre ASC, s.nombre ASC";
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
             Response::success($stmt->fetchAll());
         } catch (\Exception $e) {
             Response::error('No se pudieron obtener las subcategorías', 500, $e->getMessage());
@@ -25,7 +45,8 @@ class SubcategoriaController {
     }
 
     public static function crearSubcategoria(): void {
-        $data = json_decode(file_get_contents('php://input'), true);
+        // En JSON POST, usar Request::all() para parsear correctamente en Hostinger
+        $data = \App\Utils\Request::all();
         $nombre = $data['nombre'] ?? '';
         $categoria_id = $data['categoria_id'] ?? null;
 
@@ -47,11 +68,11 @@ class SubcategoriaController {
     }
 
     public static function actualizarSubcategoria(int $id): void {
-        $rawInput = file_get_contents('php://input');
-        $data = json_decode($rawInput, true);
+        // En JSON POST/PUT, usar Request::all() para parsear correctamente en Hostinger
+        $data = \App\Utils\Request::all();
         
         Logger::info("🔄 Intentando actualizar subcategoría ID: $id");
-        Logger::debug("📥 Raw input: " . (strlen($rawInput) > 200 ? substr($rawInput, 0, 200) . "..." : $rawInput));
+        Logger::debug("📥 Input data: " . json_encode($data));
 
         $nombre = $data['nombre'] ?? '';
         $categoria_id = $data['categoria_id'] ?? null;

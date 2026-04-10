@@ -14,24 +14,54 @@ use PDO;
 class ProductoController {
     public static function obtenerProductos(): void {
         try {
-            $subcategoria_id = $_GET['subcategoria_id'] ?? null;
             $db = Database::getConnection();
+
+            // Parámetros de filtrado
+            $subcategoria_id = $_GET['subcategoria_id'] ?? null;
+            $categoria_id = $_GET['categoria_id'] ?? null;
+            $nombre = $_GET['nombre'] ?? null;
+            $minPrice = $_GET['min_precio'] ?? null;
+            $maxPrice = $_GET['max_precio'] ?? null;
 
             $sql = "
               SELECT p.id, p.nombre, p.descripcion, p.cantidad, p.precio,
                 p.subcategoria_id,
                 s.nombre AS subcategoria,
+                c.id AS categoria_id,
                 c.nombre AS categoria
               FROM productos p
               JOIN subcategorias s ON p.subcategoria_id = s.id
               JOIN categorias c ON s.categoria_id = c.id
+              WHERE 1=1
             ";
             $params = [];
 
             if ($subcategoria_id) {
-                $sql .= ' WHERE p.subcategoria_id = ?';
+                $sql .= ' AND p.subcategoria_id = ?';
                 $params[] = $subcategoria_id;
             }
+
+            if ($categoria_id) {
+                $sql .= ' AND c.id = ?';
+                $params[] = $categoria_id;
+            }
+
+            if ($nombre) {
+                $sql .= ' AND p.nombre LIKE ?';
+                $params[] = "%$nombre%";
+            }
+
+            if ($minPrice !== null && $minPrice !== '') {
+                $sql .= ' AND p.precio >= ?';
+                $params[] = (float)$minPrice;
+            }
+
+            if ($maxPrice !== null && $maxPrice !== '') {
+                $sql .= ' AND p.precio <= ?';
+                $params[] = (float)$maxPrice;
+            }
+
+            $sql .= " ORDER BY p.id DESC"; // Ordenar para que los más nuevos aparezcan arriba en el dashboard
 
             $stmt = $db->prepare($sql);
             $stmt->execute($params);
@@ -239,15 +269,16 @@ class ProductoController {
     }
 
     public static function actualizarProducto(int $id): void {
-        // En PHP Multipart POST (FormData), los campos están en $_POST y archivos en $_FILES
-        $nombre = trim($_POST['nombre'] ?? '');
-        $descripcion = trim($_POST['descripcion'] ?? '');
-        $cantidad = (int)($_POST['cantidad'] ?? 0);
-        $precio = (float)($_POST['precio'] ?? 0);
-        $subcategoria_id = (int)($_POST['subcategoria_id'] ?? 0);
+        // En PUT requests con FormData, usar Request::all() porque PHP no puebla automáticamente $_POST
+        $params = \App\Utils\Request::all();
+        $nombre = trim($params['nombre'] ?? '');
+        $descripcion = trim($params['descripcion'] ?? '');
+        $cantidad = (int)($params['cantidad'] ?? 0);
+        $precio = (float)($params['precio'] ?? 0);
+        $subcategoria_id = (int)($params['subcategoria_id'] ?? 0);
 
         Logger::info("🔄 Intentando actualizar producto ID: $id - Nombre: $nombre");
-        Logger::debug("📥 POST data: nombre=$nombre, cantidad=$cantidad, precio=$precio, subcategoria_id=$subcategoria_id");
+        Logger::debug("📥 PUT data: nombre=$nombre, cantidad=$cantidad, precio=$precio, subcategoria_id=$subcategoria_id");
 
         if (empty($nombre) || $precio <= 0 || $cantidad < 0 || !$subcategoria_id) {
             Logger::warning("⚠️ Datos inválidos para actualizar producto ID $id");

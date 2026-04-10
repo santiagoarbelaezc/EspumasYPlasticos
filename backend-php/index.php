@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+// Verificar que la carpeta vendor existe antes de cargarla
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+    header('Content-Type: application/json');
+    http_response_code(500);
+    echo json_encode([
+        'error' => 'Falta la carpeta vendor. Por favor ejecuta composer install o sube la carpeta manualmente.',
+        'help' => 'https://docs.espumasyplasticos.com/deployment'
+    ]);
+    exit;
+}
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
@@ -62,6 +73,19 @@ class Router {
 
     public function dispatch(): void {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        
+        // Normalizar URI: Si estamos en un subdirectorio (ej: /api/), quitarlo de la URI
+        $scriptName = dirname($_SERVER['SCRIPT_NAME']);
+        // Limpiamos barras invertidas y aseguramos que no quede una barra al final si se quita el prefijo
+        $scriptName = str_replace('\\', '/', $scriptName);
+        if ($scriptName !== '/' && $scriptName !== '') {
+            $uri = preg_replace('#^' . preg_quote($scriptName, '#') . '#', '', $uri);
+        }
+        
+        // Asegurarse de que la URI empiece con /
+        if ($uri === '' || $uri === null) $uri = '/';
+        if ($uri[0] !== '/') $uri = '/' . $uri;
+
         $method = $_SERVER['REQUEST_METHOD'];
 
         // Soporte para _method en POST (Method Spoofing para PUT/DELETE)

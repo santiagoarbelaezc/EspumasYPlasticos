@@ -12,7 +12,8 @@ use PDO;
 
 class AuthController {
     public static function login(): void {
-        $data = json_decode(file_get_contents('php://input'), true);
+        // En JSON POST, usar Request::all() para parsear correctamente en Hostinger
+        $data = \App\Utils\Request::all();
         $correo = trim($data['correo'] ?? '');
         $password = $data['password'] ?? '';
 
@@ -66,7 +67,8 @@ class AuthController {
     }
 
     public static function register(): void {
-        $data = json_decode(file_get_contents('php://input'), true);
+        // En JSON POST, usar Request::all() para parsear correctamente en Hostinger
+        $data = \App\Utils\Request::all();
         
         $nombre = trim($data['nombre'] ?? '');
         $correo = trim($data['correo'] ?? '');

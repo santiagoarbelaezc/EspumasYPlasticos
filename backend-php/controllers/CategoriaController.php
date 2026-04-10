@@ -14,8 +14,21 @@ use PDO;
 class CategoriaController {
     public static function obtenerCategorias(): void {
         try {
+            $nombre = $_GET['nombre'] ?? null;
             $db = Database::getConnection();
-            $stmt = $db->query('SELECT * FROM categorias');
+            
+            $sql = "SELECT * FROM categorias";
+            $params = [];
+
+            if ($nombre) {
+                $sql .= " WHERE nombre LIKE ?";
+                $params[] = "%$nombre%";
+            }
+
+            $sql .= " ORDER BY nombre ASC";
+            
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
             $rows = $stmt->fetchAll();
             Response::success($rows);
         } catch (\Exception $e) {
