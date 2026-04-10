@@ -45,8 +45,8 @@ export class ProductosAdminComponent implements OnInit {
     this.formProducto = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
-      cantidad: ['', [Validators.required, Validators.min(1)]],
-      precio: ['', [Validators.required, Validators.min(0.01)]],
+      cantidad: ['', [Validators.required, Validators.min(0), this.noNegativeValidator.bind(this)]],
+      precio: ['', [Validators.required, Validators.min(0), this.noNegativeValidator.bind(this)]],
       subcategoria_id: ['', Validators.required]
     });
 
@@ -240,5 +240,14 @@ export class ProductosAdminComponent implements OnInit {
     this.imagenesSeleccionadas = [];
     this.editando = false;
     this.productoActualId = undefined;
+  }
+
+  /**
+   * Validador personalizado: rechaza valores negativos
+   */
+  noNegativeValidator(control: any) {
+    if (!control.value) return null;
+    const value = parseFloat(control.value);
+    return value < 0 ? { negative: true } : null;
   }
 }

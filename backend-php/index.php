@@ -12,6 +12,23 @@ use App\Utils\Logger;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
+// Configuración de errores global para el log de la app
+set_exception_handler(function($e) {
+    Logger::error("🔥 EXCEPCIÓN NO CONTROLADA: " . $e->getMessage());
+    Logger::error("📍 Trace: " . $e->getTraceAsString());
+    Response::error("Error interno del servidor", 500, $e->getMessage());
+});
+
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    if (!(error_reporting() & $errno)) return false;
+    $msg = "⚠️ ERROR PHP ($errno): $errstr en $errfile:$errline";
+    Logger::warning($msg);
+    if ($errno === E_ERROR || $errno === E_CORE_ERROR || $errno === E_COMPILE_ERROR) {
+        Response::error("Error fatal en el servidor", 500, $msg);
+    }
+    return true;
+});
+
 // Configuración de CORS - Más permisiva para depuración
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *");
@@ -65,7 +82,9 @@ class Router {
                 }
 
                 // Ejecutar handler
-                call_user_func_array($route['handler'], $matches);
+                // Convertimos parámetros numéricos a int para evitar errores con strict_types=1
+                $params = array_map(fn($m) => is_numeric($m) ? (int)$m : $m, $matches);
+                call_user_func_array($route['handler'], $params);
                 return;
             }
         }

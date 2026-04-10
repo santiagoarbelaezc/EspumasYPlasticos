@@ -94,6 +94,10 @@ const productsMultipleUpload = (req, res, next) => {
   }).array('imagenes', 5);
   
   multerMiddleware(req, res, async (err) => {
+    console.log('🔍 Middleware productsMultipleUpload ejecutado');
+    console.log('   req.files:', req.files ? `${req.files.length} archivos` : 'No recibidos');
+    console.log('   Content-Type:', req.headers['content-type']);
+    
     if (err) {
       console.error('❌ Error en productsMultipleUpload:', err.message);
       return res.status(400).json({
@@ -103,30 +107,34 @@ const productsMultipleUpload = (req, res, next) => {
       });
     }
     
-    if (req.files && req.files.length > 0) {
-      try {
-        console.log(`📷 Subiendo ${req.files.length} imágenes a Cloudinary...`);
-        const uploadPromises = req.files.map(file =>
-          uploadToCloudinary(file.buffer, 'espumas_plasticos_productos')
-        );
-        const results = await Promise.all(uploadPromises);
-        
-        req.imagesInfo = results.map((result, index) => ({
-          url: result.secure_url,
-          publicId: result.public_id,
-          originalName: req.files[index].originalname,
-          size: req.files[index].size
-        }));
-        
-        console.log(`✅ ${req.imagesInfo.length} imágenes uploadadas correctamente`);
-      } catch (cloudinaryError) {
-        console.error('❌ Error subiendo a Cloudinary:', cloudinaryError.message);
-        return res.status(500).json({
-          success: false,
-          message: 'Error subiendo imágenes a Cloudinary',
-          error: cloudinaryError.message
-        });
-      }
+    if (!req.files || req.files.length === 0) {
+      console.warn('⚠️  No se recibieron archivos en el campo "imagenes"');
+      req.imagesInfo = [];
+      return next();
+    }
+    
+    try {
+      console.log(`📷 Subiendo ${req.files.length} imágenes a Cloudinary...`);
+      const uploadPromises = req.files.map(file =>
+        uploadToCloudinary(file.buffer, 'espumas_plasticos_productos')
+      );
+      const results = await Promise.all(uploadPromises);
+      
+      req.imagesInfo = results.map((result, index) => ({
+        url: result.secure_url,
+        publicId: result.public_id,
+        originalName: req.files[index].originalname,
+        size: req.files[index].size
+      }));
+      
+      console.log(`✅ ${req.imagesInfo.length} imágenes uploadadas correctamente`);
+    } catch (cloudinaryError) {
+      console.error('❌ Error subiendo a Cloudinary:', cloudinaryError.message);
+      return res.status(500).json({
+        success: false,
+        message: 'Error subiendo imágenes a Cloudinary',
+        error: cloudinaryError.message
+      });
     }
     
     next();

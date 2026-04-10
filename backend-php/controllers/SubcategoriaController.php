@@ -47,11 +47,17 @@ class SubcategoriaController {
     }
 
     public static function actualizarSubcategoria(int $id): void {
-        $data = json_decode(file_get_contents('php://input'), true);
+        $rawInput = file_get_contents('php://input');
+        $data = json_decode($rawInput, true);
+        
+        Logger::info("🔄 Intentando actualizar subcategoría ID: $id");
+        Logger::debug("📥 Raw input: " . (strlen($rawInput) > 200 ? substr($rawInput, 0, 200) . "..." : $rawInput));
+
         $nombre = $data['nombre'] ?? '';
         $categoria_id = $data['categoria_id'] ?? null;
 
         if (empty($nombre) || !$categoria_id) {
+            Logger::warning("⚠️ Datos insuficientes para actualizar subcategoría ID $id. Nombre: '$nombre', CategoriaID: '$categoria_id'");
             Response::error('El nombre y la categoría son requeridos', 400);
         }
 
@@ -59,8 +65,11 @@ class SubcategoriaController {
             $db = Database::getConnection();
             $stmt = $db->prepare('UPDATE subcategorias SET nombre = ?, categoria_id = ? WHERE id = ?');
             $stmt->execute([$nombre, $categoria_id, $id]);
+            
+            Logger::info("✅ Subcategoría ID $id actualizada con éxito");
             Response::success(['mensaje' => 'Subcategoría actualizada con éxito']);
         } catch (\Exception $e) {
+            Logger::error("❌ Error actualizando subcategoría ID $id: " . $e->getMessage());
             Response::error('No se pudo actualizar la subcategoría', 500, $e->getMessage());
         }
     }

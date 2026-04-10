@@ -57,15 +57,14 @@ class CategoriaController {
     }
 
     public static function actualizarCategoria(int $id): void {
-        // Para actualizaciones con archivos en PHP (Multipart PUT), 
-        // a veces es necesario usar POST y simular PUT, o leer php://input.
-        // Pero el user pidió pure PHP y el original usaba PUT.
-        // En PHP puro, $_POST solo se llena con multipart/form-data en peticiones POST.
-        // Simularemos soporte leyendo el cuerpo si es necesario o asumiendo POST si es Multipart.
+        $params = \App\Utils\Request::all();
+        $nombre = $params['nombre'] ?? '';
         
-        $nombre = $_POST['nombre'] ?? '';
-        
+        Logger::info("🔄 Intentando actualizar categoría ID: $id");
+        Logger::debug("📥 Parámetros recibidos: " . json_encode($params));
+
         if (empty($nombre)) {
+            Logger::warning("⚠️  Intento de actualizar categoría ID $id sin nombre");
             Response::error('El nombre es obligatorio', 400);
         }
 
@@ -76,34 +75,42 @@ class CategoriaController {
             $rows = $stmt->fetchAll();
 
             if (empty($rows)) {
+                Logger::warning("⚠️ Categoría ID $id no encontrada para actualización");
                 Response::error('Categoría no encontrada', 404);
             }
 
             $oldPublicId = $rows[0]['icono_public_id'];
+            
+            // Nota: handleSingleUpload solo funcionará si los archivos vienen en $_FILES 
+            // Esto sucede en POST con FormData. Para PUT multipart real, PHP tiene limitaciones.
             $imageInfo = UploadMiddleware::handleSingleUpload('icono', 'espumas_plasticos_categorias');
             $nuevoIcono = $imageInfo['secure_url'] ?? null;
             $nuevoPublicId = $imageInfo['public_id'] ?? null;
 
             if ($nuevoIcono && $oldPublicId) {
+                Logger::info("🖼️ Reemplazando imagen antigua: $oldPublicId");
                 CloudinaryConfig::delete($oldPublicId);
             }
 
             $sql = 'UPDATE categorias SET nombre = ?';
-            $params = [$nombre];
+            $sqlParams = [$nombre];
 
             if ($nuevoIcono) {
                 $sql .= ', icono_url = ?, icono_public_id = ?';
-                array_push($params, $nuevoIcono, $nuevoPublicId);
+                array_push($sqlParams, $nuevoIcono, $nuevoPublicId);
             }
 
             $sql .= ' WHERE id = ?';
-            $params[] = $id;
+            $sqlParams[] = $id;
 
             $stmt = $db->prepare($sql);
-            $stmt->execute($params);
+            $stmt->execute($sqlParams);
 
+            Logger::info("✅ Categoría ID $id actualizada correctamente");
             Response::success(['mensaje' => '✅ Categoría actualizada correctamente']);
         } catch (\Exception $e) {
+            Logger::error("❌ Error actualizando categoría ID $id: " . $e->getMessage());
+            Logger::error("📍 Trace: " . $e->getTraceAsString());
             Response::error('No se pudo actualizar la categoría', 500, $e->getMessage());
         }
     }

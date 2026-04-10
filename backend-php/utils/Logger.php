@@ -22,16 +22,26 @@ class Logger {
         // Log to file
         file_put_contents(self::$logFile, $formattedMessage, FILE_APPEND);
         
-        // Log to dev console (if in CLI or if desired to see in error log)
-        error_log($formattedMessage);
+        // Ciertas alertas críticas también al error_log del sistema
+        if (in_array($level, ['ERROR', 'WARNING', 'FATAL'])) {
+            error_log($formattedMessage);
+        }
     }
 
     public static function info(string $message): void {
         self::log($message, 'INFO');
     }
 
+    public static function debug(string $message): void {
+        self::log($message, 'DEBUG');
+    }
+
     public static function error(string $message): void {
         self::log($message, 'ERROR');
+    }
+
+    public static function fatal(string $message): void {
+        self::log($message, 'FATAL');
     }
 
     public static function warning(string $message): void {

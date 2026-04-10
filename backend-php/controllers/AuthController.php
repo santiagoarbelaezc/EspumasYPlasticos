@@ -66,7 +66,45 @@ class AuthController {
     }
 
     public static function register(): void {
-        Response::error('Funcionalidad no implementada', 501);
+        $data = json_decode(file_get_contents('php://input'), true);
+        
+        $nombre = trim($data['nombre'] ?? '');
+        $correo = trim($data['correo'] ?? '');
+        $password = $data['password'] ?? '';
+        $rol = $data['rol'] ?? 'user';
+        $estado = $data['estado'] ?? 'activo';
+
+        if (empty($nombre) || empty($correo) || empty($password)) {
+            Response::error('Nombre, correo y contraseña son requeridos', 400);
+        }
+
+        $correo = strtolower($correo);
+        $db = Database::getConnection();
+
+        // Verificar si el correo ya existe
+        $stmt = $db->prepare('SELECT id FROM usuarios WHERE correo = ?');
+        $stmt->execute([$correo]);
+        if ($stmt->fetch()) {
+            Response::error('El correo ya está registrado', 400);
+        }
+
+        try {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+            
+            $stmt = $db->prepare('INSERT INTO usuarios (nombre, correo, password, rol, estado) VALUES (?, ?, ?, ?, ?)');
+            $stmt->execute([$nombre, $correo, $hashedPassword, $rol, $estado]);
+
+            Logger::info("👤 Nuevo usuario registrado: $correo ($rol)");
+
+            Response::success([
+                'mensaje' => 'Usuario registrado exitosamente',
+                'id' => $db->lastInsertId()
+            ], 201);
+
+        } catch (\PDOException $e) {
+            Logger::error("❌ Error al registrar usuario: " . $e->getMessage());
+            Response::error('Error al registrar el usuario en la base de datos', 500);
+        }
     }
 
     public static function refreshToken(): void {

@@ -17,12 +17,22 @@ class Response {
     public static function error(string $message, int $code = 400, $details = null): void {
         header('Content-Type: application/json');
         http_response_code($code);
+        
         $response = [
             'error' => $message
         ];
+        
         if ($details) {
             $response['details'] = $details;
         }
+
+        $logMsg = "OUTGOING ERROR ($code): $message" . ($details ? " | Details: " . (is_string($details) ? $details : json_encode($details)) : "");
+        if ($code >= 500) {
+            Logger::error($logMsg);
+        } else {
+            Logger::warning($logMsg);
+        }
+
         echo json_encode($response);
         exit;
     }

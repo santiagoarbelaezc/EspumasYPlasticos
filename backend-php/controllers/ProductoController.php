@@ -146,18 +146,22 @@ class ProductoController {
     }
 
     public static function crearProducto(): void {
-        // En PHP Multipart POST, los campos están en $_POST y archivos en $_FILES
+        // En PHP Multipart POST (FormData), los campos están en $_POST y archivos en $_FILES
         $nombre = trim($_POST['nombre'] ?? '');
         $descripcion = trim($_POST['descripcion'] ?? '');
         $cantidad = (int)($_POST['cantidad'] ?? 0);
         $precio = (float)($_POST['precio'] ?? 0);
         $subcategoria_id = (int)($_POST['subcategoria_id'] ?? 0);
 
+        Logger::info("📦 Intentando crear producto: $nombre");
+        Logger::debug("📥 POST data: nombre=$nombre, cantidad=$cantidad, precio=$precio, subcategoria_id=$subcategoria_id");
+
         if (empty($nombre) || $precio <= 0 || $cantidad < 0 || !$subcategoria_id) {
             Logger::warning("⚠️  Intento de creación de producto con datos inválidos");
             Response::error('Datos inválidos. Verifica los campos del formulario.', 400);
         }
 
+        // Manejo de imágenes - puede venir como 'imagenes' (plural, array) o 'imagen' (singular)
         $imagesInfo = UploadMiddleware::handleMultipleUpload('imagenes', 'espumas_plasticos_productos');
 
         if (empty($imagesInfo)) {
@@ -167,7 +171,7 @@ class ProductoController {
 
         $db = Database::getConnection();
         try {
-            Logger::info("📦 Creando nuevo producto: $nombre");
+            Logger::info("📦 Creando nuevo producto: $nombre con " . count($imagesInfo) . " imágenes");
             $db->beginTransaction();
 
             $stmt = $db->prepare('INSERT INTO productos (nombre, descripcion, cantidad, precio, subcategoria_id) VALUES (?, ?, ?, ?, ?)');
@@ -180,7 +184,7 @@ class ProductoController {
             }
 
             $db->commit();
-            Logger::info("✅ Producto creado con ID: $productoId y " . count($imagesInfo) . " imágenes");
+            Logger::info("✅ Producto creado exitosamente: ID $productoId");
             Response::success(['mensaje' => 'Producto creado exitosamente', 'productoId' => $productoId], 201);
         } catch (\Exception $e) {
             if ($db->inTransaction()) $db->rollBack();
@@ -235,36 +239,49 @@ class ProductoController {
     }
 
     public static function actualizarProducto(int $id): void {
-        // En PHP Multipart POST (o PUT simulado), campos en $_POST
+        // En PHP Multipart POST (FormData), los campos están en $_POST y archivos en $_FILES
         $nombre = trim($_POST['nombre'] ?? '');
         $descripcion = trim($_POST['descripcion'] ?? '');
         $cantidad = (int)($_POST['cantidad'] ?? 0);
         $precio = (float)($_POST['precio'] ?? 0);
         $subcategoria_id = (int)($_POST['subcategoria_id'] ?? 0);
 
+        Logger::info("🔄 Intentando actualizar producto ID: $id - Nombre: $nombre");
+        Logger::debug("📥 POST data: nombre=$nombre, cantidad=$cantidad, precio=$precio, subcategoria_id=$subcategoria_id");
+
+        if (empty($nombre) || $precio <= 0 || $cantidad < 0 || !$subcategoria_id) {
+            Logger::warning("⚠️ Datos inválidos para actualizar producto ID $id");
+            Response::error('Datos inválidos. Verifica los campos del formulario.', 400);
+        }
+
         $db = Database::getConnection();
         try {
             $stmt = $db->prepare('SELECT id FROM productos WHERE id = ?');
             $stmt->execute([$id]);
             if (!$stmt->fetch()) {
+                Logger::warning("⚠️ Producto ID $id no encontrado");
                 Response::error('Producto no encontrado', 404);
             }
 
             $db->beginTransaction();
 
+            // La columna updated_at se actualiza automáticamente por el trigger de MySQL si fue definida como ON UPDATE CURRENT_TIMESTAMP
             $stmt = $db->prepare('UPDATE productos SET nombre = ?, descripcion = ?, cantidad = ?, precio = ?, subcategoria_id = ? WHERE id = ?');
             $stmt->execute([$nombre, $descripcion, $cantidad, $precio, $subcategoria_id, $id]);
 
+            // Manejo de nuevas imágenes si se proporcionan
             $imagesInfo = UploadMiddleware::handleMultipleUpload('imagenes', 'espumas_plasticos_productos');
 
             if (!empty($imagesInfo)) {
-                // Eliminar imágenes anteriores
+                Logger::info("🖼️ Reemplazando " . count($imagesInfo) . " imágenes para producto ID $id");
+                
+                // Eliminar imágenes anteriores en Cloudinary y DB
                 $stmtOld = $db->prepare('SELECT public_id FROM producto_imagenes WHERE producto_id = ?');
                 $stmtOld->execute([$id]);
                 $oldImgs = $stmtOld->fetchAll();
 
                 foreach ($oldImgs as $img) {
-                    CloudinaryConfig::delete($img['public_id']);
+                    if ($img['public_id']) CloudinaryConfig::delete($img['public_id']);
                 }
 
                 $stmtDel = $db->prepare('DELETE FROM producto_imagenes WHERE producto_id = ?');
@@ -278,9 +295,12 @@ class ProductoController {
             }
 
             $db->commit();
+            Logger::info("✅ Producto ID $id actualizado exitosamente");
             Response::success(['mensaje' => 'Producto actualizado con éxito']);
         } catch (\Exception $e) {
             if ($db->inTransaction()) $db->rollBack();
+            Logger::error("❌ Error actualizando producto ID $id: " . $e->getMessage());
+            Logger::error("📍 Trace: " . $e->getTraceAsString());
             Response::error('No se pudo actualizar el producto', 500, $e->getMessage());
         }
     }

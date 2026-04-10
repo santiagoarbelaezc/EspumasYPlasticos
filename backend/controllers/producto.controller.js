@@ -161,13 +161,24 @@ exports.crearProductoDesdeRuta = async (req, res) => {
     const precio = parseFloat(req.body.precio);
     const subcategoria_id = parseInt(req.body.subcategoria_id, 10);
 
+    console.log('📦 Creando producto:', {
+      nombre,
+      descripcion: descripcion.substring(0, 50),
+      cantidad,
+      precio,
+      subcategoria_id,
+      imagesRecibidas: req.imagesInfo ? req.imagesInfo.length : 0
+    });
+
     // ✅ Validación básica
     if (!nombre || isNaN(precio) || isNaN(cantidad) || isNaN(subcategoria_id)) {
+      console.warn('⚠️  Datos inválidos:', { nombre, precio, cantidad, subcategoria_id });
       return res.status(400).json({ error: 'Datos inválidos. Verifica los campos del formulario.' });
     }
 
     // ✅ Validación de imágenes (mínimo 1)
     if (!req.imagesInfo || req.imagesInfo.length === 0) {
+      console.error('❌ Error: No se recibieron imágenes. req.imagesInfo:', req.imagesInfo);
       return res.status(400).json({ error: 'Debes subir al menos una imagen del producto.' });
     }
 
@@ -195,6 +206,8 @@ exports.crearProductoDesdeRuta = async (req, res) => {
 
     await Promise.all(insertImagenes); // Ejecutar inserciones en paralelo
     await connection.commit();
+
+    console.log(`✅ Producto creado exitosamente: ID ${productoId} con ${req.imagesInfo.length} imágenes`);
 
     res.status(201).json({
       mensaje: 'Producto creado exitosamente con sus imágenes',

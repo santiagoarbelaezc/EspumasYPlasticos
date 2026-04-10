@@ -36,6 +36,7 @@ class CloudinaryConfig {
         $result = $cloudinary->uploadApi()->upload($filePath, [
             'folder' => $folder,
             'resource_type' => 'auto',
+            'verify' => false,
             'transformation' => [
                 ['width' => 800, 'height' => 600, 'crop' => 'limit']
             ]
