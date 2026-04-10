@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ProductoPreview {
   id: number;
@@ -17,7 +18,7 @@ export interface ProductoPreview {
   providedIn: 'root'
 })
 export class ImportarService {
-  private readonly api = '/api/importar';
+  private readonly api = `${environment.apiUrl}/importar`;
 
   constructor(private http: HttpClient) {}
 

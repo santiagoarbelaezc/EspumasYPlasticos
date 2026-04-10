@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductoDTO } from '../../models/productos/producto.dto';
+import { environment } from '../../../environments/environment';
 
 /**
  * Servicio para gestionar productos
@@ -11,7 +12,7 @@ import { ProductoDTO } from '../../models/productos/producto.dto';
   providedIn: 'root'
 })
 export class ProductoService {
-  private apiUrl = 'http://localhost:3000/api/producto';
+  private apiUrl = `${environment.apiUrl}/producto`;
 
   constructor(private http: HttpClient) {}
 

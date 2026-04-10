@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { LoginDTO } from '../models/auth/login.dto';
 import { Usuario } from '../models/auth/usuario.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly api = '/api/auth';
+  private readonly api = `${environment.apiUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 
