@@ -3,23 +3,41 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { CategoriaDTO } from '../../../models/categorias/categoria.dto';
+import { CategoriaConSubcategoriasDTO } from '../../../models/categorias/categoria-sub.dto';
 import { CategoriaService } from '../../../services/categorias/categoria.service';
 import { AlertService } from '../../../services/alert.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { 
+  faSearch, 
+  faCheck, 
+  faPlus, 
+  faTimes, 
+  faTrash, 
+  faArrowLeft 
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-categorias-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './categorias-admin.component.html',
   styleUrls: ['./categorias-admin.component.css']
 })
 export class CategoriasAdminComponent implements OnInit {
   categorias: CategoriaDTO[] = [];
   formCategoria!: FormGroup;
-  imagenSeleccionada?: File;
   previewUrl?: string;
   editando = false;
   categoriaActualId?: number;
+  searchNombre = '';
+
+  // 🎨 Iconos
+  faSearch = faSearch;
+  faCheck = faCheck;
+  faPlus = faPlus;
+  faTimes = faTimes;
+  faTrash = faTrash;
+  faArrowLeft = faArrowLeft;
 
   // 📄 Paginación
   currentPage = 1;
@@ -39,7 +57,8 @@ export class CategoriasAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.formCategoria = this.fb.group({
-      nombre: ['', Validators.required]
+      nombre: ['', Validators.required],
+      icono: [null]
     });
 
     this.cargarCategorias();
@@ -50,7 +69,7 @@ export class CategoriasAdminComponent implements OnInit {
   }
 
   cargarCategorias(): void {
-    this.categoriaService.obtenerCategorias().subscribe({
+    this.categoriaService.obtenerCategorias(this.searchNombre).subscribe({
       next: res => {
         this.categorias = res;
         this.totalCategorias = res.length;
@@ -59,6 +78,11 @@ export class CategoriasAdminComponent implements OnInit {
       },
       error: err => this.alert.mostrarError('Error al cargar categorías.')
     });
+  }
+
+  onSearchChange(event: any): void {
+    this.searchNombre = event.target.value;
+    this.cargarCategorias();
   }
 
   actualizarPaginacion(): void {
@@ -90,28 +114,28 @@ export class CategoriasAdminComponent implements OnInit {
     }
   }
 
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
-
-    this.imagenSeleccionada = input.files[0];
-
-    const reader = new FileReader();
-    reader.onload = () => this.previewUrl = reader.result as string;
-    reader.readAsDataURL(this.imagenSeleccionada);
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.formCategoria.patchValue({ icono: file });
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   guardarCategoria(): void {
     if (this.formCategoria.invalid) {
-      this.alert.mostrarError('El nombre de la categoría es obligatorio.', 'Campos incompletos');
+      this.alert.mostrarError('El nombre es obligatorio.', 'Campos incompletos');
       return;
     }
 
     const formData = new FormData();
     formData.append('nombre', this.formCategoria.value.nombre);
-
-    if (this.imagenSeleccionada) {
-      formData.append('icono', this.imagenSeleccionada);
+    if (this.formCategoria.value.icono) {
+      formData.append('icono', this.formCategoria.value.icono);
     }
 
     if (this.editando && this.categoriaActualId !== undefined) {
@@ -144,9 +168,10 @@ export class CategoriasAdminComponent implements OnInit {
   seleccionar(categoria: CategoriaDTO): void {
     this.editando = true;
     this.categoriaActualId = categoria.id;
-    this.formCategoria.patchValue({ nombre: categoria.nombre });
-    this.previewUrl = categoria.icono_url || undefined;
-    this.imagenSeleccionada = undefined;
+    this.formCategoria.patchValue({
+      nombre: categoria.nombre
+    });
+    this.previewUrl = categoria.icono_url;
   }
 
   cancelarEdicion(): void {
@@ -173,8 +198,10 @@ export class CategoriasAdminComponent implements OnInit {
   private resetFormulario(): void {
     this.formCategoria.reset();
     this.previewUrl = undefined;
-    this.imagenSeleccionada = undefined;
     this.editando = false;
     this.categoriaActualId = undefined;
+    // Limpiar input file manual si es necesario
+    const fileInput = document.getElementById('icono') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
   }
 }

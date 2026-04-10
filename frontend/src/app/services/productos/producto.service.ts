@@ -16,11 +16,20 @@ export class ProductoService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Obtiene todos los productos con sus imágenes
+   * Obtiene todos los productos con sus imágenes, opcionalmente filtrados
+   * @param filtros Objeto con criterios de búsqueda (nombre, min_precio, max_precio, categoria_id, subcategoria_id)
    * @returns Observable con array de ProductoDTO
    */
-  obtenerProductos(): Observable<ProductoDTO[]> {
-    return this.http.get<ProductoDTO[]>(this.apiUrl);
+  obtenerProductos(filtros?: any): Observable<ProductoDTO[]> {
+    let params = new HttpParams();
+    if (filtros) {
+      if (filtros.nombre) params = params.set('nombre', filtros.nombre);
+      if (filtros.min_precio) params = params.set('min_precio', filtros.min_precio.toString());
+      if (filtros.max_precio) params = params.set('max_precio', filtros.max_precio.toString());
+      if (filtros.categoria_id) params = params.set('categoria_id', filtros.categoria_id.toString());
+      if (filtros.subcategoria_id) params = params.set('subcategoria_id', filtros.subcategoria_id.toString());
+    }
+    return this.http.get<ProductoDTO[]>(this.apiUrl, { params });
   }
 
   /**

@@ -4,14 +4,28 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterModule, Router } from '@angular/router';
 import { ProductoDTO } from '../../../models/productos/producto.dto';
 import { SubcategoriaDTO } from '../../../models/subcategorias/subcategoria.dto';
+import { CategoriaDTO } from '../../../models/categorias/categoria.dto';
 import { ProductoService } from '../../../services/productos/producto.service';
 import { SubcategoriaService } from '../../../services/subcategorias/subcategoria.service';
+import { CategoriaService } from '../../../services/categorias/categoria.service';
 import { AlertService } from '../../../services/alert.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { 
+  faSearch, 
+  faRotate, 
+  faTrash, 
+  faArrowLeft, 
+  faImage, 
+  faCheck, 
+  faPlus, 
+  faTimes, 
+  faCircle 
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-productos-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './productos-admin.component.html',
   styleUrls: ['./productos-admin.component.css']
 })
@@ -23,6 +37,21 @@ export class ProductosAdminComponent implements OnInit {
   previewUrls: string[] = [];
   editando = false;
   productoActualId?: number;
+  categorias: CategoriaDTO[] = [];
+
+  // 🎨 Iconos
+  faSearch = faSearch;
+  faRotate = faRotate;
+  faTrash = faTrash;
+  faArrowLeft = faArrowLeft;
+  faImage = faImage;
+  faCheck = faCheck;
+  faPlus = faPlus;
+  faTimes = faTimes;
+  faCircle = faCircle;
+
+  // 🔍 Filtros
+  filtersForm!: FormGroup;
 
   // 📄 Paginación
   currentPage = 1;
@@ -37,6 +66,7 @@ export class ProductosAdminComponent implements OnInit {
     private fb: FormBuilder,
     private productoService: ProductoService,
     private subcategoriaService: SubcategoriaService,
+    private categoriaService: CategoriaService,
     private alert: AlertService,
     private router: Router
   ) {}
@@ -50,6 +80,19 @@ export class ProductosAdminComponent implements OnInit {
       subcategoria_id: ['', Validators.required]
     });
 
+    this.filtersForm = this.fb.group({
+      nombre: [''],
+      categoria_id: [''],
+      subcategoria_id: [''],
+      min_precio: [''],
+      max_precio: ['']
+    });
+
+    this.filtersForm.valueChanges.subscribe(() => {
+      this.cargarProductos();
+    });
+
+    this.cargarCategoriasDashboard();
     this.cargarSubcategorias();
     this.cargarProductos();
   }
@@ -58,7 +101,20 @@ export class ProductosAdminComponent implements OnInit {
     this.router.navigate(['/admin']);
   }
 
+  cargarCategoriasDashboard(): void {
+    this.categoriaService.obtenerCategorias().subscribe({
+      next: res => this.categorias = res,
+      error: err => this.alert.mostrarError('Error al cargar categorías.')
+    });
+  }
+
   cargarSubcategorias(): void {
+    const filters = this.filtersForm?.value;
+    const catId = filters?.categoria_id;
+    
+    // Si hay una categoría seleccionada en el filtro, traemos solo sus subcategorías para el filtro
+    // Pero el select del formulario de creación/edición necesita todas. 
+    // Para simplificar, traeremos todas por ahora, o podríamos filtrar dinámicamente.
     this.subcategoriaService.obtenerSubcategorias().subscribe({
       next: res => this.subcategorias = res,
       error: err => this.alert.mostrarError('Error al cargar subcategorías.')
@@ -66,7 +122,8 @@ export class ProductosAdminComponent implements OnInit {
   }
 
   cargarProductos(): void {
-    this.productoService.obtenerProductos().subscribe({
+    const filtros = this.filtersForm?.value;
+    this.productoService.obtenerProductos(filtros).subscribe({
       next: res => {
         this.productos = res;
         this.totalProducts = res.length;
@@ -249,5 +306,15 @@ export class ProductosAdminComponent implements OnInit {
     if (!control.value) return null;
     const value = parseFloat(control.value);
     return value < 0 ? { negative: true } : null;
+  }
+
+  limpiarFiltros(): void {
+    this.filtersForm.reset({
+      nombre: '',
+      categoria_id: '',
+      subcategoria_id: '',
+      min_precio: '',
+      max_precio: ''
+    });
   }
 }

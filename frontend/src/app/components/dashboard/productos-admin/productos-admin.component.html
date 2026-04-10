@@ -3,7 +3,7 @@
   <div class="formulario">
     <!-- Botón Volver -->
     <button class="btn-volver" type="button" (click)="volverAlDashboard()">
-      ← Volver al Dashboard
+      <fa-icon [icon]="faArrowLeft"></fa-icon> Volver al Dashboard
     </button>
 
     <h3>{{ editando ? 'Editar Producto' : 'Crear Producto' }}</h3>
@@ -73,6 +73,7 @@
         type="submit"
         [ngClass]="editando ? 'btn-actualizar' : 'btn-crear'"
         [disabled]="formProducto.invalid">
+        <fa-icon [icon]="editando ? faCheck : faPlus"></fa-icon> 
         {{ editando ? 'Actualizar' : 'Crear' }}
       </button>
 
@@ -81,14 +82,36 @@
         class="btn-cancelar"
         *ngIf="editando"
         (click)="cancelarEdicion()">
-        Cancelar
+        <fa-icon [icon]="faTimes"></fa-icon> Cancelar
       </button>
     </form>
   </div>
 
   <!-- Panel derecho: Tabla -->
   <div class="tabla">
-    <h3>Productos Registrados</h3>
+    <div class="header-tabla">
+      <h3>Productos Registrados</h3>
+      <div class="filters-container" [formGroup]="filtersForm">
+        <div class="search-container-with-icon">
+          <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+          <input type="text" formControlName="nombre" placeholder="Buscar por nombre..." />
+        </div>
+        <div class="filter-group">
+          <select formControlName="categoria_id">
+            <option value="">Todas las categorías</option>
+            <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
+          </select>
+        </div>
+        <div class="filter-group price-range">
+          <input type="number" formControlName="min_precio" placeholder="Precio Min" />
+          <span>-</span>
+          <input type="number" formControlName="max_precio" placeholder="Precio Max" />
+        </div>
+        <button type="button" class="btn-clear-filters" (click)="limpiarFiltros()" title="Limpiar filtros">
+          <fa-icon [icon]="faRotate"></fa-icon>
+        </button>
+      </div>
+    </div>
 
     <table>
       <thead>
@@ -109,15 +132,15 @@
           <td><span class="cell-cantidad">{{ prod.cantidad }}</span></td>
           <td>
             <span *ngIf="prod.imagenes && prod.imagenes.length > 0" class="img-count">
-              📷 {{ prod.imagenes.length }}
+              <fa-icon [icon]="faImage"></fa-icon> {{ prod.imagenes.length }}
             </span>
             <span *ngIf="!prod.imagenes || prod.imagenes.length === 0" class="img-count empty">
-              ○
+              <fa-icon [icon]="faCircle"></fa-icon>
             </span>
           </td>
           <td>
             <button type="button" class="btn-delete" (click)="eliminar(prod.id); $event.stopPropagation()" title="Eliminar producto">
-              🗑️ Eliminar
+              <fa-icon [icon]="faTrash"></fa-icon> Eliminar
             </button>
           </td>
         </tr>
@@ -136,7 +159,7 @@
           [disabled]="currentPage === 1"
           class="btn-pagination btn-prev"
           title="Página anterior">
-          ← Anterior
+          <fa-icon [icon]="faArrowLeft"></fa-icon> Anterior
         </button>
 
         <div class="page-numbers">

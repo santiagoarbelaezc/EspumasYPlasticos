@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CategoriaDTO } from '../../models/categorias/categoria.dto';
 import { CategoriaConSubcategoriasDTO } from '../../models/categorias/categoria-sub.dto';
@@ -13,11 +13,16 @@ export class CategoriaService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Obtener todas las categorías
+   * Obtener todas las categorías, opcionalmente filtradas
+   * @param nombre Término de búsqueda opcional
    * @returns Observable<CategoriaDTO[]>
    */
-  obtenerCategorias(): Observable<CategoriaDTO[]> {
-    return this.http.get<CategoriaDTO[]>(this.apiUrl);
+  obtenerCategorias(nombre?: string): Observable<CategoriaDTO[]> {
+    let params = new HttpParams();
+    if (nombre) {
+      params = params.set('nombre', nombre);
+    }
+    return this.http.get<CategoriaDTO[]>(this.apiUrl, { params });
   }
 
   /**

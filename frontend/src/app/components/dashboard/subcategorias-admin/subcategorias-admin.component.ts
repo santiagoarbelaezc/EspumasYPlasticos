@@ -7,11 +7,21 @@ import { CategoriaDTO } from '../../../models/categorias/categoria.dto';
 import { SubcategoriaService } from '../../../services/subcategorias/subcategoria.service';
 import { CategoriaService } from '../../../services/categorias/categoria.service';
 import { AlertService } from '../../../services/alert.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { 
+  faSearch, 
+  faRotate, 
+  faCheck, 
+  faPlus, 
+  faTimes, 
+  faTrash, 
+  faArrowLeft 
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-subcategorias-admin',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './subcategorias-admin.component.html',
   styleUrls: ['./subcategorias-admin.component.css']
 })
@@ -21,6 +31,16 @@ export class SubcategoriasAdminComponent implements OnInit {
   formSubcategoria!: FormGroup;
   editando = false;
   subcategoriaActualId?: number;
+  filtersForm!: FormGroup;
+
+  // 🎨 Iconos
+  faSearch = faSearch;
+  faRotate = faRotate;
+  faCheck = faCheck;
+  faPlus = faPlus;
+  faTimes = faTimes;
+  faTrash = faTrash;
+  faArrowLeft = faArrowLeft;
 
   // 📄 Paginación
   currentPage = 1;
@@ -45,6 +65,15 @@ export class SubcategoriasAdminComponent implements OnInit {
       categoria_id: ['', Validators.required]
     });
 
+    this.filtersForm = this.fb.group({
+      nombre: [''],
+      categoria_id: ['']
+    });
+
+    this.filtersForm.valueChanges.subscribe(() => {
+      this.cargarSubcategorias();
+    });
+
     this.cargarCategorias();
     this.cargarSubcategorias();
   }
@@ -61,7 +90,8 @@ export class SubcategoriasAdminComponent implements OnInit {
   }
 
   cargarSubcategorias(): void {
-    this.subcategoriaService.obtenerSubcategorias().subscribe({
+    const filtros = this.filtersForm?.value;
+    this.subcategoriaService.obtenerSubcategorias(filtros).subscribe({
       next: res => {
         this.subcategorias = res;
         this.totalSubcategorias = res.length;
@@ -69,6 +99,13 @@ export class SubcategoriasAdminComponent implements OnInit {
         this.actualizarPaginacion();
       },
       error: err => this.alert.mostrarError('Error al cargar subcategorías.')
+    });
+  }
+
+  limpiarFiltros(): void {
+    this.filtersForm.reset({
+      nombre: '',
+      categoria_id: ''
     });
   }
 

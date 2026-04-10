@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SubcategoriaDTO } from '../../models/subcategorias/subcategoria.dto';
 
@@ -12,11 +12,17 @@ export class SubcategoriaService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Obtener todas las subcategorías con su categoría asociada
+   * Obtener todas las subcategorías, opcionalmente filtradas
+   * @param filtros Objeto con criterios de búsqueda (nombre, categoria_id)
    * @returns Observable<SubcategoriaDTO[]>
    */
-  obtenerSubcategorias(): Observable<SubcategoriaDTO[]> {
-    return this.http.get<SubcategoriaDTO[]>(this.apiUrl);
+  obtenerSubcategorias(filtros?: { nombre?: string, categoria_id?: number }): Observable<SubcategoriaDTO[]> {
+    let params = new HttpParams();
+    if (filtros) {
+        if (filtros.nombre) params = params.set('nombre', filtros.nombre);
+        if (filtros.categoria_id) params = params.set('categoria_id', filtros.categoria_id.toString());
+    }
+    return this.http.get<SubcategoriaDTO[]>(this.apiUrl, { params });
   }
 
   /**

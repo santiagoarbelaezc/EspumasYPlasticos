@@ -3,7 +3,7 @@
   <div class="formulario">
     <!-- Botón Volver -->
     <button class="btn-volver" type="button" (click)="volverAlDashboard()">
-      ← Volver al Dashboard
+      <fa-icon [icon]="faArrowLeft"></fa-icon> Volver al Dashboard
     </button>
 
     <h3>{{ editando ? 'Editar Categoría' : 'Nueva Categoría' }}</h3>
@@ -37,7 +37,8 @@
         type="submit"
         [ngClass]="editando ? 'btn-actualizar' : 'btn-crear'"
         [disabled]="formCategoria.invalid">
-        {{ editando ? '✓ Actualizar' : '+ Crear' }}
+        <fa-icon [icon]="editando ? faCheck : faPlus"></fa-icon>
+        {{ editando ? 'Actualizar' : 'Crear' }}
       </button>
 
       <button
@@ -45,14 +46,23 @@
         class="btn-cancelar"
         *ngIf="editando"
         (click)="cancelarEdicion()">
-        ✕ Cancelar
+        <fa-icon [icon]="faTimes"></fa-icon> Cancelar
       </button>
     </form>
   </div>
 
   <!-- Panel derecho: Tabla -->
   <div class="tabla">
-    <h3>Categorías Registradas</h3>
+    <div class="header-tabla">
+      <h3>Categorías Registradas</h3>
+      <div class="search-container-with-icon">
+        <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+        <input 
+          type="text" 
+          placeholder="Buscar categoría..." 
+          (input)="onSearchChange($event)" />
+      </div>
+    </div>
 
     <table>
       <thead>
@@ -77,7 +87,7 @@
               type="button" 
               class="btn-delete"
               (click)="eliminar(cat.id); $event.stopPropagation()">
-              🗑️ Eliminar
+              <fa-icon [icon]="faTrash"></fa-icon> Eliminar
             </button>
           </td>
         </tr>
@@ -96,7 +106,7 @@
           [disabled]="currentPage === 1"
           class="btn-pagination btn-prev"
           title="Página anterior">
-          ← Anterior
+          <fa-icon [icon]="faArrowLeft"></fa-icon> Anterior
         </button>
 
         <div class="page-numbers">
