@@ -187,7 +187,7 @@ $dotenv->safeLoad();
         });
 
         function cargarUsuarios() {
-            fetch('http://localhost:8000/api/usuario/listar')
+            fetch('https://espumasyplasticos.com/api/usuario/listar')
                 .then(r => r.json())
                 .then(data => {
                     const div = document.getElementById('statusUsuarios');
@@ -217,10 +217,10 @@ $dotenv->safeLoad();
                 return;
             }
 
-            console.log('📤 Enviando login a http://localhost:8000/api/auth/login');
+            console.log('📤 Enviando login a https://espumasyplasticos.com/api/auth/login');
             console.log('Datos:', { correo, password });
 
-            fetch('http://localhost:8000/api/auth/login', {
+            fetch('https://espumasyplasticos.com/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

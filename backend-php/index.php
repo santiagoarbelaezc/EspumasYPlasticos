@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+// Debug: Habilitar visualización de errores solo si hay problemas (quitar en producción final)
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 // Verificar que la carpeta vendor existe antes de cargarla
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     header('Content-Type: application/json');

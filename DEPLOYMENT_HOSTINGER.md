@@ -1,6 +1,22 @@
 # 🚀 GUÍA DEPLOYMENT HOSTINGER - Backend PHP
 
-## 📋 Checklist Antes de Subir a Producción
+## 🆘 ERROR 500 RESUELTO - Sensibilidad a Mayúsculas en Linux
+
+**Problema**: En Windows las carpetas son insensibles a mayúsculas (utils = Utils), pero en Linux NO.
+El código busca `App\Controllers` pero si la carpeta se llama `controllers`, falla en Hostinger.
+
+**Solución**: Las carpetas DEBEN tener exactamente estos nombres en MAYÚSCULA:
+```
+backend-php/
+├── Controllers/   ← MAYÚSCULA (CamelCase)
+├── Config/        ← MAYÚSCULA (CamelCase)  
+├── Utils/         ← MAYÚSCULA (CamelCase)
+├── Middleware/    ← MAYÚSCULA (CamelCase)
+├── routes/
+├── vendor/
+```
+
+## 📋 PRE-FLIGHT CHECKLIST
 
 ### 1. **Verificar Configuración Local**
 - [ ] El backend funciona en `http://localhost:8000`
@@ -215,7 +231,57 @@ Asegúrate que el dominio apunta a Hostinger:
 
 ---
 
-## 📞 Soporte Hostinger
+## � SI TIENES ERROR 500 EN HOSTINGER
+
+### Paso 1: Verifica las Carpetas
+En el **File Manager de Hostinger**:
+1. Entra en `/public_html/api/`
+2. Verifica que existan EXACTAMENTE estas carpetas:
+   - `Controllers` (con C mayúscula)
+   - `Config` (con C mayúscula)
+   - `Utils` (con U mayúscula)
+   - `Middleware` (con M mayúscula)
+
+Si ves `controllers`, `config`, `utils`, `middleware` (minúsculas), **ese es el problema**.
+
+### Paso 2: Usa el Diagnóstico Avanzado
+Accede a: **https://espumasyplasticos.com/api/diagnostico-avanzado.php**
+
+Este archivo te mostrará:
+- ✅ Si todas las carpetas se encuentran con los nombres correctos
+- ✅ Si el autoloader de Composer funciona
+- ✅ Si las classes de PHP pueden encontrarse
+- ✅ Si la BD está conectada
+- ❌ Exactamente qué está fallando si algo no funciona
+
+### Paso 3: Prueba el Login Directo
+Accede a: **https://espumasyplasticos.com/api/test-login-directo.php**
+
+Este archivo prueba cada paso del login:
+1. Carga vendor
+2. Carga .env
+3. Conecta a BD
+4. Verifica clases
+5. ... y más
+
+Si esto funciona pero `/api/auth/login` devuelve 500, el problema es el `routing (.htaccess)`.
+
+### Paso 4: Verifica .htaccess
+En `/api/.htaccess`, asegúrate que contenga:
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+```
+
+Si mod_rewrite no está habilitado en Hostinger:
+- Panel de Control → Servidor → Verificar mod_rewrite
+- Si no está disponible, contacta a soporte de Hostinger
+
+---
 
 Si tienes problemas:
 1. Accede a `https://tudominio.com/api/diagnostico.php`

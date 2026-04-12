@@ -1,0 +1,5 @@
+api.zip
+vendor/
+.env
+logs/
+update_errors.txt

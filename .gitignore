@@ -34,3 +34,4 @@ backend-php/update_errors.txt
 # === TEST COVERAGE ===
 coverage/
 **/coverage/
+**/api.zip

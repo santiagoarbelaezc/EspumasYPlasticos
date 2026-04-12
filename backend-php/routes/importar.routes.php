@@ -9,10 +9,9 @@ use App\Middleware\AuthMiddleware;
  * Rutas para el proceso de importación de productos
  */
 return function($router) {
-    // Nueva ruta para obtener la vista previa del catálogo sin importar
     $router->add(
         'GET', 
-        '/api/importar/vista-previa', 
+        '/importar/vista-previa', 
         [ImportarController::class, 'obtenerVistaPrevia'], 
         [AuthMiddleware::class, 'verifyToken']
     );
@@ -20,7 +19,7 @@ return function($router) {
     // Solo permitimos ejecutar la importación mediante POST y con token de seguridad
     $router->add(
         'POST', 
-        '/api/importar/ejecutar', 
+        '/importar/ejecutar', 
         [ImportarController::class, 'ejecutarImportacion'], 
         [AuthMiddleware::class, 'verifyToken']
     );

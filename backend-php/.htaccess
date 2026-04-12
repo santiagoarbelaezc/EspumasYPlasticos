@@ -2,58 +2,38 @@ Options -Indexes
 
 # ─── Bloquear acceso directo al .env ─────────────────────────────────────────
 <FilesMatch "^\.env(\..*)?$">
+  Order Allow,Deny
   Deny from all
 </FilesMatch>
 
-# ─── Bloquear acceso a carpetas sensibles ────────────────────────────────────
-<FilesMatch "^(vendor|logs|\.git)">
-  Deny from all
-</FilesMatch>
-
-# ─── CORS Headers (Compatible con Hostinger) ────────────────────────────────
+# ─── CORS Headers (Permite solicitudes desde cualquier origen) ────────────────
 <IfModule mod_headers.c>
-  # Permitir CORS desde cualquier origen (ajusta según necesites)
   Header always set Access-Control-Allow-Origin "*"
-  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-  Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+  Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+  Header always set Access-Control-Allow-Headers "Content-Type, Authorization"
   Header always set Access-Control-Max-Age "3600"
-  
-  # Para solicitudes con credenciales
-  Header always set Access-Control-Allow-Credentials "true"
 </IfModule>
 
-# ─── Reescritura de URLs (Routing) ───────────────────────────────────────────
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  
-  # Responder a request OPTIONS (pre-flight CORS)
-  RewriteCond %{REQUEST_METHOD} OPTIONS
-  RewriteRule ^(.*)$ index.php [QSA,L]
-  
-  # No reescribir archivos reales
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^(.*)$ - [L]
-  
-  # No reescribir directorios reales
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^(.*)$ - [L]
-  
-  # Redirigir todas las demás peticiones a index.php
-  RewriteRule ^(.*)$ index.php?request=$1 [QSA,L]
-</IfModule>
+# ─── Responder 200 a pre-flight OPTIONS directamente desde Apache ─────────────
+RewriteEngine On
+RewriteBase /api
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
 
-# ─── Tipo de contenido por defecto ───────────────────────────────────────────
-AddType application/json .json
-AddType text/plain .log
+# ─── Redirigir todas las peticiones al router index.php ──────────────────────
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
 
-# ─── Headers de seguridad ───────────────────────────────────────────────────
-<IfModule mod_headers.c>
-  Header always set X-Content-Type-Options "nosniff"
-  Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set X-XSS-Protection "1; mode=block"
-</IfModule>
+# ─── Bloquear acceso directo a archivos PHP (excepto index.php) ──────────────
+<FilesMatch "\.php$">
+  <If "%{REQUEST_URI} !~ m|/api/index\.php$|">
+    Order Deny,Allow
+    Deny from all
+  </If>
+</FilesMatch>
 
-# ─── Comprensión de contenido ───────────────────────────────────────────────
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css text/javascript application/javascript application/json
-</IfModule>
+# ─── Headers de seguridad ─────────────────────────────────────────────────────
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-XSS-Protection "1; mode=block"
